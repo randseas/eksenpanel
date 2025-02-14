@@ -1,0 +1,128 @@
+{
+  "currencySymbol": "$",
+  "currencyName": "USD",
+  "cryptoModal": {
+    "search": "Search token name, symbol, address...",
+    "searchText": "Search token name or paste address"
+  },
+  "general": {
+    "language": "LANGUAGE"
+  },
+  "time": {
+    "seconds": "{text}sec ago",
+    "minutes": "{text}min ago",
+    "hours": "{text}h ago",
+    "days": "{text}d ago",
+    "weeks": "{text}w ago",
+    "months": "{text}mon ago",
+    "years": "{text}y ago"
+  },
+  "status": {
+    "econnrefused": "Server connection refused"
+  },
+  "header": {
+    "tabs": {
+      "markets": "Markets",
+      "trade": "Trade",
+      "perp": "Perpetual",
+      "earn": "Earn",
+      "wntToken": "WNT Token"
+    }
+  },
+  "auth": {
+    "logout": "Log out",
+    "login": "Log in",
+    "loginDesc": "Log in with your email address or Google account.",
+    "loggingIn": "Logging in...",
+    "register": "Sign up",
+    "registerDesc": "Sign up with your email address or Google account.",
+    "signingOn": "Signing on...",
+    "emailOrUsername": "E-mail address",
+    "password": "Password",
+    "passwordConfirm": "Confirm password",
+    "or": "or",
+    "processing": "Processing...",
+    "continueWithGoogle": "Continue with Google",
+    "haveAccount": "Have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "messages": {
+      "loginSuccess": "Logged in successfully",
+      "registerSuccess": "Signed up successfully, now you can log in",
+      "invalidCredentials": "Invalid credentials",
+      "accountNotExist": "Account not exists",
+      "errorOccured": "An error occured",
+      "internalServerError": "Internal server error",
+      "userAlreadyExists": "User already exists",
+      "emailCannotBlank": "E-mail cannot be blank",
+      "passCannotBlank": "Password cannot be blank",
+      "passConfirmCannotBlank": "Password confirmation cannot be blank",
+      "pleaseFillAllFields": "Please fill all fields"
+    }
+  },
+  "home": {
+    "title": "Crypto Exchange & Wallet | Web3",
+    "carousel": {
+      "carousel1Title": "Launch Fest",
+      "carousel1Desc": "Join now & get a surprise box.",
+      "carousel1BtnRegister": "Sign up",
+      "carousel1BtnLogin": "Log in",
+      "carousel2Title": "Stake WNT and get APR",
+      "carousel2Desc": "Lock your WNT's to liquidity pools and earn rewards.",
+      "carousel2Btn1": "Go to Earn"
+    },
+    "newListing": "New Listing",
+    "topGainers": "Top Gainers",
+    "mostPopular": "Most Popular",
+    "table": {
+      "name": "Market",
+      "price": "Price",
+      "marketCap": "Market Cap",
+      "24hVolume": "24h Volume",
+      "24hChange": "24h Change",
+      "action": "Action"
+    },
+    "tabs": {
+      "spot": "Spot",
+      "futures": "Perpetual",
+      "lending": "Lending"
+    }
+  },
+  "pools": { "title": "Liquidity Pools" },
+  "trade": {},
+  "wallet": {
+    "wallet": "Wallet",
+    "table": {
+      "asset": "Asset",
+      "totalBalance": "Total Balance",
+      "availableBalance": "Available Balance",
+      "openOrders": "Open Orders",
+      "action": "Action"
+    },
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "transfer": "Transfer",
+    "trade": "Trade",
+    "totalBalance": "Total balance",
+    "totalBalanceDesc": "Total balance is summary of your tokens.",
+    "wallets": "Wallets",
+    "walletName": "Wallet name",
+    "selectColorScheme": "Select color scheme",
+    "addWallet": "Add Wallet",
+    "createWallet": "Create Wallet",
+    "importWallet": "Import Wallet",
+    "watchAddress": "Watch Address",
+    "secretPhrase": "Secret phrase",
+    "walletAddress": "Wallet address"
+  },
+  "pages": {
+    "home": "Home",
+    "assets": "Assets",
+    "settings": "Settings",
+    "trade": "Trade",
+    "profile": "Profile",
+    "account": "Account",
+    "terms-of-use": "Terms of Use",
+    "user-agreement": "User Agreement",
+    "privacy-policy": "Privacy Policy"
+  }
+}

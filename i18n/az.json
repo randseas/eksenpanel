@@ -1,0 +1,185 @@
+{
+    "currencySymbol": "₼",
+    "currencyName": "AZN",
+    "general": {
+      "noDataText": "Məlumat yoxdur",
+      "undefinedText": "Müəyyən edilməyib",
+      "searchMatchesText": "Axtarış nəticələri",
+      "searchbarText": "Tokenləri və xidmətləri axtar",
+      "changeText": "Dəyiş",
+      "verifyText": "Təsdiq et",
+      "popularTokensText": "Populyar Tokenlər",
+      "noInternetConnectionText": "İnternet bağlantısı yoxdur\nZəhmət olmasa, internet bağlantınızı yoxlayın.",
+      "notFoundText": "Axtardığınız səhifə tapılmadı.",
+      "maintenanceText": "Bu sahə texniki xidmət altındadır",
+      "goBackText": "<- Geri dön",
+      "retryText": "Təkrar cəhd et",
+      "closeText": "Bağla",
+      "checkAvailability": "Adı dəyiş",
+      "checkingAvailability": "Cavabı gözləyir",
+      "nameChanged": "Ad dəyişdirildi",
+      "nameAlreadyInUse": "Ad artıq istifadə olunur, zəhmət olmasa yeni birini seçin",
+      "lengthMust>3": "Uzunluq ən azı 3 simvol olmalıdır",
+      "internalError": "Daxili Server Xətası",
+      "writtenBy": "Yazıçı",
+      "lastUpdated": "Son yeniləmə",
+      "termsOfUse": "Yazılması planlaşdırılır.",
+      "tosLastUpdate": "21 Sentyabr 2024",
+      "userAgreement": "Yazılması planlaşdırılır.",
+      "uaLastUpdate": "21 Sentyabr 2024",
+      "privacyPolicy": "Yazılması planlaşdırılır.",
+      "ppLastUpdate": "21 Sentyabr 2024",
+      "processing": "İşlənir",
+      "confirm": "Təsdiq et",
+      "cancel": "İmtina et",
+      "running": "İşləyir",
+      "ended": "Bitdi",
+      "about": "{text} haqqında",
+      "noDataProvided": "Heç bir məlumat təqdim edilməyib",
+      "links": "Bağlantılar",
+      "showLess": "Daha az göstər",
+      "showMore": "Daha çox göstər",
+      "myTokens": "Mənim tokenlərim"
+    },
+    "cryptoModal": {
+      "search": "Token adını, simvolunu və ya adresini axtarın...",
+      "searchText": "Token adını axtarın və ya adresi yapışdırın",
+      "allNetworks": "Bütün Şəbəkələr",
+      "mostPopular": "Ən Populyar",
+      "allCoins": "Hamısı",
+      "searchResults": "Nəticələr"
+    },
+    "wallet": {
+      "layout": {
+        "overview": "Ümumi Baxış",
+        "accounts": "Hesablar",
+        "orders": "Sifarişlər",
+        "services": "Xidmətlər",
+        "loans": "Kreditlər",
+        "launchpool": "Launchpool",
+        "earn": "Qazanc"
+      },
+      "marginModes": {
+        "isolated": "İzolyasiyalı",
+        "cross": "Kross Margin"
+      },
+      "transactions": {
+        "commission": "Transaction Fee",
+        "cryptoDeposit": "Kripto Depozit",
+        "cryptoWithdraw": "Kripto Çıxarış",
+        "fiatDeposit": "Fiat Depozit",
+        "fiatWithdraw": "Fiat Çıxarış",
+        "convert": "Dönüştür"
+      },
+      "states": {
+        "completed": "Tamamlandı",
+        "processing": "İşlənir",
+        "chainVerify": "Blokzincir Təsdiqi: {text}",
+        "canceled": "Ləğv edildi",
+        "error": "Xəta"
+      },
+      "assetsOverview": "Vəsaitlərin Ümumi Baxışı",
+      "spot": "Spot",
+      "funding": "Maliyyələşdirmə",
+      "perpetual": "Daimi",
+      "account": "Hesab",
+      "asset": "Vəsait",
+      "crypto": "Kripto",
+      "fiat": "Fiat",
+      "myAccounts": "Mənim Hesablarım",
+      "myAssets": "Mənim Vəsaitlərim",
+      "deposit": "Depozit",
+      "withdraw": "Çıxar",
+      "transfer": "Köçür",
+      "convert": "Dönüştür",
+      "history": "Tarix",
+      "recentTransactions": "Son İşlemler"
+    },
+    "trade": {
+      "address": "Ünvan",
+      "buy": "Al",
+      "sell": "Sat",
+      "last24h": "Son 24 saat",
+      "market": "Bazar",
+      "limit": "Limit",
+      "crossChain": "Kross zəncir",
+      "stopLimit": "Dayandırma limiti",
+      "selectToken": "Token seç",
+      "max": "Maksimum",
+      "clear": "Aydinlaşdır",
+      "reviewOrder": "Sifarişi gözdən keçir",
+      "balance": "Balans",
+      "marketStats": "Bazar Statistikaları",
+      "marketCap": "Bazar Dəyəri",
+      "24hVolume": "24saat Həcmi",
+      "circulatingSupply": "Dolaşım Təklifi"
+    },
+    "pages": {
+      "home": "Ana səhifə",
+      "assets": "Vəsaitlər",
+      "settings": "Ayarlar",
+      "trade": "Ticarət",
+      "profile": "Profil",
+      "account": "Hesab",
+      "terms-of-use": "İstifadə Şərtləri",
+      "user-agreement": "İstifadəçi Müqaviləsi",
+      "privacy-policy": "Məxfilik Siyasəti"
+    },
+    "home": {
+      "hero": {
+        "head": "Blokçeyn potensialını maksimuma çatdırın\nsəlist bir aralıq inteqrasiya edilmiş ticarətlə",
+        "text": "Bütün zəncirlər üzrə tam inteqrasiya və qarşılıqlı işləmə təmin edən bir hesab ilə, səlist bir DeFi təcrübəsi.",
+        "btn1": {
+          "loggedIn": {
+            "text": "Ticarət",
+            "route": "/trade"
+          },
+          "loggedOut": {
+            "text": "Hesab yaradın",
+            "route": "/oauth/signup"
+          }
+        },
+        "btn2": {
+          "loggedIn": {
+            "text": "Yardım Masası",
+            "route": "/help"
+          },
+          "loggedOut": {
+            "text": "Yardım Masası",
+            "route": "/help"
+          }
+        }
+      },
+      "popularTokens": {
+        "trendingTokens": "Trendlərdəki Tokenlər"
+      }
+    },
+    "footer": {
+      "waultdex": {
+        "text": "Şirkət",
+        "about": "Haqqında",
+        "partners": "Tərəfdaşlar",
+        "jobs": "İşlər"
+      },
+      "services": {
+        "text": "Xidmətlər",
+        "spotTrading": "Spot Ticarət",
+        "perpetualTrading": "Daimi Ticarət",
+        "staking": "Stake",
+        "launchpool": "Launchpool",
+        "swapTrading": "Dönüştür"
+      },
+      "resources": "Resurslar",
+      "requestListing": "Siyahıya alınma tələbi",
+      "whitepaper": "Ağ Kağız",
+      "contact": "Sosial",
+      "disclaimer": "Dikkat: Bu saytdaki hiçbir şey yatırım tavsiyesi değildir. Tüm bilgiler yalnızca bilgilendirme amaçlıdır. Bu tür bilgileri veya diğer materyalleri hukuki, vergi, yatırım, mali veya başka bir tavsiye olarak yorumlamamalısınız."
+    },
+    "auth": {
+      "loginText": "Daxil ol",
+      "logonText": "Hesab yaradın",
+      "logoutText": "Çıxış et",
+      "next": "Növbəti"
+    }
+  }
+  

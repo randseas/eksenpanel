@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  overflow: auto;
+  scroll-behavior: smooth !important;
+  scrollbar-width: thin;
+  transition: background-color 0.3s, color 0.3s;
+  scrollbar-color: var(--scrollbar) transparent;
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar) transparent;
+  text-rendering: geometricPrecision;
+  outline: 0px solid transparent !important;
+  outline-offset: 0px !important;
+}
+body.dark {
+  background-color: #090909;
+}
+body.light {
+  background-color: #ffffff;
+}
+.text-md {
+  font-size: 15px;
+}
+:root {
+  --scrollbar: rgba(234, 234, 234, 0.5);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --scrollbar: rgba(40, 40, 40, 0.5);
+  }
+}
+html {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
+}

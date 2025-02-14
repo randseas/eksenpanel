@@ -1,0 +1,184 @@
+{
+  "currencySymbol": "€",
+  "currencyName": "EUR",
+  "general": {
+    "noDataText": "Nessun dato",
+    "undefinedText": "Indefinito",
+    "searchMatchesText": "Risultati della ricerca",
+    "searchbarText": "Cerca token e servizi",
+    "changeText": "Cambia",
+    "verifyText": "Verifica",
+    "popularTokensText": "Token Popolari",
+    "noInternetConnectionText": "Nessuna connessione a Internet\nControlla la tua connessione a Internet.",
+    "notFoundText": "La pagina che cercavi non è stata trovata.",
+    "maintenanceText": "Questa area è in manutenzione",
+    "goBackText": "<- Torna indietro",
+    "retryText": "Riprova",
+    "closeText": "Chiudi",
+    "checkAvailability": "Cambia nome",
+    "checkingAvailability": "In attesa di risposta",
+    "nameChanged": "Nome cambiato",
+    "nameAlreadyInUse": "Nome già in uso, seleziona un nuovo nome",
+    "lengthMust>3": "La lunghezza deve essere di almeno 3 caratteri",
+    "internalError": "Errore Interno del Server",
+    "writtenBy": "Scritto da",
+    "lastUpdated": "Ultimo aggiornamento",
+    "termsOfUse": "Piano di scrittura.",
+    "tosLastUpdate": "21 settembre 2024",
+    "userAgreement": "Piano di scrittura.",
+    "uaLastUpdate": "21 settembre 2024",
+    "privacyPolicy": "Piano di scrittura.",
+    "ppLastUpdate": "21 settembre 2024",
+    "processing": "Elaborazione",
+    "confirm": "Conferma",
+    "cancel": "Annulla",
+    "running": "In corso",
+    "ended": "Terminato",
+    "about": "Informazioni su {text}",
+    "noDataProvided": "Nessun dato fornito",
+    "links": "Link",
+    "showLess": "Mostra di meno",
+    "showMore": "Mostra di più",
+    "myTokens": "I miei token"
+  },
+  "cryptoModal": {
+    "search": "Cerca nome token, simbolo o indirizzo...",
+    "searchText": "Cerca nome token o incolla l'indirizzo",
+    "allNetworks": "Tutte le Reti",
+    "mostPopular": "I più popolari",
+    "allCoins": "Tutti",
+    "searchResults": "Risultati"
+  },
+  "wallet": {
+    "layout": {
+      "overview": "Panoramica",
+      "accounts": "Conti",
+      "orders": "Ordini",
+      "services": "Servizi",
+      "loans": "Prestiti",
+      "launchpool": "Lancio",
+      "earn": "Guadagna"
+    },
+    "marginModes": {
+      "isolated": "Isolato",
+      "cross": "Margine Incrociato"
+    },
+    "transactions": {
+      "commission": "Commissione di Transazione",
+      "cryptoDeposit": "Deposito di Crypto",
+      "cryptoWithdraw": "Prelievo di Crypto",
+      "fiatDeposit": "Deposito Fiat",
+      "fiatWithdraw": "Prelievo Fiat",
+      "convert": "Converti"
+    },
+    "states": {
+      "completed": "Completato",
+      "processing": "Elaborazione",
+      "chainVerify": "Verifica Blockchain: {text}",
+      "canceled": "Annullato",
+      "error": "Errore"
+    },
+    "assetsOverview": "Panoramica degli Asset",
+    "spot": "Spot",
+    "funding": "Finanziamento",
+    "perpetual": "Perpetuo",
+    "account": "Account",
+    "asset": "Asset",
+    "crypto": "Crypto",
+    "fiat": "Fiat",
+    "myAccounts": "I miei Conti",
+    "myAssets": "I miei Asset",
+    "deposit": "Deposito",
+    "withdraw": "Prelievo",
+    "transfer": "Trasferisci",
+    "convert": "Converti",
+    "history": "Storia",
+    "recentTransactions": "Transazioni Recenti"
+  },
+  "trade": {
+    "address": "Indirizzo",
+    "buy": "Acquista",
+    "sell": "Vendi",
+    "last24h": "Ultime 24 ore",
+    "market": "Mercato",
+    "limit": "Limite",
+    "crossChain": "Catena Incrociata",
+    "stopLimit": "Limite di Arresto",
+    "selectToken": "Seleziona token",
+    "max": "Max",
+    "clear": "Cancella",
+    "reviewOrder": "Rivedi ordine",
+    "balance": "Saldo",
+    "marketStats": "Statistiche di Mercato",
+    "marketCap": "Capitalizzazione di Mercato",
+    "24hVolume": "Volume 24h",
+    "circulatingSupply": "Offerta Circolante"
+  },
+  "pages": {
+    "home": "Home",
+    "assets": "Attivi",
+    "settings": "Impostazioni",
+    "trade": "Commercio",
+    "profile": "Profilo",
+    "account": "Account",
+    "terms-of-use": "Termini di Utilizzo",
+    "user-agreement": "Contratto Utente",
+    "privacy-policy": "Politica sulla Privacy"
+  },
+  "home": {
+    "hero": {
+      "head": "Massimizza il potenziale della blockchain\ncon un trading integrato senza soluzione di continuità tra le catene",
+      "text": "Un account, garantendo un'integrazione e un'interoperabilità complete\ntra tutte le catene per un'esperienza DeFi senza soluzione di continuità.",
+      "btn1": {
+        "loggedIn": {
+          "text": "Trada",
+          "route": "/trade"
+        },
+        "loggedOut": {
+          "text": "Crea un Account",
+          "route": "/oauth/signup"
+        }
+      },
+      "btn2": {
+        "loggedIn": {
+          "text": "Assistenza",
+          "route": "/help"
+        },
+        "loggedOut": {
+          "text": "Assistenza",
+          "route": "/help"
+        }
+      }
+    },
+    "popularTokens": {
+      "trendingTokens": "Token di Tendenza"
+    }
+  },
+  "footer": {
+    "waultdex": {
+      "text": "Azienda",
+      "about": "Informazioni",
+      "partners": "Partner",
+      "jobs": "Lavori"
+    },
+    "services": {
+      "text": "Servizi",
+      "spotTrading": "Trading Spot",
+      "perpetualTrading": "Trading Perpetuo",
+      "staking": "Staking",
+      "launchpool": "Lancio",
+      "swapTrading": "Converti"
+    },
+    "resources": "Risorse",
+    "requestListing": "Richiedi Iscrizione",
+    "whitepaper": "Whitepaper",
+    "contact": "Social",
+    "disclaimer": "Dichiarazione di non responsabilità: Nulla su questo sito è un consiglio d'investimento. Tutte le informazioni sono fornite solo a scopo informativo. Non dovresti interpretare tali informazioni o altri materiali come consigli legali, fiscali, di investimento, finanziari o di altro tipo."
+  },
+  "auth": {
+    "loginText": "Accedi",
+    "logonText": "Crea un account",
+    "logoutText": "Disconnetti",
+    "next": "Avanti"
+  }
+}

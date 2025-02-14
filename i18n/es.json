@@ -1,0 +1,184 @@
+{
+  "currencySymbol": "€",
+  "currencyName": "EUR",
+  "general": {
+    "noDataText": "Sin datos",
+    "undefinedText": "Indefinido",
+    "searchMatchesText": "Resultados de búsqueda",
+    "searchbarText": "Buscar tokens y servicios",
+    "changeText": "Cambiar",
+    "verifyText": "Verificar",
+    "popularTokensText": "Tokens Populares",
+    "noInternetConnectionText": "Sin conexión a Internet\nPor favor, verifica tu conexión a Internet.",
+    "notFoundText": "La página que buscabas no fue encontrada.",
+    "maintenanceText": "Esta área está en mantenimiento",
+    "goBackText": "<- Volver",
+    "retryText": "Reintentar",
+    "closeText": "Cerrar",
+    "checkAvailability": "Cambiar nombre",
+    "checkingAvailability": "Esperando respuesta",
+    "nameChanged": "Nombre cambiado",
+    "nameAlreadyInUse": "El nombre ya está en uso, por favor selecciona uno nuevo",
+    "lengthMust>3": "La longitud debe ser al menos de 3 caracteres",
+    "internalError": "Error Interno del Servidor",
+    "writtenBy": "Escrito por",
+    "lastUpdated": "Última actualización",
+    "termsOfUse": "Planeado para escribir.",
+    "tosLastUpdate": "21 de septiembre de 2024",
+    "userAgreement": "Planeado para escribir.",
+    "uaLastUpdate": "21 de septiembre de 2024",
+    "privacyPolicy": "Planeado para escribir.",
+    "ppLastUpdate": "21 de septiembre de 2024",
+    "processing": "Procesando",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "running": "Ejecutando",
+    "ended": "Terminado",
+    "about": "Acerca de {text}",
+    "noDataProvided": "No se proporcionaron datos",
+    "links": "Enlaces",
+    "showLess": "Mostrar menos",
+    "showMore": "Mostrar más",
+    "myTokens": "Mis tokens"
+  },
+  "cryptoModal": {
+    "search": "Buscar nombre de token, símbolo o dirección...",
+    "searchText": "Buscar nombre de token o pegar dirección",
+    "allNetworks": "Todas las Redes",
+    "mostPopular": "Más Populares",
+    "allCoins": "Todas",
+    "searchResults": "Resultados"
+  },
+  "wallet": {
+    "layout": {
+      "overview": "Visión General",
+      "accounts": "Cuentas",
+      "orders": "Órdenes",
+      "services": "Servicios",
+      "loans": "Préstamos",
+      "launchpool": "Lanzamiento",
+      "earn": "Ganar"
+    },
+    "marginModes": {
+      "isolated": "Aislado",
+      "cross": "Margen Cruzado"
+    },
+    "transactions": {
+      "commission": "Comisión de Transacción",
+      "cryptoDeposit": "Depósito de Cripto",
+      "cryptoWithdraw": "Retiro de Cripto",
+      "fiatDeposit": "Depósito Fiat",
+      "fiatWithdraw": "Retiro Fiat",
+      "convert": "Convertir"
+    },
+    "states": {
+      "completed": "Completado",
+      "processing": "Procesando",
+      "chainVerify": "Verificación de Blockchain: {text}",
+      "canceled": "Cancelado",
+      "error": "Error"
+    },
+    "assetsOverview": "Visión General de Activos",
+    "spot": "Spot",
+    "funding": "Financiamiento",
+    "perpetual": "Perpetuo",
+    "account": "Cuenta",
+    "asset": "Activo",
+    "crypto": "Cripto",
+    "fiat": "Fiat",
+    "myAccounts": "Mis Cuentas",
+    "myAssets": "Mis Activos",
+    "deposit": "Depositar",
+    "withdraw": "Retirar",
+    "transfer": "Transferir",
+    "convert": "Convertir",
+    "history": "Historia",
+    "recentTransactions": "Transacciones Recientes"
+  },
+  "trade": {
+    "address": "Dirección",
+    "buy": "Comprar",
+    "sell": "Vender",
+    "last24h": "Últimas 24 horas",
+    "market": "Mercado",
+    "limit": "Límite",
+    "crossChain": "Cadena Cruzada",
+    "stopLimit": "Límite de Parada",
+    "selectToken": "Seleccionar token",
+    "max": "Máx",
+    "clear": "Limpiar",
+    "reviewOrder": "Revisar orden",
+    "balance": "Balance",
+    "marketStats": "Estadísticas del Mercado",
+    "marketCap": "Capitalización de Mercado",
+    "24hVolume": "Volumen de 24h",
+    "circulatingSupply": "Suministro Circulante"
+  },
+  "pages": {
+    "home": "Inicio",
+    "assets": "Activos",
+    "settings": "Configuraciones",
+    "trade": "Comercio",
+    "profile": "Perfil",
+    "account": "Cuenta",
+    "terms-of-use": "Términos de Uso",
+    "user-agreement": "Acuerdo de Usuario",
+    "privacy-policy": "Política de Privacidad"
+  },
+  "home": {
+    "hero": {
+      "head": "Maximiza el potencial de blockchain\ncon comercio integrado sin problemas entre cadenas",
+      "text": "Una cuenta, asegurando plena integración e interoperabilidad\n a través de todas las cadenas para una experiencia DeFi sin problemas.",
+      "btn1": {
+        "loggedIn": {
+          "text": "Comerciar",
+          "route": "/trade"
+        },
+        "loggedOut": {
+          "text": "Crear Cuenta",
+          "route": "/oauth/signup"
+        }
+      },
+      "btn2": {
+        "loggedIn": {
+          "text": "Mesa de Ayuda",
+          "route": "/help"
+        },
+        "loggedOut": {
+          "text": "Mesa de Ayuda",
+          "route": "/help"
+        }
+      }
+    },
+    "popularTokens": {
+      "trendingTokens": "Tokens en Tendencia"
+    }
+  },
+  "footer": {
+    "waultdex": {
+      "text": "Empresa",
+      "about": "Acerca de",
+      "partners": "Socios",
+      "jobs": "Empleos"
+    },
+    "services": {
+      "text": "Servicios",
+      "spotTrading": "Comercio Spot",
+      "perpetualTrading": "Comercio Perpetuo",
+      "staking": "Staking",
+      "launchpool": "Lanzamiento",
+      "swapTrading": "Convertir"
+    },
+    "resources": "Recursos",
+    "requestListing": "Solicitar Inclusión",
+    "whitepaper": "Libro Blanco",
+    "contact": "Social",
+    "disclaimer": "Descargo de responsabilidad: Nada en este sitio es consejo de inversión. Toda la información es solo para fines informativos. No debes interpretar dicha información u otro material como asesoramiento legal, fiscal, de inversión, financiero o de otro tipo."
+  },
+  "auth": {
+    "loginText": "Iniciar sesión",
+    "logonText": "Crear cuenta",
+    "logoutText": "Cerrar sesión",
+    "next": "Siguiente"
+  }
+}

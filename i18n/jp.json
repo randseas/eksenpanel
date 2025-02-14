@@ -1,0 +1,184 @@
+{
+  "currencySymbol": "¥",
+  "currencyName": "JPY",
+  "general": {
+    "noDataText": "データがありません",
+    "undefinedText": "未定義",
+    "searchMatchesText": "検索結果",
+    "searchbarText": "トークンとサービスを検索",
+    "changeText": "変更",
+    "verifyText": "確認",
+    "popularTokensText": "人気のトークン",
+    "noInternetConnectionText": "インターネット接続がありません\nインターネット接続を確認してください。",
+    "notFoundText": "お探しのページは見つかりませんでした。",
+    "maintenanceText": "このエリアはメンテナンス中です",
+    "goBackText": "<- 戻る",
+    "retryText": "再試行",
+    "closeText": "閉じる",
+    "checkAvailability": "名前を変更",
+    "checkingAvailability": "応答を待っています",
+    "nameChanged": "名前が変更されました",
+    "nameAlreadyInUse": "その名前はすでに使用されています。新しい名前を選択してください",
+    "lengthMust>3": "長さは3文字以上でなければなりません",
+    "internalError": "内部サーバーエラー",
+    "writtenBy": "作成者",
+    "lastUpdated": "最終更新",
+    "termsOfUse": "執筆予定。",
+    "tosLastUpdate": "2024年9月21日",
+    "userAgreement": "執筆予定。",
+    "uaLastUpdate": "2024年9月21日",
+    "privacyPolicy": "執筆予定。",
+    "ppLastUpdate": "2024年9月21日",
+    "processing": "処理中",
+    "confirm": "確認",
+    "cancel": "キャンセル",
+    "running": "実行中",
+    "ended": "終了",
+    "about": "{text}について",
+    "noDataProvided": "データが提供されていません",
+    "links": "リンク",
+    "showLess": "少なく表示",
+    "showMore": "もっと表示",
+    "myTokens": "私のトークン"
+  },
+  "cryptoModal": {
+    "search": "トークン名、シンボル、またはアドレスを検索...",
+    "searchText": "トークン名を検索するか、アドレスを貼り付ける",
+    "allNetworks": "すべてのネットワーク",
+    "mostPopular": "最も人気",
+    "allCoins": "すべて",
+    "searchResults": "結果"
+  },
+  "wallet": {
+    "layout": {
+      "overview": "概要",
+      "accounts": "アカウント",
+      "orders": "注文",
+      "services": "サービス",
+      "loans": "ローン",
+      "launchpool": "ローンチプール",
+      "earn": "稼ぐ"
+    },
+    "marginModes": {
+      "isolated": "孤立",
+      "cross": "クロスマージン"
+    },
+    "transactions": {
+      "commission": "取引手数料",
+      "cryptoDeposit": "暗号預金",
+      "cryptoWithdraw": "暗号出金",
+      "fiatDeposit": "法定預金",
+      "fiatWithdraw": "法定出金",
+      "convert": "変換"
+    },
+    "states": {
+      "completed": "完了",
+      "processing": "処理中",
+      "chainVerify": "ブロックチェーン確認：{text}",
+      "canceled": "キャンセル",
+      "error": "エラー"
+    },
+    "assetsOverview": "資産概要",
+    "spot": "現物",
+    "funding": "資金調達",
+    "perpetual": "永久",
+    "account": "アカウント",
+    "asset": "資産",
+    "crypto": "暗号",
+    "fiat": "法定",
+    "myAccounts": "私のアカウント",
+    "myAssets": "私の資産",
+    "deposit": "入金",
+    "withdraw": "出金",
+    "transfer": "送金",
+    "convert": "変換",
+    "history": "履歴",
+    "recentTransactions": "最近の取引"
+  },
+  "trade": {
+    "address": "アドレス",
+    "buy": "購入",
+    "sell": "販売",
+    "last24h": "過去24時間",
+    "market": "市場",
+    "limit": "リミット",
+    "crossChain": "クロスチェーン",
+    "stopLimit": "ストップリミット",
+    "selectToken": "トークンを選択",
+    "max": "最大",
+    "clear": "クリア",
+    "reviewOrder": "注文を確認",
+    "balance": "残高",
+    "marketStats": "市場統計",
+    "marketCap": "時価総額",
+    "24hVolume": "24時間取引高",
+    "circulatingSupply": "循環供給"
+  },
+  "pages": {
+    "home": "ホーム",
+    "assets": "資産",
+    "settings": "設定",
+    "trade": "取引",
+    "profile": "プロフィール",
+    "account": "アカウント",
+    "terms-of-use": "利用規約",
+    "user-agreement": "ユーザー契約",
+    "privacy-policy": "プライバシーポリシー"
+  },
+  "home": {
+    "hero": {
+      "head": "ブロックチェーンの可能性を最大化\nシームレスな相互運用性のある取引",
+      "text": "1つのアカウントですべてのチェーンで完全な統合と相互運用性を確保し、シームレスなDeFi体験を提供します。",
+      "btn1": {
+        "loggedIn": {
+          "text": "取引",
+          "route": "/trade"
+        },
+        "loggedOut": {
+          "text": "アカウントを作成",
+          "route": "/oauth/signup"
+        }
+      },
+      "btn2": {
+        "loggedIn": {
+          "text": "ヘルプデスク",
+          "route": "/help"
+        },
+        "loggedOut": {
+          "text": "ヘルプデスク",
+          "route": "/help"
+        }
+      }
+    },
+    "popularTokens": {
+      "trendingTokens": "トレンドのトークン"
+    }
+  },
+  "footer": {
+    "waultdex": {
+      "text": "会社",
+      "about": "会社情報",
+      "partners": "パートナー",
+      "jobs": "求人"
+    },
+    "services": {
+      "text": "サービス",
+      "spotTrading": "現物取引",
+      "perpetualTrading": "永久取引",
+      "staking": "ステーキング",
+      "launchpool": "ローンチプール",
+      "swapTrading": "変換"
+    },
+    "resources": "リソース",
+    "requestListing": "上場リクエスト",
+    "whitepaper": "ホワイトペーパー",
+    "contact": "ソーシャル",
+    "disclaimer": "免責事項：このサイトの内容は投資アドバイスではありません。すべての情報は参考目的のみです。これらの情報やその他の資料を法的、税務、投資、財務、またはその他のアドバイスとして解釈すべきではありません。"
+  },
+  "auth": {
+    "loginText": "ログイン",
+    "logonText": "アカウントを作成",
+    "logoutText": "ログアウト",
+    "next": "次へ"
+  }
+}
