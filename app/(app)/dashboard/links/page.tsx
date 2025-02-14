@@ -8,7 +8,6 @@ export default function Links() {
   const router = useRouter();
   return (
     <main>
-      <Header />
       <div className="flex h-full min-h-[91.53vh] flex-row items-start w-full justify-start">
         {/* Sidebar */}
         <Navbar />

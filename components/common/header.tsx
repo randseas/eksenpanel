@@ -10,12 +10,12 @@ export default function Header() {
       <header className="dark:bg-dark/60 bg-white/80 h-[60px] px-2.5 md:px-4 grid grid-cols-3 grid-rows-1 w-full z-[9999] backdrop-blur-lg border-b border-light-border/80 dark:border-dark-border/80 ease-linear fixed top-0 left-0 right-0 duration-100">
         <div
           onClick={() => router.push("/")}
-          className="flex hover:cursor-pointer font-medium flex-row text-lg ml-1 min-w-[550px] w-full h-full py-auto items-center justify-start"
+          className="flex hover:cursor-pointer font-medium flex-row text-[16.5px] xl:text-lg ml-1 min-w-[550px] w-full h-full py-auto items-center justify-start"
         >
           Tumblr Yönlendirme
         </div>
         <div></div>
-        <div className="hidden space-x-[5px] flex-row mr-0.5 md:flex items-center justify-end">
+        <div className="space-x-[5px] flex-row mr-0.5 flex items-center justify-end">
           <a
             onClick={() => router.push(`/dashboard`)}
             className={`${

@@ -18,12 +18,11 @@ export default function Dashboard() {
   const router = useRouter();
   return (
     <main>
-      <Header />
       <div className="flex w-full h-full min-h-[91.53vh] flex-row items-start justify-start">
         {/* Sidebar */}
         <Navbar />
-        <div className="flex flex-col gap-2.5 min-h-[91.53vh] items-start px-3.5 py-3 justify-start w-full max-w-[83%] h-full">
-          <div className="w-full gap-2.5 min-h-[160px] grid grid-cols-4 grid-rows-1">
+        <div className="flex flex-col gap-2.5 min-h-[91.53vh] items-start px-3.5 py-3 justify-start w-full max-w-full md:max-w-[83%] h-full">
+          <div className="w-full gap-2.5 min-h-[160px] grid grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
             <div className="border shadow-xl shadow-black/5 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
               <div className="flex flex-col space-y-1 items-start justify-start">
                 <p className="tracking-[-0.012em] text-[17px] font-[450]">

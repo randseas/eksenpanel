@@ -8,7 +8,6 @@ export default function NewLink() {
   const router = useRouter();
   return (
     <main>
-      <Header />
       <div className="flex h-full min-h-[91.53vh] flex-row items-start w-full justify-start">
         {/* Sidebar */}
         <Navbar />
@@ -56,6 +55,7 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
+                  disabled={true}
                   className="px-3.5 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
                   placeholder="Otomatik oluşturulacak"
                 />
