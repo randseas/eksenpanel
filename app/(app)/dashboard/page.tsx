@@ -4,21 +4,38 @@ import Header from "@/components/common/header";
 import { useRouter } from "next/navigation";
 import Navbar from "./navbar";
 import {
+  Box,
   Calendar,
   Code,
+  ExternalLink,
   Link,
+  Lock,
   Monitor,
+  Package,
   Plus,
+  ReceiptText,
+  ShieldCheck,
   Smartphone,
   SquareArrowOutUpRight,
+  TicketCheck,
   ToggleRight,
+  ToggleRightIcon,
+  Unlock,
+  User,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import { cn } from "@/lib/utils";
 
 const packages = [
   {
     name: "Bronz Paket",
     accounts: "35 Hesap",
+    color: {
+      from: "#cd7f32",
+      via: "#b87333",
+      to: "#8c6239",
+    },
+    backgroundImage: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23cd7f32" fill-opacity="0.3" d="M0,160L80,144C160,128,320,96,480,117.3C640,139,800,213,960,224C1120,235,1280,181,1360,154.7L1440,128V320H0Z"></path></svg>`,
     details: [
       "Rastgele/Blog",
       "Takipçiler/Takipçi olmayanlar",
@@ -32,6 +49,11 @@ const packages = [
   {
     name: "Silver Paket",
     accounts: "45 Hesap",
+    color: {
+      from: "#c0c0c0",
+      via: "#a8a8a8",
+      to: "#808080",
+    },
     details: [
       "İyi Blog Hesapları",
       "500/1k Takipçiler",
@@ -45,6 +67,11 @@ const packages = [
   {
     name: "Gold Paket",
     accounts: "65 Hesap",
+    color: {
+      from: "#ffd700",
+      via: "#ffb700",
+      to: "#d4af37",
+    },
     details: [
       "Yüksek Blog Hesapları",
       "1k/5k Takipçiler",
@@ -58,6 +85,11 @@ const packages = [
   {
     name: "Premium Paket",
     accounts: "150 Hesap",
+    color: {
+      from: "#ff1493",
+      via: "#c71585",
+      to: "#800080",
+    },
     details: [
       "Yüksek Blog Hesapları",
       "5k/10k Takipçiler",
@@ -71,6 +103,11 @@ const packages = [
   {
     name: "Random Paket",
     accounts: "200 Hesap",
+    color: {
+      from: "#ff80b5",
+      via: "#d36ee8",
+      to: "#a855f7",
+    },
     details: [
       "Boş Rastgele Hesaplar",
       "Takipçi yok",
@@ -89,93 +126,77 @@ export default function Dashboard() {
     <main className="relative dark:bg-dark bg-light dark:text-light text-dark">
       <div className="flex relative w-full h-full min-h-[91.53vh] flex-row items-start justify-start">
         <Navbar />
-        <div className="flex md:ml-[17%] space-y-2.5 flex-col min-h-[91.53vh] items-start px-3.5 py-3 justify-start w-full h-full">
+        <div className="flex md:ml-[17%] space-y-2.5 flex-col min-h-[91.53vh] items-start px-5 py-4 justify-start w-full h-full">
           <h1 className="text-lg font-[450] text-zinc-200">Ana sayfa</h1>
-          <div className="w-full gap-2.5 grid grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
-            <div
-              onClick={() => router.push("/dashboard/redirects")}
-              className="border shadow-inner shadow-zinc-900/10 min-h-[120px] lg:min-h-[160px] hover:scale-[1.012] transition-all ease-linear duration-100 dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5"
-            >
-              <div className="flex flex-col space-y-1 items-start justify-start">
-                <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Toplam Yönlendirmeler
-                </p>
-                <span className="text-2xl font-medium">0</span>
-              </div>
-              <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto">
-                <div className="p-[14px] text-[#a071f0] rounded-xl bg-[#7c3aed]/10">
-                  <span>
-                    <Link
-                      stroke="currentColor"
-                      strokeWidth={2.5}
+          <div className="w-full gap-3 grid grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
+            {[
+              {
+                title: "Toplam Yönlendirme",
+                icon: ExternalLink,
+                bg: {
+                  from: "from-[#8929e2]/95",
+                  via: "via-[#6110e1]/95",
+                  to: "to-[#4f04e0]/95",
+                },
+                shadow: "shadow-[#5b21b6]/10",
+              },
+              {
+                title: "Aktif Yönlendirme",
+                icon: ShieldCheck,
+                bg: {
+                  from: "from-[#8900ff]/95",
+                  via: "via-[#bd00ff]/95",
+                  to: "to-[#d80bff]/95",
+                },
+                shadow: "shadow-[#15803d]/10",
+              },
+              {
+                title: "Paketlerim",
+                icon: Package,
+                bg: {
+                  from: "from-[#892ae1]/95",
+                  via: "via-[#6814e1]/95",
+                  to: "to-[#5004e0]/95",
+                },
+                shadow: "shadow-[#1e40af]/10",
+              },
+              {
+                title: "Hesaplarım",
+                icon: TicketCheck,
+                bg: {
+                  from: "from-[#e307c5]/95",
+                  via: "via-[#901cb0]/95",
+                  to: "to-[#4c2b9b]/95",
+                },
+                shadow: "shadow-[#ca8a04]/10",
+              },
+            ].map((item, index) => (
+              <div
+                key={index}
+                className={`relative hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl p-6 flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br ${item.bg.from} ${item.bg.via} ${item.bg.to} backdrop-blur-md shadow-lg hover:shadow-xl`}
+              >
+                <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto z-10">
+                  <div
+                    className={`relative p-4 rounded-full bg-white/20 shadow-sm`}
+                  >
+                    <item.icon
+                      stroke="#ffffff"
+                      strokeWidth={2.25}
                       height={22}
                       width={22}
                     />
-                  </span>
+                  </div>
+                </div>
+                <div className="flex flex-col ml-4 w-full space-y-1 items-start justify-start z-10">
+                  <span className="text-2xl font-semibold text-white">0</span>
+                  <p className="tracking-[-0.012em] text-[17px] font-medium text-white/90">
+                    {item.title}
+                  </p>
                 </div>
               </div>
-            </div>
-            <div className="border shadow-inner shadow-zinc-900/10 min-h-[120px] lg:min-h-[160px] hover:scale-[1.012] transition-all ease-linear duration-100 dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
-              <div className="flex flex-col space-y-1 items-start justify-start">
-                <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Aktif Yönlendirmeler
-                </p>
-                <span className="text-2xl font-medium">0</span>
-              </div>
-              <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto">
-                <div className="p-[14px] text-[#68cf90] rounded-xl bg-[#1aae53]/10">
-                  <span>
-                    <ToggleRight
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      height={22}
-                      width={22}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="border shadow-inner shadow-zinc-900/10 min-h-[120px] lg:min-h-[160px] hover:scale-[1.012] transition-all ease-linear duration-100 dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
-              <div className="flex flex-col space-y-1 items-start justify-start">
-                <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Sadece Mobilde Aktif
-                </p>
-                <span className="text-2xl font-medium">0</span>
-              </div>
-              <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto">
-                <div className="p-[14px] text-[#7298eb] rounded-xl bg-[#2058d1]/10">
-                  <span>
-                    <Smartphone
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      height={22}
-                      width={22}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className="border shadow-inner shadow-zinc-900/10 min-h-[120px] lg:min-h-[160px] hover:scale-[1.012] transition-all ease-linear duration-100 dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
-              <div className="flex flex-col space-y-1 items-start justify-start">
-                <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Sadece Masaüstünde Aktif
-                </p>
-                <span className="text-2xl font-medium">0</span>
-              </div>
-              <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto">
-                <div className="p-[14px] text-[#e6af71] rounded-xl bg-[#dd7c10]/10">
-                  <span>
-                    <Monitor
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                      height={22}
-                      width={22}
-                    />
-                  </span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
+
           <div className="flex flex-row items-center justify-between w-full">
             <h1 className="text-lg font-[450] text-zinc-200">
               Son Eklenen Yönlendirmeler
@@ -319,7 +340,10 @@ export default function Dashboard() {
               </tbody>
             </table>
           </div>
-          <div className="flex flex-col items-start justify-start w-full h-full">
+          <div
+            id="packages"
+            className="flex flex-col items-start justify-start w-full h-full"
+          >
             <h1 className="text-lg font-[450] text-zinc-200 mb-2.5">
               Paket Satın Al
             </h1>
@@ -327,16 +351,29 @@ export default function Dashboard() {
               {packages.map((pkg, index) => (
                 <div
                   key={index}
-                  className="p-5 relative shadow-inner shadow-zinc-900/10 hover:shadow-zinc-800/20 hover:shadow-inner hover:scale-[1.01] dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 dark:bg-dark bg-light rounded-2xl border dark:border-dark-border border-light-border transition-all duration-100 ease-linear flex flex-col items-start text-start"
+                  className={cn(
+                    "p-5 relative shadow-inner shadow-zinc-900/10 hover:shadow-zinc-800/20 hover:shadow-inner hover:scale-[1.01] dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 dark:bg-dark bg-light rounded-2xl border dark:border-dark-border border-light-border transition-all duration-150 ease-linear flex flex-col items-start text-start",
+                    "hover:bg-gradient-to-tr from-[var(--from-color)] via-[var(--via-color)] to-[var(--to-color)]"
+                  )}
+                  style={
+                    {
+                      "--from-color": pkg.color.from,
+                      "--via-color": pkg.color.via,
+                      "--to-color": pkg.color.to,
+                    } as React.CSSProperties
+                  }
                 >
-                  <h2 className="tracking-[-0.012em] text-[19px] font-[450]">
+                  <div className="absolute rounded-2xl z-10 inset-0 h-full w-full bg-[linear-gradient(to_right,#ffffff10_1px,transparent_1px),linear-gradient(to_bottom,#ffffff10_1px,transparent_1px)] bg-[size:19.75px_19.75px]" />
+                  <h2 className="tracking-[-0.012em] z-50 text-[19px] font-[450]">
                     {pkg.name}
                   </h2>
-                  <p className="text-[25px] font-[550] mt-2">{pkg.price}</p>
-                  <p className="font-[450] text-[18px] text-zinc-100">
+                  <p className="text-[25px] z-50 font-[550] mt-2">
+                    {pkg.price}
+                  </p>
+                  <p className="font-[450] z-50 text-[18px] text-zinc-100">
                     {pkg.accounts}
                   </p>
-                  <p className="text-base text-zinc-100 mt-1.5 mb-[64px]">
+                  <p className="text-base z-50 text-zinc-100 mt-1.5 mb-[64px]">
                     {pkg.details?.map((detail: string) => (
                       <>
                         <span className="dot">•</span>&nbsp;
@@ -349,10 +386,12 @@ export default function Dashboard() {
                     onClick={() =>
                       toast.error("Ödeme sağlayıcısı ile bağlantı kurulamadı")
                     }
-                    className="bg-zinc-900/60 space-x-[70px] absolute bottom-4 border dark:hover:bg-zinc-900/70 border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
+                    className="bg-white/90 z-50 backdrop-blur-lg space-x-[70px] absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
                   >
-                    <span className="px-2 font-medium text-base">Satın al</span>
-                    <div className="bg-white px-2.5 py-1 text-black rounded-full font-medium text-lg">
+                    <span className="px-2 font-medium text-zinc-900 text-base">
+                      Satın al
+                    </span>
+                    <div className="bg-zinc-900 px-2.5 py-1 text-white rounded-full font-medium text-lg">
                       {"->"}
                     </div>
                   </div>

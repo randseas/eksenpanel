@@ -12,12 +12,12 @@ export default function Links() {
         <Navbar />
         <div className="flex md:ml-[17%] space-y-2.5 flex-col min-h-[91.53vh] items-start px-3.5 py-3 justify-start w-full h-full">
           <div className="flex flex-row items-center justify-between w-full">
-            <h1 className="text-lg font-[450] text-zinc-200">Yönlendirmeler</h1>
+            <h1 className="text-lg font-[450] text-zinc-200">Paketlerim</h1>
             <h2
-              onClick={() => router.push("/dashboard/newRedirect")}
+              onClick={() => router.push("/dashboard#packages")}
               className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
             >
-              Yeni Ekle {"->"}
+              Satın al {"->"}
             </h2>
           </div>
           <div className="flex shadow-inner shadow-zinc-900/10 flex-col bg-light/20 dark:bg-dark/20 border dark:border-dark-border border-light-border rounded-2xl w-full h-full">

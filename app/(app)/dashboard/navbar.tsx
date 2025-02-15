@@ -1,5 +1,19 @@
 "use client";
-import { House, Link, LogOut, Plus, Settings, Menu, X, Store, User } from "lucide-react";
+import {
+  House,
+  Link,
+  LogOut,
+  Plus,
+  Settings,
+  Menu,
+  X,
+  Store,
+  User,
+  LayoutDashboard,
+  Package,
+  ExternalLink,
+  Bell,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -21,14 +35,18 @@ export default function Navbar() {
     }
   }, []);
   const menuItems = [
-    { label: "Ana sayfa", icon: House, path: "/dashboard" },
+    { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
     {
       label: "Yeni Yönlendirme Ekle",
       icon: Plus,
       path: "/dashboard/newRedirect",
     },
-    { label: "Yönlendirmeler", icon: Link, path: "/dashboard/redirects" },
-    { label: "Hesaplar", icon: User, path: "/dashboard/accounts" },
+    {
+      label: "Yönlendirmeler",
+      icon: ExternalLink,
+      path: "/dashboard/redirects",
+    },
+    { label: "Paketlerim", icon: Package, path: "/dashboard/packages" },
     { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
   ];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
@@ -45,7 +63,7 @@ export default function Navbar() {
             "flex flex-row items-center justify-start space-x-2.5 px-3.5 py-[11px] w-full rounded-full text-base transition-all duration-100 hover:cursor-pointer",
             pathname.split("/")[2] ===
               (path.split("/")[2] === "dashboard" ? "" : path.split("/")[2])
-              ? "dark:bg-blue-500/10 text-blue-50 font-medium"
+              ? "bg-gradient-to-br from-[#7e25d5] to-[#5108d4] text-blue-50 font-medium"
               : "dark:hover:bg-zinc-900/30 dark:active:bg-zinc-900/50 font-[450] dark:text-zinc-200 dark:hover:text-zinc-100 text-zinc-800 hover:text-zinc-950"
           )}
         >
@@ -101,14 +119,13 @@ export default function Navbar() {
         <div></div>
         <div className="space-x-[5px] flex-row mr-0.5 flex items-center justify-end">
           <a
-            onClick={() => router.push(`/dashboard`)}
             className={`${
-              pathname.split("/")[1] === "dashboard"
+              false
                 ? "dark:text-white bg-zinc-300/40 dark:bg-zinc-900/90 text-zinc-900"
-                : "dark:text-zinc-300/95 hover:bg-zinc-300/30 dark:hover:bg-zinc-900/70 text-zinc-800/95"
-            } text-zinc-800 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
+                : "dark:text-zinc-300/95 hover:bg-zinc-300/30 bg-zinc-300/10 dark:hover:bg-zinc-900/70 dark:bg-zinc-900/30 text-zinc-800/95"
+            } text-zinc-800 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2.5 text-[16px] tracking-[-0.012em]`}
           >
-            Dashboard
+            <Bell stroke="#ffffff" strokeWidth={2.25} height={20} width={20} />
           </a>
         </div>
       </header>
