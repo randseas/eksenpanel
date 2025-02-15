@@ -13,9 +13,9 @@ export default function NewLink() {
         <Navbar />
         <div className="flex md:ml-[17%] flex-col min-h-[91.53vh] items-start px-3.5 py-3 justify-start w-full h-full">
           <div className="border m-auto max-w-screen-lg shadow-inner shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
-            <h1 className="text-lg font-medium">Yeni Yönlendirme Ekle</h1>
+            <h1 className="text-lg font-medium">Yönlendirme Düzenle</h1>
             <span className="dark:text-zinc-200 text-base font-[450]">
-              Yeni bir yönlendirme ekleyin.
+              Eklediğiniz yönlendirmeyi düzenleme.
             </span>
             <div className="w-full flex flex-col mt-3.5 items-center justify-center">
               <div className="flex flex-row gap-3.5 items-center justify-between w-full">
@@ -55,9 +55,9 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
-                  disabled={true}
                   value={`<script async src="https://jısdad.vercel.app/js/usaudd.js"></script>`}
                   readOnly={true}
+                  disabled={true}
                   className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
                   placeholder="Otomatik oluşturulacak"
                 />
@@ -100,7 +100,7 @@ export default function NewLink() {
                 />
               </div>
               <button className="w-full shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer">
-                Yönlendirme Ekle
+                Ayarları Kaydet
               </button>
             </div>
           </div>

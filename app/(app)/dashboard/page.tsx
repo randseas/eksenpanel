@@ -98,7 +98,7 @@ export default function Dashboard() {
             >
               <div className="flex flex-col space-y-1 items-start justify-start">
                 <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Toplam Linkler
+                  Toplam Yönlendirmeler
                 </p>
                 <span className="text-2xl font-medium">0</span>
               </div>
@@ -118,7 +118,7 @@ export default function Dashboard() {
             <div className="border shadow-inner shadow-zinc-900/10 min-h-[120px] lg:min-h-[160px] hover:scale-[1.012] transition-all ease-linear duration-100 dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 flex flex-row items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
               <div className="flex flex-col space-y-1 items-start justify-start">
                 <p className="tracking-[-0.012em] text-[17px] font-[450]">
-                  Aktif Linkler
+                  Aktif Yönlendirmeler
                 </p>
                 <span className="text-2xl font-medium">0</span>
               </div>
@@ -178,7 +178,7 @@ export default function Dashboard() {
           </div>
           <div className="flex flex-row items-center justify-between w-full">
             <h1 className="text-lg font-[450] text-zinc-200">
-              Son Eklenen Linkler
+              Son Eklenen Yönlendirmeler
             </h1>
             <h2
               onClick={() => router.push("/dashboard/redirects")}
@@ -255,22 +255,12 @@ export default function Dashboard() {
                       http://localhost/js/as324uy.js
                     </a>
                   </td>
-                </tr>
-                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost">
-                      http://localhost
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
+                      Düzenle
                     </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="https://bionluk.com/">
-                      https://bionluk.com/
-                    </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost/js/as324uy.js">
-                      http://localhost/js/as324uy.js
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
                     </a>
                   </td>
                 </tr>
@@ -291,6 +281,14 @@ export default function Dashboard() {
                       http://localhost/js/as324uy.js
                     </a>
                   </td>
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
+                      Düzenle
+                    </a>
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
+                    </a>
+                  </td>
                 </tr>
                 <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
                   <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
@@ -307,6 +305,14 @@ export default function Dashboard() {
                   <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
                     <a target="blank" href="http://localhost/js/as324uy.js">
                       http://localhost/js/as324uy.js
+                    </a>
+                  </td>
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
+                      Düzenle
+                    </a>
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
                     </a>
                   </td>
                 </tr>

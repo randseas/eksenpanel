@@ -1,5 +1,5 @@
 "use client";
-import { House, Link, LogOut, Plus, Settings, Menu, X, Store } from "lucide-react";
+import { House, Link, LogOut, Plus, Settings, Menu, X, Store, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
@@ -28,6 +28,7 @@ export default function Navbar() {
       path: "/dashboard/newRedirect",
     },
     { label: "Yönlendirmeler", icon: Link, path: "/dashboard/redirects" },
+    { label: "Hesaplar", icon: User, path: "/dashboard/accounts" },
     { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
   ];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
