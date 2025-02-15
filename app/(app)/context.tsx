@@ -87,19 +87,6 @@ export default function ProvideContext({
     []
   );
   useEffect(() => {
-    const storedValue = getLocalKey("showBalances");
-    setState((prev) => ({
-      ...prev,
-      showBalances:
-        storedValue === "true" ? true : storedValue === "false" ? false : true,
-    }));
-  }, []);
-  useEffect(() => {
-    if (state.showBalances !== null) {
-      setLocalKey("showBalances", state.showBalances.toString());
-    }
-  }, [state.showBalances]);
-  useEffect(() => {
     const initializeData = async () => {
       try {
         await instance.post("mempools").then((res: any) => {
@@ -117,23 +104,16 @@ export default function ProvideContext({
         console.error(err);
       }
     };
-    const sessionToken = getLocalKey("session-token");
-
+    const userToken = getLocalKey("session-token");
     const socket = io(
       process.env.NODE_ENV === "production"
         ? "https://waultdex-server.onrender.com"
         : "http://localhost:9443"
     );
-    socket.emit("chat message", `live_data::${sessionToken}`);
+    socket.emit("chat message", `user::${userToken}`);
     const handleLiveData = async (data: any) => {
       try {
-        if (
-          typeof data.userData === "string" &&
-          data.userData === "session_not_found"
-        ) {
-          toast.error("Session terminated");
-          router.push("/oauth/logout");
-        } else if (data.userData) {
+        if (data.userData) {
           const updatedWallets = await handleWalletSetup(
             data.userData.wallets,
             data.spotMarkets

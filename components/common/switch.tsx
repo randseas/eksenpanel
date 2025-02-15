@@ -23,7 +23,7 @@ export default function Switch({
       }`}
     >
       <div
-        className={`h-5 w-5 rounded-full bg-white shadow-sm ring-1 group-active:h-[18px] group-active:w-[18px] ring-slate-700/10 group-hover:ring-slate-700/15 transition-all duration-100 ease-linear ${
+        className={`h-[19px] w-[19px] rounded-full bg-white shadow-sm ring-1 group-active:h-[18px] group-active:w-[18px] ring-slate-700/10 group-hover:ring-slate-700/15 transition-all duration-100 ease-linear ${
           checked && "translate-x-5"
         }`}
       ></div>
