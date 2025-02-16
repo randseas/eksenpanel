@@ -329,76 +329,81 @@ export default function Dashboard() {
                   </tr>
                 </thead>
                 <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
-                  {state.userRedirects?.map((redirect: Redirect) => (
-                    <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                      <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
-                        <a target="blank" href={redirect.mainUrl}>
-                          {redirect.mainUrl}
-                        </a>
-                      </td>
-                      <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
-                        <a target="blank" href={redirect.destinationUrl}>
-                          {redirect.destinationUrl}
-                        </a>
-                      </td>
-                      <td className="text-[15px] px-2 py-4">
-                        {timeAgo(redirect.creationDate)}
-                      </td>
-                      <td className="text-[15px] px-2 py-4">
-                        {timeAgo(redirect.lastCheckDate)}
-                      </td>
-                      <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                        {redirect.status === "active" ? (
-                          <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
-                            Aktif
+                  {state.userRedirects?.map(
+                    (redirect: Redirect, index: number) => (
+                      <tr
+                        key={index}
+                        className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
+                      >
+                        <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
+                          <a target="blank" href={redirect.mainUrl}>
+                            {redirect.mainUrl}
                           </a>
-                        ) : (
-                          <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
-                            Pasif
+                        </td>
+                        <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
+                          <a target="blank" href={redirect.destinationUrl}>
+                            {redirect.destinationUrl}
                           </a>
-                        )}
-                        {redirect.check === "success" ? (
-                          <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
-                            Çalışıyor
+                        </td>
+                        <td className="text-[15px] px-2 py-4">
+                          {timeAgo(redirect.creationDate)}
+                        </td>
+                        <td className="text-[15px] px-2 py-4">
+                          {timeAgo(redirect.lastCheckDate)}
+                        </td>
+                        <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                          {redirect.status === "active" ? (
+                            <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                              Aktif
+                            </a>
+                          ) : (
+                            <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                              Pasif
+                            </a>
+                          )}
+                          {redirect.check === "success" ? (
+                            <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                              Çalışıyor
+                            </a>
+                          ) : redirect.check === "pending" ? (
+                            <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
+                              Test ediliyor
+                            </a>
+                          ) : (
+                            <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                              Çalışmıyor
+                            </a>
+                          )}
+                        </td>
+                        <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
+                          <a
+                            onClick={() =>
+                              router.push(
+                                `/dashboard/editRedirect/${redirect.redirectId}`
+                              )
+                            }
+                            className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                          >
+                            <SquarePen
+                              stroke="currentColor"
+                              width={22}
+                              height={22}
+                            />
                           </a>
-                        ) : redirect.check === "pending" ? (
-                          <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
-                            Test ediliyor
+                          <a
+                            onClick={() => deleteRedirect(redirect.redirectId)}
+                            className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
+                          >
+                            <Trash2
+                              stroke="currentColor"
+                              width={22}
+                              height={22}
+                            />
                           </a>
-                        ) : (
-                          <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
-                            Çalışmıyor
-                          </a>
-                        )}
-                      </td>
-                      <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                        <a
-                          onClick={() =>
-                            router.push(
-                              `/dashboard/editRedirect/${redirect.redirectId}`
-                            )
-                          }
-                          className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
-                        >
-                          <SquarePen
-                            stroke="currentColor"
-                            width={22}
-                            height={22}
-                          />
-                        </a>
-                        <a
-                          onClick={() => deleteRedirect(redirect.redirectId)}
-                          className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
-                        >
-                          <Trash2
-                            stroke="currentColor"
-                            width={22}
-                            height={22}
-                          />
-                        </a>
-                      </td>
-                    </tr>
-                  ))}
+                        </td>
+                      </tr>
+                    )
+                  )}
                 </tbody>
               </table>
             </div>

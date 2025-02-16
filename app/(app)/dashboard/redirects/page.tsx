@@ -1,11 +1,48 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../navbar";
-import { Calendar, Code, Link, SquareArrowOutUpRight } from "lucide-react";
+import {
+  Calendar,
+  CheckCircle,
+  Clock,
+  DotSquare,
+  Globe,
+  SquareArrowOutUpRight,
+  SquarePen,
+  Trash2,
+} from "lucide-react";
+import { timeAgo } from "@/lib/date";
+import instance from "@/app/instance";
+import toast from "react-hot-toast";
+import { AppContext } from "../../context";
+import { Redirect } from "@/types";
 
 export default function Links() {
   const router = useRouter();
+  const { state } = useContext(AppContext);
+  function deleteRedirect(redirectId: string) {
+    const isConfirmed = window.confirm(
+      "Yönlendirmeyi silmek istediğinize emin misiniz?"
+    );
+    if (!isConfirmed) return;
+    instance
+      .post("deleteRedirect", {
+        token: state.userData.token,
+        redirectId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Yönlendirme başarıyla silindi");
+        } else {
+          toast.error("Yönlendirme silinemedi, tekrar deneyin.");
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+        toast.error(err.message || "Bir hata oluştu!");
+      });
+  }
   return (
     <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
@@ -19,148 +56,146 @@ export default function Links() {
             Yeni Ekle {"->"}
           </h2>
         </div>
-        <div className="flex shadow-inner neon-box shadow-zinc-900/10 flex-col bg-light/20 dark:bg-[#333333] border dark:border-zinc-600 border-light-border rounded-2xl w-full h-full">
-          <div className="w-full overflow-x-auto">
-            <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
-              <thead className="border-b inset-0 dark:border-zinc-600 border-light-border/80 rounded-t-2xl w-full">
-                <tr>
-                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                    <div className="inline-flex items-center space-x-1.5">
-                      <Calendar
-                        className="text-blue-500"
-                        height={17}
-                        width={17}
-                        stroke="currentColor"
-                      />
-                      <span className="mt-px">Eklenme Tarihi</span>
-                    </div>
-                  </th>
-                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                    <div className="inline-flex items-center space-x-1.5">
-                      <Link
-                        className="text-blue-500"
-                        height={17}
-                        width={17}
-                        stroke="currentColor"
-                      />
-                      <span className="mt-px">Link URL</span>
-                    </div>
-                  </th>
-                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                    <div className="inline-flex items-center space-x-1.5">
-                      <SquareArrowOutUpRight
-                        className="text-blue-500"
-                        height={17}
-                        width={17}
-                        stroke="currentColor"
-                      />
-                      <span className="mt-px">Yönlendirilecek URL</span>
-                    </div>
-                  </th>
-                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                    <div className="inline-flex items-center space-x-1.5">
-                      <Code
-                        className="text-blue-500"
-                        height={17}
-                        width={17}
-                        stroke="currentColor"
-                      />
-                      <span className="mt-px">JS URL</span>
-                    </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y dark:divide-zinc-600 divide-light-border/80">
-                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost">
-                      http://localhost
+        <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+          <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+            <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
+              <tr>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <Globe
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Ana URL</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <SquareArrowOutUpRight
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Hedef URL</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <Calendar
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Eklenme Tarihi</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <Clock
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Son Kontrol</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <CheckCircle
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Durum</span>
+                  </div>
+                </th>
+                <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <DotSquare
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Aksiyon</span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
+              {state.userRedirects?.map((redirect: Redirect, index: number) => (
+                <tr
+                  key={index}
+                  className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
+                >
+                  <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href={redirect.mainUrl}>
+                      {redirect.mainUrl}
                     </a>
                   </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="https://bionluk.com/">
-                      https://bionluk.com/
+                  <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
+                    <a target="blank" href={redirect.destinationUrl}>
+                      {redirect.destinationUrl}
                     </a>
                   </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost/js/as324uy.js">
-                      http://localhost/js/as324uy.js
-                    </a>
+                  <td className="text-[15px] px-2 py-4">
+                    {timeAgo(redirect.creationDate)}
                   </td>
-                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                  <td className="text-[15px] px-2 py-4">
+                    {timeAgo(redirect.lastCheckDate)}
+                  </td>
+                  <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                    {redirect.status === "active" ? (
+                      <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                        Aktif
+                      </a>
+                    ) : (
+                      <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                        Pasif
+                      </a>
+                    )}
+                    {redirect.check === "success" ? (
+                      <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                        Çalışıyor
+                      </a>
+                    ) : redirect.check === "pending" ? (
+                      <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
+                        Test ediliyor
+                      </a>
+                    ) : (
+                      <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                        Çalışmıyor
+                      </a>
+                    )}
+                  </td>
+                  <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                     <a
-                      onClick={() => router.push("/dashboard/editRedirect")}
-                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                      onClick={() =>
+                        router.push(
+                          `/dashboard/editRedirect/${redirect.redirectId}`
+                        )
+                      }
+                      className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
                     >
-                      Düzenle
+                      <SquarePen stroke="currentColor" width={22} height={22} />
                     </a>
-                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                      Sil
-                    </a>
-                  </td>
-                </tr>
-                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost">
-                      http://localhost
-                    </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="https://bionluk.com/">
-                      https://bionluk.com/
-                    </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost/js/as324uy.js">
-                      http://localhost/js/as324uy.js
-                    </a>
-                  </td>
-                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
                     <a
-                      onClick={() => router.push("/dashboard/editRedirect")}
-                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                      onClick={() => deleteRedirect(redirect.redirectId)}
+                      className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
                     >
-                      Düzenle
-                    </a>
-                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                      Sil
+                      <Trash2 stroke="currentColor" width={22} height={22} />
                     </a>
                   </td>
                 </tr>
-                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost">
-                      http://localhost
-                    </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="https://bionluk.com/">
-                      https://bionluk.com/
-                    </a>
-                  </td>
-                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href="http://localhost/js/as324uy.js">
-                      http://localhost/js/as324uy.js
-                    </a>
-                  </td>
-                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                    <a
-                      onClick={() => router.push("/dashboard/editRedirect")}
-                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                    >
-                      Düzenle
-                    </a>
-                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                      Sil
-                    </a>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </main>

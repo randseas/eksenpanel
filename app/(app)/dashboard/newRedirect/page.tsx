@@ -26,7 +26,6 @@ export default function NewLink() {
         destinationUrl,
       })
       .then((res) => {
-        console.log(res);
         if (res.data.status === "ok") {
           toast.success("Yönlendirme oluşturuldu");
           setMainURL("");
