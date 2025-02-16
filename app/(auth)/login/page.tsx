@@ -20,7 +20,7 @@ export default function Register() {
       }
     }
   }, []);
-  const handleLogin = useCallback(() => {
+  function handleLogin() {
     setLoading(true);
     instance
       .post("login", {
@@ -55,7 +55,7 @@ export default function Register() {
         toast.error("Sunucu hatası");
         setLoading(false);
       });
-  }, []);
+  }
   return (
     <>
       <main className="flex-1 flex-col dark:bg-dark dark:text-light text-dark bg-light min-h-[100vh] h-full">

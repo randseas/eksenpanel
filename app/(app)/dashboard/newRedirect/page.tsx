@@ -1,13 +1,53 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../navbar";
 import Switch from "@/components/common/switch";
 import DashboardHeader from "../dashboardHeader";
+import instance from "@/app/instance";
+import toast from "react-hot-toast";
+import { AppContext } from "../../context";
 
 export default function NewLink() {
   const router = useRouter();
-  const [checked, setChecked] = useState<boolean>(true);
+  const { state } = useContext(AppContext);
+  const [isRedirectActive, setIsRedirectActive] = useState<boolean>(true);
+
+  const [mainUrl, setMainURL] = useState<string>("");
+  const [destinationUrl, setDestinationURL] = useState<string>("");
+
+  const [redirectDelay, setRedirectDelay] = useState<string>("0");
+  const [redirectCode, setRedirectCode] = useState<string>("");
+  function handleNewRedirect() {
+    console.log("state", state)
+    instance
+      .post("newRedirect", {
+        token: state.userData.token,
+        mainUrl,
+        destinationUrl,
+      })
+      .then((res) => {
+        console.log(res);
+        if (res.data.status === "ok") {
+          toast.success("Yönlendirme oluşturuldu");
+          setMainURL("");
+          setDestinationURL("");
+          setRedirectDelay("0");
+          setRedirectCode("");
+          router.push("/dashboard/redirects");
+        } else if (res.data.message === "missing_fields") {
+          toast.error("Lütfen tüm alanları doldurun");
+        } else if (res.data.message === "redirect_already_exists") {
+          toast.error("Bu URL ile zaten bir yönlendirme mevcut");
+        } else if (res.data.message === "db_error") {
+          toast.error("Sunucu hatası");
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast.error(err.message);
+      });
+  }
   return (
     <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
@@ -29,6 +69,8 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
+                  value={mainUrl}
+                  onChange={(e: any) => setMainURL(e.target.value)}
                   className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example.com"
                 />
@@ -42,6 +84,8 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
+                  value={destinationUrl}
+                  onChange={(e: any) => setDestinationURL(e.target.value)}
                   className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example2.com"
                 />
@@ -57,7 +101,7 @@ export default function NewLink() {
               <input
                 id="link"
                 disabled={true}
-                value={`<script async src="https://jısdad.vercel.app/js/usaudd.js"></script>`}
+                value={redirectCode}
                 readOnly={true}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Otomatik oluşturulacak"
@@ -75,7 +119,8 @@ export default function NewLink() {
               </label>
               <input
                 id="link"
-                value="0"
+                value={redirectDelay}
+                onChange={(e: any) => setRedirectDelay(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Yönlendirme süresi"
               />
@@ -95,9 +140,15 @@ export default function NewLink() {
                   Yönlendirmenin aktifliğini belirleyin
                 </span>
               </div>
-              <Switch checked={checked} onClick={() => setChecked(!checked)} />
+              <Switch
+                checked={isRedirectActive}
+                onClick={() => setIsRedirectActive(!isRedirectActive)}
+              />
             </div>
-            <button className="w-full shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer">
+            <button
+              onClick={handleNewRedirect}
+              className="w-full shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"
+            >
               Yönlendirme Ekle
             </button>
           </div>

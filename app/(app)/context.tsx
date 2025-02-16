@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
-import { User } from "@/types";
+import { Redirect, User } from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,7 @@ dotenv.config();
 
 export interface State {
   userData: User;
+  userRedirects: Redirect[];
   loading: boolean;
 }
 interface AppContextType {
@@ -25,6 +26,7 @@ const emptyUser: User = {
 };
 const initialState: State = {
   userData: emptyUser,
+  userRedirects: [],
   loading: true,
 };
 export const AppContext = createContext<AppContextType>({
@@ -39,19 +41,21 @@ export default function ProvideContext({
   const router = useRouter();
   const [state, setState] = useState<State>(initialState);
   useEffect(() => {
-    const userToken = getLocalKey("session-token");
+    const userToken = getLocalKey("user-token");
     const socket = io(
-      process.env.NODE_ENV === "production"
+      /*process.env.NODE_ENV === "production"
         ? "https://waultdex-server.onrender.com"
-        : "http://localhost:3000"
+        : */ "http://localhost:3000"
     );
-    socket.emit("chat message", `user::${userToken}`);
+    socket.emit("chat message", `live_user::${userToken}`);
     const handleLiveData = async (data: any) => {
       try {
         if (data.userData) {
+          toast.success(data.userData.email)
           const updatedData = {
             ...data,
             userData: data.userData,
+            userRedirects: data.userRedirects,
             loading: false,
           };
           setState((prev) => ({
@@ -59,14 +63,13 @@ export default function ProvideContext({
             ...updatedData,
             loading: false,
           }));
-          setLocalKey("state-data", JSON.stringify(updatedData));
         } else {
+          toast.error("Sync failed")
           setState((prev) => ({
             ...prev,
             ...data,
             loading: false,
           }));
-          setLocalKey("state-data", JSON.stringify(data));
         }
       } catch (err) {
         toast.error("Data processing failed");

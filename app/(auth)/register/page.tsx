@@ -21,13 +21,13 @@ export default function Register() {
       }
     }
   }, []);
-  const handleRegister = useCallback(() => {
+  function handleRegister() {
     setLoading(true);
     instance
       .post("register", {
-        email: email,
-        password: password,
-        passwordConfirm: passwordConfirm,
+        email,
+        password,
+        passwordConfirm,
       })
       .then((res: any) => {
         console.log(res.data);
@@ -57,7 +57,7 @@ export default function Register() {
         toast.error("Sunucu hatası");
         setLoading(false);
       });
-  }, []);
+  }
   return (
     <>
       <main className="flex-1 flex-col dark:bg-dark dark:text-light text-dark bg-light min-h-[100vh] h-full">
@@ -83,9 +83,7 @@ export default function Register() {
                 <input
                   id="email"
                   value={email}
-                  onChange={(e: any) =>
-                    setEmail(e.target.value)
-                  }
+                  onChange={(e: any) => setEmail(e.target.value)}
                   className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
                   placeholder="holder@example.com"
                 />
@@ -102,9 +100,7 @@ export default function Register() {
                 <input
                   id="password"
                   value={password}
-                  onChange={(e: any) =>
-                    setPassword(e.target.value)
-                  }
+                  onChange={(e: any) => setPassword(e.target.value)}
                   type="password"
                   className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
                   placeholder="Şifre girin"
@@ -122,9 +118,7 @@ export default function Register() {
                 <input
                   id="passwordConfirm"
                   value={passwordConfirm}
-                  onChange={(e: any) =>
-                    setPasswordConfirm(e.target.value)
-                  }
+                  onChange={(e: any) => setPasswordConfirm(e.target.value)}
                   type="password"
                   className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
                   placeholder="Şifre tekrar girin"
