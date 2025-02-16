@@ -5,7 +5,7 @@ dotenv.config();
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
-      ? "https://servername.onrender.com/api/"
+      ? "https://bionlukbackend.onrender.com/api/"
       : "http://localhost:3000/api/",
   headers: {
     "Content-Type": "application/json",

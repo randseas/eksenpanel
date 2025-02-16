@@ -44,7 +44,7 @@ export default function ProvideContext({
     const userToken = getLocalKey("user-token");
     const socket = io(
       process.env.NODE_ENV === "production"
-        ? "https://waultdex-server.onrender.com"
+        ? "https://bionlukbackend.onrender.com"
         : "http://localhost:3000"
     );
     socket.emit("chat message", `live_user::${userToken}`);
