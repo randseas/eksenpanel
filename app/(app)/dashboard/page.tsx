@@ -21,9 +21,9 @@ const packages = [
     name: "Bronz Paket",
     accounts: "35 Hesap",
     color: {
-      from: "#cd7f32",
-      via: "#b87333",
-      to: "#8c6239",
+      from: "#cd7f3280",
+      via: "#b8733380",
+      to: "#8c623980",
     },
     backgroundImage: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23cd7f32" fill-opacity="0.3" d="M0,160L80,144C160,128,320,96,480,117.3C640,139,800,213,960,224C1120,235,1280,181,1360,154.7L1440,128V320H0Z"></path></svg>`,
     details: [
@@ -40,9 +40,9 @@ const packages = [
     name: "Silver Paket",
     accounts: "45 Hesap",
     color: {
-      from: "#c0c0c0",
-      via: "#a8a8a8",
-      to: "#808080",
+      from: "#c0c0c080",
+      via: "#a8a8a880",
+      to: "#80808080",
     },
     details: [
       "İyi Blog Hesapları",
@@ -58,9 +58,9 @@ const packages = [
     name: "Gold Paket",
     accounts: "65 Hesap",
     color: {
-      from: "#ffd700",
-      via: "#ffb700",
-      to: "#d4af37",
+      from: "#ffd70080",
+      via: "#ffb70080",
+      to: "#d4af3780",
     },
     details: [
       "Yüksek Blog Hesapları",
@@ -76,9 +76,9 @@ const packages = [
     name: "Premium Paket",
     accounts: "150 Hesap",
     color: {
-      from: "#ff1493",
-      via: "#c71585",
-      to: "#800080",
+      from: "#ff149380",
+      via: "#c7158580",
+      to: "#80008080",
     },
     details: [
       "Yüksek Blog Hesapları",
@@ -94,9 +94,9 @@ const packages = [
     name: "Random Paket",
     accounts: "200 Hesap",
     color: {
-      from: "#ff80b5",
-      via: "#d36ee8",
-      to: "#a855f7",
+      from: "#ff80b580",
+      via: "#d36ee880",
+      to: "#a855f780",
     },
     details: [
       "Boş Rastgele Hesaplar",
@@ -162,7 +162,7 @@ export default function Dashboard() {
           ].map((item, index) => (
             <div
               key={index}
-              className={`relative shadow-[inset_6px_6px_12px_#0a0a0a,inset_-6px_-6px_12px_#1e1e1e] dark:shadow-[6px_6px_14px_#151515,-6px_-6px_12px_#101010] hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl p-6 flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br ${item.bg.from} ${item.bg.via} ${item.bg.to} backdrop-blur-md shadow-lg hover:shadow-xl`}
+              className={`relative neon-box-2 hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl p-6 flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br ${item.bg.from} ${item.bg.via} ${item.bg.to} backdrop-blur-md shadow-lg hover:shadow-xl`}
             >
               <div className="flex flex-col items-end justify-start space-y-3.5 h-full w-auto z-10">
                 <div
@@ -196,9 +196,9 @@ export default function Dashboard() {
             Tümünü gör {"->"}
           </h2>
         </div>
-        <div className="flex shadow-[inset_6px_6px_12px_#0a0a0a,inset_-6px_-6px_12px_#1e1e1e] dark:shadow-[6px_6px_14px_#151515,-6px_-6px_12px_#101010] flex-col bg-light/20 dark:bg-dark/20 border dark:border-dark-border border-light-border rounded-2xl w-full h-full">
+        <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#333333] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
           <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
-            <thead className="border-b dark:border-dark-border/80 border-light-border/80 rounded-t-2xl w-full">
+            <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
               <tr>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
@@ -246,7 +246,7 @@ export default function Dashboard() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y dark:divide-dark-border/80 divide-light-border/80">
+            <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
               <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
                 <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
                 <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
@@ -340,7 +340,7 @@ export default function Dashboard() {
               <div
                 key={index}
                 className={cn(
-                  "group p-5 relative shadow-[inset_6px_6px_12px_#0a0a0a,inset_-6px_-6px_12px_#1e1e1e] dark:shadow-[6px_6px_14px_#151515,-6px_-6px_12px_#101010] hover:scale-[1.01] dark:hover:bg-zinc-900/30 hover:bg-zinc-200/30 dark:bg-dark bg-light rounded-2xl border dark:border-dark-border border-light-border transition-all duration-150 ease-linear flex flex-col items-start text-start",
+                  "group p-5 neon-box-2 relative hover:scale-[1.01] dark:hover:bg-[#252525] hover:bg-zinc-200/30 dark:bg-[#222222] bg-light rounded-2xl border dark:border-dark-border border-light-border transition-all duration-150 ease-linear flex flex-col items-start text-start",
                   "hover:bg-gradient-to-tr from-[var(--from-color)] via-[var(--via-color)] to-[var(--to-color)]"
                 )}
                 style={

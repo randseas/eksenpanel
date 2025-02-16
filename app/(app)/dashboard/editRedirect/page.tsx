@@ -5,18 +5,18 @@ import Navbar from "../navbar";
 import Switch from "@/components/common/switch";
 import DashboardHeader from "../dashboardHeader";
 
-export default function NewLink() {
+export default function EditLink() {
   const router = useRouter();
   const [checked, setChecked] = useState<boolean>(true);
   return (
     <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
-      <div className="flex space-y-2.5 flex-col min-h-[100vh] items-start px-5 py-4 justify-start w-full h-full">
+      <div className="flex flex-col min-h-[100vh] items-start px-5 py-4 w-full h-full">
         <DashboardHeader page="Yönlendirme Düzenle" />
-        <div className="border m-auto max-w-screen-lg shadow-inner shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
+        <div className="border mx-auto neon-box mt-12 max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
           <h1 className="text-lg font-medium">Yönlendirme Düzenle</h1>
           <span className="dark:text-zinc-200 text-base font-[450]">
-            Eklediğiniz yönlendirmeyi düzenleme.
+            Yönlendirme düzenleme.
           </span>
           <div className="w-full flex flex-col mt-3.5 items-center justify-center">
             <div className="flex flex-row gap-3.5 items-center justify-between w-full">
@@ -29,7 +29,7 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example.com"
                 />
               </div>
@@ -42,7 +42,7 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example2.com"
                 />
               </div>
@@ -56,10 +56,10 @@ export default function NewLink() {
               </label>
               <input
                 id="link"
+                disabled={true}
                 value={`<script async src="https://jısdad.vercel.app/js/usaudd.js"></script>`}
                 readOnly={true}
-                disabled={true}
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Otomatik oluşturulacak"
               />
               <span className="dark:text-zinc-300 text-sm">
@@ -76,7 +76,7 @@ export default function NewLink() {
               <input
                 id="link"
                 value="0"
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Yönlendirme süresi"
               />
               <span className="dark:text-zinc-300 text-sm">
@@ -98,7 +98,7 @@ export default function NewLink() {
               <Switch checked={checked} onClick={() => setChecked(!checked)} />
             </div>
             <button className="w-full shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer">
-              Ayarları Kaydet
+              Yönlendirme Ekle
             </button>
           </div>
         </div>

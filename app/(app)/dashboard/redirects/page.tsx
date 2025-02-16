@@ -9,7 +9,7 @@ export default function Links() {
   return (
     <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
-      <div className="flex space-y-2.5 flex-col min-h-[100vh] items-start px-5 py-4 justify-start w-full h-full">
+      <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
         <div className="flex flex-row items-center justify-between w-full">
           <h1 className="text-lg font-[450] text-zinc-200">Yönlendirmeler</h1>
           <h2
@@ -19,9 +19,9 @@ export default function Links() {
             Yeni Ekle {"->"}
           </h2>
         </div>
-        <div className="flex shadow-inner shadow-zinc-900/10 flex-col bg-light/20 dark:bg-dark/20 border dark:border-dark-border border-light-border rounded-2xl w-full h-full">
+        <div className="flex shadow-inner neon-box shadow-zinc-900/10 flex-col bg-light/20 dark:bg-[#333333] border dark:border-zinc-600 border-light-border rounded-2xl w-full h-full">
           <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
-            <thead className="border-b inset-0 dark:border-dark-border/80 border-light-border/80 rounded-t-2xl w-full">
+            <thead className="border-b inset-0 dark:border-zinc-600 border-light-border/80 rounded-t-2xl w-full">
               <tr>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
@@ -69,7 +69,7 @@ export default function Links() {
                 </th>
               </tr>
             </thead>
-            <tbody className="divide-y dark:divide-dark-border/80 divide-light-border/80">
+            <tbody className="divide-y dark:divide-zinc-600 divide-light-border/80">
               <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
                 <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
                 <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">

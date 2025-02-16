@@ -25,7 +25,7 @@ const config = {
       },
       colors: {
         light: "#ffffff",
-        dark: "#090909",
+        dark: "#181818",
         primary: "#2196f3",
         "light-border": "#DFDFDFFF",
         "light-foreground": "#F4F4F4FF",

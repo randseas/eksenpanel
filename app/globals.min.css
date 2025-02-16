@@ -17,7 +17,7 @@ body {
   outline-offset: 0px !important;
 }
 body.dark {
-  background-color: #090909;
+  background-color: #181818;
 }
 body.light {
   background-color: #ffffff;
@@ -75,4 +75,18 @@ html {
     #ff00ff,
     #00ffff
   );
+}
+.neon-box {
+  box-shadow: 
+    0 0 10px #9400D360, 
+    0 0 15px #ff00ff60, 
+    0 0 20px #4f04e060, 
+    0 0 25px #ff00ff60;
+}
+.neon-box-2 {
+  box-shadow: 
+    0 0 10px #9400D330, 
+    0 0 15px #ff00ff30, 
+    0 0 20px #4f04e030, 
+    0 0 25px #ff00ff30;
 }

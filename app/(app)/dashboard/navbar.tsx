@@ -179,7 +179,7 @@ export default function Navbar() {
       <nav
         className={`${
           !isDrawerOpen ? "max-w-[17%]" : "max-w-[5%]"
-        } flex sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-dark/10 dark:border-dark-border flex-col items-center`}
+        } flex neon-box-2 sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-[#111111] dark:border-dark-border flex-col items-center`}
       >
         <div className="flex flex-row items-center justify-between w-full">
           {!isDrawerOpen && (

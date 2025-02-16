@@ -11,9 +11,9 @@ export default function NewLink() {
   return (
     <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
-      <div className="flex space-y-2.5 flex-col min-h-[100vh] items-start px-5 py-4 justify-start w-full h-full">
+      <div className="flex flex-col min-h-[100vh] items-start px-5 py-4 w-full h-full">
         <DashboardHeader page="Yönlendirme Ekle" />
-        <div className="border mx-auto mt-12 max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-dark-border bg-light/20 dark:bg-dark/20 rounded-2xl p-5">
+        <div className="border mx-auto neon-box mt-12 max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
           <h1 className="text-lg font-medium">Yeni Yönlendirme Ekle</h1>
           <span className="dark:text-zinc-200 text-base font-[450]">
             Yeni bir yönlendirme ekleyin.
@@ -29,7 +29,7 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example.com"
                 />
               </div>
@@ -42,7 +42,7 @@ export default function NewLink() {
                 </label>
                 <input
                   id="link"
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                   placeholder="https://example2.com"
                 />
               </div>
@@ -59,7 +59,7 @@ export default function NewLink() {
                 disabled={true}
                 value={`<script async src="https://jısdad.vercel.app/js/usaudd.js"></script>`}
                 readOnly={true}
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Otomatik oluşturulacak"
               />
               <span className="dark:text-zinc-300 text-sm">
@@ -76,7 +76,7 @@ export default function NewLink() {
               <input
                 id="link"
                 value="0"
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/30 border dark:border-dark-border"
+                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Yönlendirme süresi"
               />
               <span className="dark:text-zinc-300 text-sm">
