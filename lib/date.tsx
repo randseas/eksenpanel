@@ -22,32 +22,24 @@ export default function formatDate(i: number): string {
     "0"
   )}:${String(seconds).padStart(2, "0")}`;
 }
-export function timeAgo(
-  timestamp: any,
-  t: (key: string, value: string) => string
-): string {
-  const date = new Date(parseInt(timestamp));
+export function timeAgo(timestamp: string): string {
+  const date = new Date(timestamp); // ISO formatını destekler
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
-  if (diffInSeconds < 60) {
-    return t("time.seconds", diffInSeconds.toString());
-  }
+  if (diffInSeconds < 60) return `${diffInSeconds}sn önce`;
   const diffInMinutes = Math.floor(diffInSeconds / 60);
-  if (diffInMinutes < 60) {
-    return t("time.minutes", diffInMinutes.toString());
-  }
+  if (diffInMinutes < 60) return `${diffInMinutes}dk önce`;
   const diffInHours = Math.floor(diffInMinutes / 60);
-  if (diffInHours < 24) {
-    return t("time.hours", diffInHours.toString());
-  }
+  if (diffInHours < 24) return `${diffInHours}sa önce`;
   const diffInDays = Math.floor(diffInHours / 24);
-  if (diffInDays < 30) {
-    return t("time.days", diffInDays.toString());
-  }
-  const diffInMonths = Math.floor(diffInDays / 30);
-  if (diffInMonths < 12) {
-    return t("time.months", diffInMonths.toString());
-  }
+  if (diffInDays < 7) return `${diffInDays} gün önce`;
+  const diffInWeeks = Math.floor(diffInDays / 7);
+  if (diffInWeeks < 4) return `${diffInWeeks} hafta önce`;
+  const diffInMonths =
+    now.getMonth() -
+    date.getMonth() +
+    (now.getFullYear() - date.getFullYear()) * 12;
+  if (diffInMonths < 12) return `${diffInMonths} ay önce`;
   const diffInYears = Math.floor(diffInMonths / 12);
-  return t("time.years", diffInYears.toString());
+  return `${diffInYears} yıl önce`;
 }

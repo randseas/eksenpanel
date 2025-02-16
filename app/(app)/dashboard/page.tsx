@@ -7,6 +7,8 @@ import {
   CheckCircle,
   Clock,
   Code,
+  DotSquare,
+  Edit,
   ExternalLink,
   Globe,
   Link,
@@ -22,6 +24,8 @@ import { cn } from "@/lib/utils";
 import DashboardHeader from "./dashboardHeader";
 import { AppContext } from "../context";
 import { Redirect } from "@/types";
+import { timeAgo } from "@/lib/date";
+import instance from "@/app/instance";
 
 const packages = [
   {
@@ -120,6 +124,28 @@ const packages = [
 export default function Dashboard() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+  function deleteRedirect(redirectId: string) {
+    const isConfirmed = window.confirm(
+      "Yönlendirmeyi silmek istediğinize emin misiniz?"
+    );
+    if (!isConfirmed) return;
+    instance
+      .post("deleteRedirect", {
+        token: state.userData.token,
+        redirectId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Yönlendirme başarıyla silindi");
+        } else {
+          toast.error("Yönlendirme silinemedi, tekrar deneyin.");
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+        toast.error(err.message || "Bir hata oluştu!");
+      });
+  }
   return (
     <main className="!relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
@@ -192,19 +218,22 @@ export default function Dashboard() {
                 </div>
                 <div className="flex flex-col ml-4 w-full space-y-1 items-start justify-start z-10">
                   <span className="text-2xl font-semibold text-white">
-                    {itemTitle === "toplamyönlendirme"
-                      ? state?.userRedirects?.length.toString()
-                      : itemTitle === "aktifyönlendirme"
-                      ? state?.userRedirects
-                          ?.filter(
-                            (redirect: Redirect) => redirect.status === "active"
-                          )
-                          ?.length.toString()
-                      : itemTitle === "paketlerim"
-                      ? "--"
-                      : itemTitle === "hesaplarım"
-                      ? "--"
-                      : "--"}
+                    {!state.loading
+                      ? itemTitle === "toplamyönlendirme"
+                        ? state?.userRedirects?.length.toString()
+                        : itemTitle === "aktifyönlendirme"
+                        ? state?.userRedirects
+                            ?.filter(
+                              (redirect: Redirect) =>
+                                redirect.status === "active"
+                            )
+                            ?.length.toString()
+                        : itemTitle === "paketlerim"
+                        ? "--"
+                        : itemTitle === "hesaplarım"
+                        ? "--"
+                        : "--"
+                      : "Yükleniyor..."}
                   </span>
                   <p className="tracking-[-0.012em] text-[17px] font-medium text-white/90">
                     {item.title}
@@ -242,7 +271,7 @@ export default function Dashboard() {
                         <span className="mt-px">Ana URL</span>
                       </div>
                     </th>
-                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                       <div className="inline-flex items-center space-x-1.5">
                         <SquareArrowOutUpRight
                           className="text-blue-500"
@@ -253,7 +282,7 @@ export default function Dashboard() {
                         <span className="mt-px">Hedef URL</span>
                       </div>
                     </th>
-                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                       <div className="inline-flex items-center space-x-1.5">
                         <Calendar
                           className="text-blue-500"
@@ -264,7 +293,7 @@ export default function Dashboard() {
                         <span className="mt-px">Eklenme Tarihi</span>
                       </div>
                     </th>
-                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                       <div className="inline-flex items-center space-x-1.5">
                         <Clock
                           className="text-blue-500"
@@ -275,7 +304,7 @@ export default function Dashboard() {
                         <span className="mt-px">Son Kontrol</span>
                       </div>
                     </th>
-                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                       <div className="inline-flex items-center space-x-1.5">
                         <CheckCircle
                           className="text-blue-500"
@@ -284,6 +313,17 @@ export default function Dashboard() {
                           stroke="currentColor"
                         />
                         <span className="mt-px">Durum</span>
+                      </div>
+                    </th>
+                    <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                      <div className="inline-flex items-center space-x-1.5">
+                        <DotSquare
+                          className="text-blue-500"
+                          height={17}
+                          width={17}
+                          stroke="currentColor"
+                        />
+                        <span className="mt-px">Aksiyon</span>
                       </div>
                     </th>
                   </tr>
@@ -296,37 +336,60 @@ export default function Dashboard() {
                           {redirect.mainUrl}
                         </a>
                       </td>
-                      <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
+                      <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
                         <a target="blank" href={redirect.destinationUrl}>
                           {redirect.destinationUrl}
                         </a>
                       </td>
-                      <td className="text-[15px] px-3 py-4">
-                        {redirect.creationDate}
+                      <td className="text-[15px] px-2 py-4">
+                        {timeAgo(redirect.creationDate)}
                       </td>
-                      <td className="text-[15px] px-3 py-4">
-                        {redirect.lastCheckDate}
+                      <td className="text-[15px] px-2 py-4">
+                        {timeAgo(redirect.lastCheckDate)}
                       </td>
-                      <td className="text-[15px] px-3 py-4">
-                        {redirect.check === "success" ? (
-                          <a className="bg-green-500/20 dark:text-green-200 text-green-800 rounded-full px-3 py-1.5">
+                      <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                        {redirect.status === "active" ? (
+                          <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
                             Aktif
                           </a>
                         ) : (
-                          <a className="bg-red-500/20 dark:text-red-200 text-red-800 rounded-full px-3 py-1.5">
+                          <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
                             Pasif
+                          </a>
+                        )}
+                        {redirect.check === "success" ? (
+                          <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                            Çalışıyor
+                          </a>
+                        ) : redirect.check === "pending" ? (
+                          <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
+                            Test ediliyor
+                          </a>
+                        ) : (
+                          <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                            Çalışmıyor
                           </a>
                         )}
                       </td>
                       <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                        <a className="transition-all ease-linear duration-100 rounded-xl px-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
+                        <a
+                          onClick={() =>
+                            router.push(
+                              `/dashboard/editRedirect/${redirect.redirectId}`
+                            )
+                          }
+                          className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                        >
                           <SquarePen
                             stroke="currentColor"
                             width={22}
                             height={22}
                           />
                         </a>
-                        <a className="transition-all ease-linear duration-100 rounded-xl px-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer">
+                        <a
+                          onClick={() => deleteRedirect(redirect.redirectId)}
+                          className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
+                        >
                           <Trash2
                             stroke="currentColor"
                             width={22}

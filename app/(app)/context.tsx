@@ -43,15 +43,14 @@ export default function ProvideContext({
   useEffect(() => {
     const userToken = getLocalKey("user-token");
     const socket = io(
-      /*process.env.NODE_ENV === "production"
+      process.env.NODE_ENV === "production"
         ? "https://waultdex-server.onrender.com"
-        : */ "http://localhost:3000"
+        : "http://localhost:3000"
     );
     socket.emit("chat message", `live_user::${userToken}`);
     const handleLiveData = async (data: any) => {
       try {
         if (data.userData) {
-          toast.success(data.userData.email)
           const updatedData = {
             ...data,
             userData: data.userData,
@@ -64,7 +63,7 @@ export default function ProvideContext({
             loading: false,
           }));
         } else {
-          toast.error("Sync failed")
+          toast.error("Sync failed");
           setState((prev) => ({
             ...prev,
             ...data,

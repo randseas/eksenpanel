@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
-import i18n from "@/i18n/i18n";
 import { Inter } from "next/font/google";
 import { usePathname } from "next/navigation";
 import NProgress from "nprogress";
@@ -31,7 +30,6 @@ export default function RootLayout({
       : "light"
   );
   useEffect(() => {
-    i18n.init();
     const mediaQuery =
       typeof window !== "undefined"
         ? window.matchMedia("(prefers-color-scheme: dark)")

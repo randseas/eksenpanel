@@ -19,7 +19,6 @@ export default function NewLink() {
   const [redirectDelay, setRedirectDelay] = useState<string>("0");
   const [redirectCode, setRedirectCode] = useState<string>("");
   function handleNewRedirect() {
-    console.log("state", state)
     instance
       .post("newRedirect", {
         token: state.userData.token,
