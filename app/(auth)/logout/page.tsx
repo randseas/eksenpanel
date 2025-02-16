@@ -16,7 +16,7 @@ export default function LogOut() {
   }, []);
   return (
     <>
-      <main className="flex flex-row h-[80vh] items-center justify-center text-center w-full !overflow-hidden">
+      <main className="flex flex-row h-[100vh] items-center justify-center text-center w-full !overflow-hidden">
         <Loader />
       </main>
     </>
