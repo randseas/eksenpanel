@@ -3,7 +3,17 @@ import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import i18n from "@/i18n/i18n";
 import { Inter } from "next/font/google";
+import { usePathname } from "next/navigation";
+import NProgress from "nprogress";
+import "nprogress/nprogress.css"; // NProgress stillerini eklemeyi unutma
 import "./globals.min.css";
+
+NProgress.configure({
+  showSpinner: false,
+  speed: 250,
+  minimum: 0.1,
+  trickleSpeed: 750,
+});
 
 const Font = Inter({ subsets: ["latin"], display: "auto" });
 
@@ -12,6 +22,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
   const [mount, setMount] = useState<boolean>(false);
   const [theme, setTheme] = useState<string>(
     typeof window !== "undefined" &&
@@ -28,6 +39,13 @@ export default function RootLayout({
     setTheme(mediaQuery?.matches ? "dark" : "light");
     setMount(true);
   }, []);
+  useEffect(() => {
+    NProgress.start();
+    const timer = setTimeout(() => {
+      NProgress.done();
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [pathname]);
   const styles = {
     toast: {
       backgroundColor: "white",
@@ -44,7 +62,7 @@ export default function RootLayout({
   };
   const isDarkMode = theme === "dark" ? true : false;
   return (
-    <html className="!relative !overflow-y-scroll !overflow-x-hidden !p-0 !m-0 dark:bg-dark bg-light text-black dark:text-white">
+    <html className="!relative !p-0 !m-0 dark:bg-dark bg-light text-black dark:text-white">
       <head>
         <title>Tumblr Yönlendirme</title>
         <meta charSet="utf-8" />
@@ -61,7 +79,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/icons/favicon.ico" />
       </head>
       <body
-        className={`${Font.className} relative overflow-hidden dark:bg-dark bg-light text-black dark:text-white`}
+        className={`${Font.className} !relative dark:bg-dark bg-light text-black dark:text-white`}
       >
         {mount && (
           <>

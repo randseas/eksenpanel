@@ -4,13 +4,18 @@ import { useRouter } from "next/navigation";
 import Navbar from "./navbar";
 import {
   Calendar,
+  CheckCircle,
+  Clock,
   Code,
   ExternalLink,
+  Globe,
   Link,
   Package,
   ShieldCheck,
   SquareArrowOutUpRight,
+  SquarePen,
   TicketCheck,
+  Trash2,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
@@ -113,7 +118,7 @@ const packages = [
 export default function Dashboard() {
   const router = useRouter();
   return (
-    <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
+    <main className="!relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
       <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
         <DashboardHeader page="Ana sayfa" />
@@ -186,9 +191,7 @@ export default function Dashboard() {
           ))}
         </div>
         <div className="flex flex-row items-center justify-between w-full">
-          <h1 className="text-lg font-[450] text-zinc-200">
-            Son Eklenen Yönlendirmeler
-          </h1>
+          <h1 className="text-lg font-[450] text-zinc-200">Yönlendirmeler</h1>
           <h2
             onClick={() => router.push("/dashboard/redirects")}
             className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
@@ -196,10 +199,32 @@ export default function Dashboard() {
             Tümünü gör {"->"}
           </h2>
         </div>
-        <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#333333] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+        <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
           <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
             <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
               <tr>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <Globe
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Ana URL</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <SquareArrowOutUpRight
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Hedef URL</span>
+                  </div>
+                </th>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
                     <Calendar
@@ -213,115 +238,59 @@ export default function Dashboard() {
                 </th>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
-                    <Link
+                    <Clock
                       className="text-blue-500"
                       height={17}
                       width={17}
                       stroke="currentColor"
                     />
-                    <span className="mt-px">Link URL</span>
+                    <span className="mt-px">Son Kontrol</span>
                   </div>
                 </th>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
-                    <SquareArrowOutUpRight
+                    <CheckCircle
                       className="text-blue-500"
                       height={17}
                       width={17}
                       stroke="currentColor"
                     />
-                    <span className="mt-px">Yönlendirilecek URL</span>
-                  </div>
-                </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <Code
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">JS URL</span>
+                    <span className="mt-px">Durum</span>
                   </div>
                 </th>
               </tr>
             </thead>
             <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
               <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
                   <a target="blank" href="http://localhost">
                     http://localhost
                   </a>
                 </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
                   <a target="blank" href="https://bionluk.com/">
                     https://bionluk.com/
                   </a>
                 </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
+                <td className="text-[15px] px-3 py-4">14/02/2025 00:01</td>
+                <td className="text-[15px] px-3 py-4">1dk önce</td>
+                <td className="text-[15px] px-3 py-4">
+                  {true ? (
+                    <a className="bg-green-500/20 dark:text-green-200 text-green-800 rounded-full px-3 py-1.5">
+                      Aktif
+                    </a>
+                  ) : (
+                    <a className="bg-red-500/20 dark:text-red-200 text-red-800 rounded-full px-3 py-1.5">
+                      Pasif
+                    </a>
+                  )}
                 </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
-                    Düzenle
+                <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
+                  <a className="transition-all ease-linear duration-100 rounded-xl px-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
+                    <SquarePen stroke="currentColor" width={22} height={22} />
                   </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
-                  </a>
-                </td>
-              </tr>
-              <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost">
-                    http://localhost
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="https://bionluk.com/">
-                    https://bionluk.com/
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
-                </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
-                    Düzenle
-                  </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
-                  </a>
-                </td>
-              </tr>
-              <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost">
-                    http://localhost
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="https://bionluk.com/">
-                    https://bionluk.com/
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
-                </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
-                    Düzenle
-                  </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
+                  <a className="transition-all ease-linear duration-100 rounded-xl px-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer">
+                    <Trash2 stroke="currentColor" width={22} height={22} />
                   </a>
                 </td>
               </tr>

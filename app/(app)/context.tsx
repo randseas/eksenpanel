@@ -1,23 +1,16 @@
 "use client";
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
-import { User, SpotMarket, FuturesMarket, Wallet, Network } from "@/types";
+import { User } from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-import { t as translate } from "@/i18n/i18n";
-import instance from "@/app/instance";
 import { useRouter } from "next/navigation";
 import dotenv from "dotenv";
 dotenv.config();
 
 export interface State {
   userData: User;
-  spotMarkets: SpotMarket[];
-  futuresMarkets: FuturesMarket[];
-  networks: Network[];
   loading: boolean;
-  route: string;
-  showBalances: boolean | null;
 }
 interface AppContextType {
   state: State;
@@ -25,22 +18,14 @@ interface AppContextType {
 }
 const emptyUser: User = {
   userId: "",
-  username: "",
-  permission: "user",
   email: "",
-  password: "",
+  token: "",
+  permission: "user",
   created: "",
-  wallets: [],
-  sessions: [],
 };
 const initialState: State = {
   userData: emptyUser,
-  spotMarkets: [],
-  futuresMarkets: [],
-  networks: [],
   loading: true,
-  route: "-",
-  showBalances: null,
 };
 export const AppContext = createContext<AppContextType>({
   state: initialState,
@@ -53,57 +38,7 @@ export default function ProvideContext({
 }) {
   const router = useRouter();
   const [state, setState] = useState<State>(initialState);
-  const handleWalletSetup = useCallback(
-    async (wallets: Wallet[], spotMarkets: SpotMarket[]) => {
-      return Promise.all(
-        wallets.map(async (wallet, index) => {
-          const updatedBalances = await Promise.all(
-            wallet.balances.map(async (balance) => {
-              const market = spotMarkets.find(
-                (spotMarket: SpotMarket) => spotMarket.id === balance.id
-              );
-              const usdValue =
-                parseFloat(market?.price || "0") *
-                parseFloat(balance.balance || "0");
-              return {
-                ...balance,
-                valueInUSD: usdValue,
-              };
-            })
-          );
-          const totalBalanceInUSD = updatedBalances.reduce(
-            (sum, balance) => sum + balance.valueInUSD,
-            0
-          );
-          return {
-            ...wallet,
-            balances: updatedBalances,
-            totalBalanceInUSD,
-            name: wallet.name || `${translate("wallet.wallet")} ${index + 1}`,
-          };
-        })
-      );
-    },
-    []
-  );
   useEffect(() => {
-    const initializeData = async () => {
-      try {
-        await instance.post("mempools").then((res: any) => {
-          if (res.data.status === "ok") {
-            setState((prev) => ({
-              ...prev,
-              ...res.data,
-              loading: false,
-            }));
-            setLocalKey("state-data", "");
-          }
-        });
-      } catch (err) {
-        toast.error("Sync failed");
-        console.error(err);
-      }
-    };
     const userToken = getLocalKey("session-token");
     const socket = io(
       process.env.NODE_ENV === "production"
@@ -114,16 +49,9 @@ export default function ProvideContext({
     const handleLiveData = async (data: any) => {
       try {
         if (data.userData) {
-          const updatedWallets = await handleWalletSetup(
-            data.userData.wallets,
-            data.spotMarkets
-          );
           const updatedData = {
             ...data,
-            userData: {
-              ...data.userData,
-              wallets: updatedWallets,
-            },
+            userData: data.userData,
             loading: false,
           };
           setState((prev) => ({
@@ -150,7 +78,7 @@ export default function ProvideContext({
       socket.disconnect();
       console.log("Socket disconnected");
     };
-  }, [handleWalletSetup]);
+  }, []);
   return (
     <AppContext.Provider value={{ state, setState }}>
       {children}
