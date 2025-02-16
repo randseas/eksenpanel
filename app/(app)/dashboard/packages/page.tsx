@@ -7,7 +7,7 @@ import { Calendar, Code, Link, SquareArrowOutUpRight } from "lucide-react";
 export default function Packages() {
   const router = useRouter();
   return (
-    <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
+    <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
       <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
         <div className="flex flex-row items-center justify-between w-full">
@@ -20,145 +20,147 @@ export default function Packages() {
           </h2>
         </div>
         <div className="flex shadow-inner neon-box shadow-zinc-900/10 flex-col bg-light/20 dark:bg-[#333333] border dark:border-zinc-600 border-light-border rounded-2xl w-full h-full">
-          <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
-            <thead className="border-b inset-0 dark:border-zinc-600 border-light-border/80 rounded-t-2xl w-full">
-              <tr>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <Calendar
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">Eklenme Tarihi</span>
-                  </div>
-                </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <Link
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">Link URL</span>
-                  </div>
-                </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <SquareArrowOutUpRight
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">Yönlendirilecek URL</span>
-                  </div>
-                </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <Code
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">JS URL</span>
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y dark:divide-zinc-600 divide-light-border/80">
-              <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost">
-                    http://localhost
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="https://bionluk.com/">
-                    https://bionluk.com/
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
-                </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a
-                    onClick={() => router.push("/dashboard/editRedirect")}
-                    className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                  >
-                    Düzenle
-                  </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
-                  </a>
-                </td>
-              </tr>
-              <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost">
-                    http://localhost
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="https://bionluk.com/">
-                    https://bionluk.com/
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
-                </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a
-                    onClick={() => router.push("/dashboard/editRedirect")}
-                    className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                  >
-                    Düzenle
-                  </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
-                  </a>
-                </td>
-              </tr>
-              <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
-                <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost">
-                    http://localhost
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="https://bionluk.com/">
-                    https://bionluk.com/
-                  </a>
-                </td>
-                <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
-                  <a target="blank" href="http://localhost/js/as324uy.js">
-                    http://localhost/js/as324uy.js
-                  </a>
-                </td>
-                <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
-                  <a
-                    onClick={() => router.push("/dashboard/editRedirect")}
-                    className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                  >
-                    Düzenle
-                  </a>
-                  <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                    Sil
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <div className="w-full overflow-x-auto">
+            <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+              <thead className="border-b inset-0 dark:border-zinc-600 border-light-border/80 rounded-t-2xl w-full">
+                <tr>
+                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <div className="inline-flex items-center space-x-1.5">
+                      <Calendar
+                        className="text-blue-500"
+                        height={17}
+                        width={17}
+                        stroke="currentColor"
+                      />
+                      <span className="mt-px">Eklenme Tarihi</span>
+                    </div>
+                  </th>
+                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <div className="inline-flex items-center space-x-1.5">
+                      <Link
+                        className="text-blue-500"
+                        height={17}
+                        width={17}
+                        stroke="currentColor"
+                      />
+                      <span className="mt-px">Link URL</span>
+                    </div>
+                  </th>
+                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <div className="inline-flex items-center space-x-1.5">
+                      <SquareArrowOutUpRight
+                        className="text-blue-500"
+                        height={17}
+                        width={17}
+                        stroke="currentColor"
+                      />
+                      <span className="mt-px">Yönlendirilecek URL</span>
+                    </div>
+                  </th>
+                  <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                    <div className="inline-flex items-center space-x-1.5">
+                      <Code
+                        className="text-blue-500"
+                        height={17}
+                        width={17}
+                        stroke="currentColor"
+                      />
+                      <span className="mt-px">JS URL</span>
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y dark:divide-zinc-600 divide-light-border/80">
+                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
+                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost">
+                      http://localhost
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="https://bionluk.com/">
+                      https://bionluk.com/
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost/js/as324uy.js">
+                      http://localhost/js/as324uy.js
+                    </a>
+                  </td>
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a
+                      onClick={() => router.push("/dashboard/editRedirect")}
+                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                    >
+                      Düzenle
+                    </a>
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
+                    </a>
+                  </td>
+                </tr>
+                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
+                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost">
+                      http://localhost
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="https://bionluk.com/">
+                      https://bionluk.com/
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost/js/as324uy.js">
+                      http://localhost/js/as324uy.js
+                    </a>
+                  </td>
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a
+                      onClick={() => router.push("/dashboard/editRedirect")}
+                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                    >
+                      Düzenle
+                    </a>
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
+                    </a>
+                  </td>
+                </tr>
+                <tr className="transition-all hover:bg-zinc-900/20 ease-linear duration-100">
+                  <td className="text-[15px] px-3 py-4">14 Şubat 2025 00:01</td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost">
+                      http://localhost
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="https://bionluk.com/">
+                      https://bionluk.com/
+                    </a>
+                  </td>
+                  <td className="text-[15px] hover:underline hover:cursor-pointer px-3 py-4">
+                    <a target="blank" href="http://localhost/js/as324uy.js">
+                      http://localhost/js/as324uy.js
+                    </a>
+                  </td>
+                  <td className="text-[15px] space-x-1.5 text-end px-3 py-4">
+                    <a
+                      onClick={() => router.push("/dashboard/editRedirect")}
+                      className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                    >
+                      Düzenle
+                    </a>
+                    <a className="py-2 transition-all ease-linear duration-100 rounded-xl px-3 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                      Sil
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>

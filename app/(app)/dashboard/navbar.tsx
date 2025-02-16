@@ -1,18 +1,11 @@
 "use client";
 import {
-  House,
-  Link,
   LogOut,
   Plus,
   Settings,
-  Menu,
-  X,
-  Store,
-  User,
   LayoutDashboard,
   Package,
   ExternalLink,
-  Bell,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -22,27 +15,24 @@ import { cn } from "@/lib/utils";
 export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
-  const [isMobile, setIsMobile] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [mount, setMount] = useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem("sidebarCollapse") === "true";
+    }
+    return false;
+  });
+  useEffect(() => {
+    localStorage.setItem("sidebarCollapse", isDrawerOpen.toString());
+  }, [isDrawerOpen]);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
   useEffect(() => {
     if (typeof window !== "undefined") {
       const checkMobile = () => setIsMobile(window.innerWidth <= 768);
       checkMobile();
-      const sidebarCollapse =
-        window.localStorage.getItem("sidebarCollapse") === "true"
-          ? true
-          : false;
-      setTimeout(() => setIsDrawerOpen(sidebarCollapse), 1);
-      setTimeout(() => setMount(true), 1);
       window.addEventListener("resize", checkMobile);
       return () => window.removeEventListener("resize", checkMobile);
     }
-  }, [pathname]);
-  useEffect(() => {
-    mount &&
-      window.localStorage.setItem("sidebarCollapse", isDrawerOpen.toString());
-  }, [isDrawerOpen]);
+  }, []);
   const menuItems = [
     { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
     {

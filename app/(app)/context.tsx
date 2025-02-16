@@ -108,7 +108,7 @@ export default function ProvideContext({
     const socket = io(
       process.env.NODE_ENV === "production"
         ? "https://waultdex-server.onrender.com"
-        : "http://localhost:9443"
+        : "http://localhost:3000"
     );
     socket.emit("chat message", `user::${userToken}`);
     const handleLiveData = async (data: any) => {

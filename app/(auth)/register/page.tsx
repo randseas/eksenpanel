@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Header from "@/components/common/header";
 import { CircularProgress } from "@mui/material";
@@ -12,8 +12,6 @@ export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirm, setShowPasswordConfirm] = useState(false);
   useEffect(() => {
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
@@ -29,10 +27,11 @@ export default function Register() {
       .post("register", {
         email: email,
         password: password,
+        passwordConfirm: passwordConfirm,
       })
       .then((res: any) => {
         console.log(res.data);
-        if (res.data.message === "login_success") {
+        if (res.data.status === "ok") {
           if (typeof window.localStorage !== "undefined") {
             setLoading(false);
             localStorage.setItem("user-token", res.data.token);
@@ -45,19 +44,25 @@ export default function Register() {
         } else if (res.data.message === "user_not_found") {
           setLoading(false);
           toast.error("Hesap bulunamadı");
+        } else if (res.data.message === "password_err") {
+          toast.error("Şifreler uyuşmuyor");
+          setLoading(false);
+        } else {
+          toast.error(res.data.message);
+          setLoading(false);
         }
       })
       .catch((err: any) => {
-        setLoading(false);
         console.log(err);
         toast.error("Sunucu hatası");
+        setLoading(false);
       });
   }, []);
   return (
     <>
-      <main className="flex-1 flex-col dark:bg-dark dark:text-light text-dark bg-light min-h-[70vh] h-full">
+      <main className="flex-1 flex-col dark:bg-dark dark:text-light text-dark bg-light min-h-[100vh] h-full">
         <Header />
-        <section className="flex px-4 w-full lg:px-[96px] flex-col pt-[50px] lg:pt-[60px] min-h-[90vh] items-center justify-center">
+        <section className="flex px-4 w-full lg:px-[96px] flex-col pt-[50px] lg:pt-[60px] min-h-[100vh] h-full items-center justify-center">
           <div className="flex flex-col text-center items-center justify-between space-y-2">
             <div className="text-start mb-1 items-start justify-center flex flex-col w-full">
               <h3 className="font-[550] tracking-[-0.015em] text-[26px] mb-0.5">
@@ -78,10 +83,10 @@ export default function Register() {
                 <input
                   id="email"
                   value={email}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setEmail(e.currentTarget.value)
+                  onChange={(e: any) =>
+                    setEmail(e.target.value)
                   }
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-dark-border"
+                  className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
                   placeholder="holder@example.com"
                 />
               </div>
@@ -97,60 +102,14 @@ export default function Register() {
                 <input
                   id="password"
                   value={password}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.currentTarget.value)
+                  onChange={(e: any) =>
+                    setPassword(e.target.value)
                   }
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-dark-border"
+                  type="password"
+                  className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
                   placeholder="Şifre girin"
                 />
               </div>
-              <button
-                type="button"
-                className={`${
-                  password.length > 0 ? "opacity-100" : "opacity-0"
-                } absolute outline-none right-4 top-[50%] transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all ease-linear duration-100`}
-                onClick={() => setShowPassword(!showPassword)}
-                disabled={loading}
-              >
-                <div className="relative w-5 h-5 outline-none transition-all ease-linear duration-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`absolute inset-0 ${
-                      showPassword ? "opacity-100" : "opacity-0"
-                    } transition-all ease-linear duration-75`}
-                  >
-                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
-                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-                    <path d="m2 2 20 20" />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`absolute inset-0 ${
-                      showPassword ? "opacity-0" : "opacity-100"
-                    } transition-all ease-linear duration-75`}
-                  >
-                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </div>
-              </button>
             </div>
             <div className="w-full lg:max-w-[350px]">
               <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
@@ -163,60 +122,14 @@ export default function Register() {
                 <input
                   id="passwordConfirm"
                   value={passwordConfirm}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    setPasswordConfirm(e.currentTarget.value)
+                  onChange={(e: any) =>
+                    setPasswordConfirm(e.target.value)
                   }
-                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-dark-border"
-                  placeholder="Şifre onaylayın"
+                  type="password"
+                  className="px-3.5 shadow-md relative focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-3 dark:bg-dark/30 border dark:border-zinc-800"
+                  placeholder="Şifre tekrar girin"
                 />
               </div>
-              <button
-                type="button"
-                className={`${
-                  password.length > 0 ? "opacity-100" : "opacity-0"
-                } absolute outline-none right-4 top-[50%] transform -translate-y-1/2 text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 transition-all ease-linear duration-100`}
-                onClick={() => setShowPasswordConfirm(!showPasswordConfirm)}
-                disabled={loading}
-              >
-                <div className="relative w-5 h-5 outline-none transition-all ease-linear duration-100">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`absolute inset-0 ${
-                      showPassword ? "opacity-100" : "opacity-0"
-                    } transition-all ease-linear duration-75`}
-                  >
-                    <path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49" />
-                    <path d="M14.084 14.158a3 3 0 0 1-4.242-4.242" />
-                    <path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143" />
-                    <path d="m2 2 20 20" />
-                  </svg>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`absolute inset-0 ${
-                      showPassword ? "opacity-0" : "opacity-100"
-                    } transition-all ease-linear duration-75`}
-                  >
-                    <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0" />
-                    <circle cx="12" cy="12" r="3" />
-                  </svg>
-                </div>
-              </button>
             </div>
             <div className="block w-full space-y-2.5 pt-0.5">
               <button

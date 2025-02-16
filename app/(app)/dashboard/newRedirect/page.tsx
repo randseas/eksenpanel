@@ -9,17 +9,17 @@ export default function NewLink() {
   const router = useRouter();
   const [checked, setChecked] = useState<boolean>(true);
   return (
-    <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
+    <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
-      <div className="flex flex-col min-h-[100vh] items-start px-5 py-4 w-full h-full">
+      <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
         <DashboardHeader page="Yönlendirme Ekle" />
-        <div className="border mx-auto neon-box mt-12 max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
+        <div className="border mx-auto neon-box mt-4 md:mt-12 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
           <h1 className="text-lg font-medium">Yeni Yönlendirme Ekle</h1>
           <span className="dark:text-zinc-200 text-base font-[450]">
             Yeni bir yönlendirme ekleyin.
           </span>
           <div className="w-full flex flex-col mt-3.5 items-center justify-center">
-            <div className="flex flex-row gap-3.5 items-center justify-between w-full">
+            <div className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full">
               <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
                 <label
                   htmlFor="link"

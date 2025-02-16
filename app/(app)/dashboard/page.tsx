@@ -113,7 +113,7 @@ const packages = [
 export default function Dashboard() {
   const router = useRouter();
   return (
-    <main className="relative top-[55px] md:top-0 flex flex-row h-full w-full overflow-x-hidden">
+    <main className="relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-x-hidden">
       <Navbar />
       <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
         <DashboardHeader page="Ana sayfa" />
