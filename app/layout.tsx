@@ -61,7 +61,7 @@ export default function RootLayout({
         <link rel="icon" type="image/png" href="/icons/favicon.ico" />
       </head>
       <body
-        className={`${Font.className} pt-[60px] overflow-hidden dark:bg-dark bg-light text-black dark:text-white`}
+        className={`${Font.className} overflow-hidden dark:bg-dark bg-light text-black dark:text-white`}
       >
         {mount && (
           <>

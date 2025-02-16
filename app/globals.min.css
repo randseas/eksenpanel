@@ -37,3 +37,42 @@ html {
   padding-right: 0 !important;
   padding-left: 0 !important;
 }
+@keyframes rainbow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.animated-text {
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: rainbow 5s infinite linear;
+}
+.bronze-text {
+  background-image: linear-gradient(90deg, #cd7f32, #b87333, #8c6239);
+}
+.silver-text {
+  background-image: linear-gradient(90deg, #c0c0c0, #a9a9a9, #808080);
+}
+.gold-text {
+  background-image: linear-gradient(90deg, #ffd700, #ddb101, #d4af37);
+}
+.premium-text {
+  background-image: linear-gradient(90deg, #ff00ff, #800080, #4b0082);
+}
+.random-text {
+  background-image: linear-gradient(
+    90deg,
+    #ff0000,
+    #00ff00,
+    #0000ff,
+    #ff00ff,
+    #00ffff
+  );
+}
