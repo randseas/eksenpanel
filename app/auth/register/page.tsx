@@ -24,7 +24,8 @@ export default function Register() {
       }
     }
   }, []);
-  function handleRegister() {
+  function handleRegister(e: any) {
+    e.preventDefault();
     setLoading(true);
     instance
       .post("register", {
@@ -66,7 +67,7 @@ export default function Register() {
       <div className="logo">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
       <div id="registerForm" className="form-container">
         <h2>Kayıt Ol</h2>
-        <form id="registerFormContent" onSubmit={handleRegister}>
+        <form onSubmit={handleRegister}>
           <div className="input-group">
             <label htmlFor="regEmail">E-posta</label>
             <input

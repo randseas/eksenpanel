@@ -160,6 +160,13 @@ export default function Navbar() {
             </div>
           </div>
           {renderMenu("mobile")}
+          <div
+            onClick={() => router.push("/auth/logout")}
+            className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
+          >
+            <LogOut width={20} height={20} stroke="currentColor" />
+            <span className="text-[15px]">Çıkış yap</span>
+          </div>
         </div>
       </>
     );
@@ -206,7 +213,7 @@ export default function Navbar() {
         </div>
         {renderMenu()}
         <div
-          onClick={() => router.push("/logout")}
+          onClick={() => router.push("/auth/logout")}
           className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
         >
           <LogOut
