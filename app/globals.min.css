@@ -93,3 +93,302 @@ html {
   box-shadow: 0 0 10px #9400d330, 0 0 15px #ff00ff30, 0 0 20px #4f04e030,
     0 0 25px #ff00ff30;
 }
+/* auth */
+.logo {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: bold;
+  color: #ff8aff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, #ff3b62, #8e24ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: neonLogo 1.5s infinite alternate;
+  font-family: "Poppins", sans-serif;
+}
+@keyframes neonLogo {
+  0% {
+    color: #ff8aff;
+    text-shadow: 0 0 5px #ff8aff, 0 0 10px #ff8aff, 0 0 20px #ff8aff;
+  }
+  100% {
+    color: #8e24ff;
+    text-shadow: 0 0 5px #8e24ff, 0 0 10px #8e24ff, 0 0 20px #8e24ff;
+  }
+}
+.form-container {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+  box-shadow: 0 4px 30px rgba(0, 255, 0, 0.7);
+  padding: 40px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+  z-index: 2;
+  backdrop-filter: blur(12px);
+  background: linear-gradient(135deg, #040404, #333);
+  opacity: 0;
+  animation: fadeIn 1s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.form-container h2 {
+  text-align: center;
+  color: #00ff00;
+  margin-bottom: 30px;
+  font-size: 32px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+.input-group {
+  margin-bottom: 20px;
+}
+.input-group label {
+  font-size: 14px;
+  color: #bbb;
+  margin-bottom: 5px;
+  display: block;
+}
+.input-group input {
+  width: 100%;
+  padding: 15px;
+  font-size: 16px;
+  border: 2px solid #00ff00;
+  border-radius: 10px;
+  outline: none;
+  background: transparent;
+  color: #fff;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.input-group input:focus {
+  border-color: #00ff00;
+  box-shadow: 0 0 15px #00ff00;
+}
+.btn-login,
+.btn-register {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(145deg, #ff4d4d, #ff1a1a);
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 4px 4px 15px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+}
+.btn-login:hover,
+.btn-register:hover {
+  background: linear-gradient(145deg, #ff1a1a, #ff4d4d);
+  box-shadow: 8px 8px 20px rgba(0, 255, 0, 0.2);
+  transform: translateY(-5px);
+}
+.btn-login:active,
+.btn-register:active {
+  transform: translateY(0);
+  box-shadow: 4px 4px 10px rgba(0, 255, 0, 0.2);
+}
+.loginForm {
+  background-color: #1e1e1e;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 600px;
+  padding: 40px;
+  margin-top: 20px;
+  color: #a3ff6d;
+  text-align: center;
+  box-shadow: 0 4px 30px rgba(0, 255, 0, 0.2);
+  animation: fadeInForum 1.5s ease-in-out forwards;
+}
+@keyframes fadeInForum {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.loginForm h3 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  animation: neonText 1.5s ease-in-out infinite alternate;
+}
+@keyframes neonText {
+  0% {
+    color: #ff8aff;
+    text-shadow: 0 0 5px #ff8aff, 0 0 10px #ff8aff, 0 0 20px #ff8aff;
+  }
+  100% {
+    color: #8e24ff;
+    text-shadow: 0 0 5px #8e24ff, 0 0 10px #8e24ff, 0 0 20px #8e24ff;
+  }
+}
+.loginForm p {
+  margin-bottom: 20px;
+  font-size: 16px;
+}
+.loginForm .action-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(145deg, #3b5bdb, #2e45b4);
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 50px;
+  box-shadow: 4px 4px 15px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  margin-top: 10px;
+}
+.loginForm .action-btn:hover {
+  background: linear-gradient(145deg, #2e45b4, #3b5bdb);
+  box-shadow: 8px 8px 20px rgba(0, 255, 0, 0.2);
+  transform: translateY(-5px);
+}
+.loginForm .action-btn.secondary {
+  background: linear-gradient(145deg, #ff7b00, #d85c00);
+}
+.loginForm .action-btn.secondary:hover {
+  background: linear-gradient(145deg, #d85c00, #ff7b00);
+}
+.smoke {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+.smoke div {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  opacity: 0;
+  animation: smokeAnimation 4s infinite;
+  filter: blur(10px);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+@keyframes smokeAnimation {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.3;
+    background-color: rgba(255, 0, 0, 0.4);
+  }
+  25% {
+    transform: translate(150px, 100px);
+    opacity: 0.5;
+    background-color: rgba(0, 255, 0, 0.4);
+  }
+  50% {
+    transform: translate(300px, -50px);
+    opacity: 0.3;
+    background-color: rgba(0, 0, 255, 0.4);
+  }
+  75% {
+    transform: translate(500px, 150px);
+    opacity: 0.4;
+    background-color: rgba(255, 255, 0, 0.4);
+  }
+  100% {
+    transform: translate(600px, 200px);
+    opacity: 0;
+    background-color: rgba(255, 0, 255, 0.4);
+  }
+}
+.mini-back-btn {
+  padding: 8px 16px;
+  font-size: 14px;
+  background: #ff5c8d;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 4px 4px 10px rgba(0, 255, 0, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  margin-top: 15px;
+}
+.mini-back-btn:hover {
+  background: #ff3b62;
+  box-shadow: 8px 8px 20px rgba(0, 255, 0, 0.2);
+  transform: translateY(-5px);
+}
+.mini-back-btn:active {
+  transform: translateY(0);
+  box-shadow: 4px 4px 10px rgba(0, 255, 0, 0.2);
+}
+.notification {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 16px;
+  display: none;
+  box-shadow: 0 4px 10px rgba(0, 255, 0, 0.5);
+  z-index: 1000;
+}
+.forgot-password {
+  text-align: center;
+  margin-top: 10px;
+}
+.forgot-password a {
+  text-decoration: none;
+  color: #ff8aff;
+  font-size: 12px;
+}
+.forgot-password a:hover {
+  color: #8e24ff;
+}
+.anchor {
+  position: fixed;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+.whatsapp-btn {
+  bottom: 20px;
+  left: 20px;
+  background-color: #25d366;
+}
+.whatsapp-btn i {
+  color: white;
+  font-size: 24px;
+}
+.telegram-btn {
+  bottom: 20px;
+  right: 20px;
+  background-color: #0088cc;
+}
+.telegram-btn i {
+  color: white;
+  font-size: 24px;
+}
