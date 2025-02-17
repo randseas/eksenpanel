@@ -32,9 +32,9 @@ const packages = [
     name: "Bronz Paket",
     accounts: "35 Hesap",
     color: {
-      from: "#cd7f3280",
-      via: "#b8733380",
-      to: "#8c623980",
+      from: "#cd7f3260",
+      via: "#b8733360",
+      to: "#8c623960",
     },
     backgroundImage: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23cd7f32" fill-opacity="0.3" d="M0,160L80,144C160,128,320,96,480,117.3C640,139,800,213,960,224C1120,235,1280,181,1360,154.7L1440,128V320H0Z"></path></svg>`,
     details: [
@@ -51,9 +51,9 @@ const packages = [
     name: "Silver Paket",
     accounts: "45 Hesap",
     color: {
-      from: "#c0c0c080",
-      via: "#a8a8a880",
-      to: "#80808080",
+      from: "#c0c0c060",
+      via: "#a8a8a860",
+      to: "#80808060",
     },
     details: [
       "İyi Blog Hesapları",
@@ -69,9 +69,9 @@ const packages = [
     name: "Gold Paket",
     accounts: "65 Hesap",
     color: {
-      from: "#ffd70080",
-      via: "#ffb70080",
-      to: "#d4af3780",
+      from: "#ffd70060",
+      via: "#ffb70060",
+      to: "#d4af3760",
     },
     details: [
       "Yüksek Blog Hesapları",
@@ -87,9 +87,9 @@ const packages = [
     name: "Premium Paket",
     accounts: "150 Hesap",
     color: {
-      from: "#ff149380",
-      via: "#c7158580",
-      to: "#80008080",
+      from: "#ff149360",
+      via: "#c7158560",
+      to: "#80008060",
     },
     details: [
       "Yüksek Blog Hesapları",
@@ -105,9 +105,9 @@ const packages = [
     name: "Random Paket",
     accounts: "200 Hesap",
     color: {
-      from: "#ff80b580",
-      via: "#d36ee880",
-      to: "#a855f780",
+      from: "#ff80b560",
+      via: "#d36ee860",
+      to: "#a855f760",
     },
     details: [
       "Boş Rastgele Hesaplar",
@@ -151,7 +151,7 @@ export default function Dashboard() {
       <Navbar />
       <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
         <DashboardHeader page={`Ana sayfa`} />
-        <div className="w-full gap-3 grid grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
+        <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
           {[
             {
               title: "Toplam Yönlendirme",
@@ -246,7 +246,7 @@ export default function Dashboard() {
         {state.userRedirects?.length > 0 && (
           <>
             <div className="flex flex-row items-center justify-between w-full">
-              <h1 className="text-lg font-[450] text-zinc-200">
+              <h1 className="text-lg font-[450] text-zinc-800 dark:text-zinc-200">
                 Yönlendirmeler
               </h1>
               <h2
@@ -333,7 +333,7 @@ export default function Dashboard() {
                     (redirect: Redirect, index: number) => (
                       <tr
                         key={index}
-                        className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
+                        className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
                       >
                         <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
                           <a target="blank" href={redirect.mainUrl}>
@@ -413,7 +413,7 @@ export default function Dashboard() {
           id="packages"
           className="flex flex-col items-start justify-start w-full h-full"
         >
-          <h1 className="text-lg font-[450] text-zinc-200 mb-2.5">
+          <h1 className="text-lg font-[450] text-zinc-800 dark:text-zinc-200 mb-2.5">
             Paket Satın Al
           </h1>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5 w-full">
@@ -449,10 +449,10 @@ export default function Dashboard() {
                   {pkg.name}
                 </h2>
                 <p className="text-[25px] z-50 font-[550] mt-2">{pkg.price}</p>
-                <p className="font-[450] z-50 text-[18px] text-zinc-100">
+                <p className="font-[450] z-50 text-[18px] text-zinc-800 dark:text-zinc-100">
                   {pkg.accounts}
                 </p>
-                <p className="text-base z-50 text-zinc-100 mt-1.5 mb-[64px]">
+                <p className="text-base z-50 text-zinc-800 dark:text-zinc-100 mt-1.5 mb-[64px]">
                   {pkg.details?.map((detail: string) => (
                     <>
                       <span className="dot">•</span>&nbsp;

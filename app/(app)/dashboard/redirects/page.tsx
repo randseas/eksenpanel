@@ -48,7 +48,7 @@ export default function Links() {
       <Navbar />
       <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
         <div className="flex flex-row items-center justify-between w-full">
-          <h1 className="text-lg font-[450] text-zinc-200">Yönlendirmeler</h1>
+          <h1 className="text-lg font-[450] text-zinc-800 dark:text-zinc-200">Yönlendirmeler</h1>
           <h2
             onClick={() => router.push("/dashboard/newRedirect")}
             className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"

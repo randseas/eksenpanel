@@ -17,3 +17,7 @@ export interface Redirect {
   lastCheckDate: string;
   creationDate: string;
 }
+export interface TelegramBotDetails {
+  key: string;
+  groupId: string;
+}

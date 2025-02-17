@@ -67,7 +67,7 @@ export default function Navbar() {
               before:bg-gradient-to-tr before:from-[#cb0af2] before:via-[#b205dd] before:to-[#5209d5]
               before:bg-[length:200%_200%] before:animate-rgb before:rounded-full before:z-[-1] 
               hover:text-white hover:before:opacity-100 transition-all duration-100 ease-linear`
-              : "dark:hover:bg-zinc-900/30 dark:active:bg-zinc-900/50 font-[450] dark:text-zinc-200 dark:hover:text-zinc-100 text-zinc-800 hover:text-zinc-950"
+              : "dark:hover:bg-zinc-900/30 hover:bg-zinc-200/50 dark:active:bg-zinc-900/50 font-[450] dark:text-zinc-200 dark:hover:text-zinc-100 text-zinc-800 hover:text-zinc-950"
           )}
         >
           <Icon
@@ -191,7 +191,7 @@ export default function Navbar() {
           )}
           <div
             onClick={() => setIsDrawerOpen(!isDrawerOpen)}
-            className="dark:text-zinc-100 mx-auto px-2.5 py-2 hover:bg-zinc-900/50 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+            className="dark:text-zinc-100 text-zinc-800 mx-auto px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-900/50 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
           >
             <svg
               width="24"
