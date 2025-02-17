@@ -6,13 +6,13 @@ import {
   Globe,
   Hash,
   CheckCircle,
-  User,
+  User as UserSvg,
   Mail,
   Wrench,
 } from "lucide-react";
 import { timeAgo } from "@/lib/date";
 import { AppContext } from "../../context";
-import { Redirect } from "@/types";
+import { Redirect, User } from "@/types";
 import DashboardHeader from "@/components/common/dashboardHeader";
 
 export default function Users() {
@@ -60,7 +60,7 @@ export default function Users() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <User
+                  <UserSvg
                     className="text-blue-500"
                     height={17}
                     width={17}
@@ -83,42 +83,28 @@ export default function Users() {
             </tr>
           </thead>
           <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
-            {state.userRedirects
-              ?.slice(0, 6)
-              .map((redirect: Redirect, index: number) => (
-                <tr
-                  key={index}
-                  className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
-                >
-                  <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
-                    <a target="blank" href={redirect.mainUrl}>
-                      {redirect.mainUrl}
-                    </a>
-                  </td>
-                  <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
-                    <a target="blank" href={redirect.destinationUrl}>
-                      {redirect.destinationUrl}
-                    </a>
-                  </td>
-                  <td className="text-[15px] px-2 py-4">
-                    {timeAgo(redirect.creationDate)}
-                  </td>
-                  <td className="text-[15px] px-2 py-4">
-                    {timeAgo(redirect.lastCheckDate)}
-                  </td>
-                  <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                    {redirect.status === "active" ? (
-                      <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
-                        Başarılı
-                      </a>
-                    ) : (
-                      <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
-                        Hata
-                      </a>
-                    )}
-                  </td>
-                </tr>
-              ))}
+            {state.users.map((user: Partial<User>, index: number) => (
+              <tr
+                key={index}
+                className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
+              >
+                <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
+                  {user.userId}
+                </td>
+                <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
+                  {user.email}
+                </td>
+                <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
+                  {user.permission === "admin" ? "Yönetici" : "Kullanıcı"}
+                </td>
+                <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                  -
+                </td>
+                <td className="text-[15px] px-2 py-4">
+                  {timeAgo(user.created || "0")}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

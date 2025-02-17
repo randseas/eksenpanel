@@ -41,3 +41,10 @@ export interface TelegramBotDetails {
   key: string;
   groupId: string;
 }
+export interface Activity {
+  activityId: string;
+  userId: string;
+  type: string;
+  date: string;
+  status: string;
+}

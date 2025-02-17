@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
-import { Package, Redirect, User } from "@/types";
+import { Activity, Package, Redirect, User } from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -12,6 +12,8 @@ export interface State {
   userData: User;
   userRedirects: Redirect[];
   packages: Package[];
+  users: Partial<User>[];
+  activities: Activity[];
   loading: boolean;
 }
 interface AppContextType {
@@ -23,7 +25,7 @@ const emptyUser: User = {
   email: "",
   token: "",
   permission: "user",
-  created: "",
+  created: "0",
   purchasedPackages: [],
   telegramBot: {
     key: "",
@@ -34,6 +36,8 @@ const initialState: State = {
   userData: emptyUser,
   userRedirects: [],
   packages: [],
+  users: [],
+  activities: [],
   loading: true,
 };
 export const AppContext = createContext<AppContextType>({
@@ -45,7 +49,6 @@ export default function ProvideContext({
 }: {
   children: React.ReactNode;
 }) {
-  const router = useRouter();
   const [state, setState] = useState<State>(initialState);
   useEffect(() => {
     const userToken = getLocalKey("user-token");
@@ -63,6 +66,8 @@ export default function ProvideContext({
             userData: data.userData,
             userRedirects: data.userRedirects,
             packages: data.packages,
+            users: data?.users || [],
+            activities: data?.activities || [],
             loading: false,
           };
           setState((prev) => ({
