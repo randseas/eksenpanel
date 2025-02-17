@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
-import { Redirect, User } from "@/types";
+import { Package, Redirect, User } from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -11,6 +11,7 @@ dotenv.config();
 export interface State {
   userData: User;
   userRedirects: Redirect[];
+  packages: Package[];
   loading: boolean;
 }
 interface AppContextType {
@@ -23,10 +24,16 @@ const emptyUser: User = {
   token: "",
   permission: "user",
   created: "",
+  purchasedPackages: [],
+  telegramBot: {
+    key: "",
+    groupId: "",
+  },
 };
 const initialState: State = {
   userData: emptyUser,
   userRedirects: [],
+  packages: [],
   loading: true,
 };
 export const AppContext = createContext<AppContextType>({
@@ -55,6 +62,7 @@ export default function ProvideContext({
             ...data,
             userData: data.userData,
             userRedirects: data.userRedirects,
+            packages: data.packages,
             loading: false,
           };
           setState((prev) => ({

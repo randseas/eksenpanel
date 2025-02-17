@@ -5,7 +5,7 @@ import { Popover, Transition } from "@headlessui/react";
 
 export default function DashboardHeader({ page }: { page: string }) {
   return (
-    <div className="hidden z-[99999] md:flex sticky top-0 left-0 pb-0.5 right-0 bg-transparent dark:bg-transparent flex-row items-center w-full justify-between">
+    <div className="hidden z-[99999] md:flex top-0 left-0 pb-0.5 right-0 bg-transparent dark:bg-transparent flex-row items-center w-full justify-between">
       <h1 className="text-lg font-[450] pb-1 text-zinc-900 dark:text-zinc-200">
         {page}
       </h1>
