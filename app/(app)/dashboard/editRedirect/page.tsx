@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../navbar";
+import Navbar from "../../../../components/common/navbar";
 import Switch from "@/components/common/switch";
-import DashboardHeader from "../dashboardHeader";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
 
 export default function EditLink() {
   const router = useRouter();

@@ -6,6 +6,9 @@ import {
   LayoutDashboard,
   Package,
   ExternalLink,
+  History,
+  PackagePlus,
+  Users,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -33,21 +36,46 @@ export default function Navbar() {
       return () => window.removeEventListener("resize", checkMobile);
     }
   }, []);
-  const menuItems = [
-    { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
-    {
-      label: "Yeni Yönlendirme Ekle",
-      icon: Plus,
-      path: "/dashboard/newRedirect",
-    },
-    {
-      label: "Yönlendirmeler",
-      icon: ExternalLink,
-      path: "/dashboard/redirects",
-    },
-    { label: "Paketlerim", icon: Package, path: "/dashboard/packages" },
-    { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
-  ];
+  const menuItems =
+    pathname.split("/")[1] === "admin"
+      ? [
+          { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
+          {
+            label: "Aktivite Logları",
+            icon: History,
+            path: "/admin/activities",
+          },
+          {
+            label: "Paketler",
+            icon: Package,
+            path: "/admin/packages",
+          },
+          {
+            label: "Paket ekle",
+            icon: PackagePlus,
+            path: "/admin/newPackage",
+          },
+          {
+            label: "Kullanıcılar",
+            icon: Users,
+            path: "/admin/users",
+          },
+        ]
+      : [
+          { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
+          {
+            label: "Yeni Yönlendirme Ekle",
+            icon: Plus,
+            path: "/dashboard/newRedirect",
+          },
+          {
+            label: "Yönlendirmeler",
+            icon: ExternalLink,
+            path: "/dashboard/redirects",
+          },
+          { label: "Paketlerim", icon: Package, path: "/dashboard/packages" },
+          { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
+        ];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
     <div className="flex flex-col w-full space-y-[5px] items-center justify-start h-full">
       {menuItems.map(({ label, icon: Icon, path }) => (

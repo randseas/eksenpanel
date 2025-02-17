@@ -1,17 +1,13 @@
 "use client";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "./navbar";
 import {
   Calendar,
   CheckCircle,
   Clock,
-  Code,
   DotSquare,
-  Edit,
   ExternalLink,
   Globe,
-  Link,
   Package,
   ShieldCheck,
   SquareArrowOutUpRight,
@@ -21,7 +17,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
-import DashboardHeader from "./dashboardHeader";
+import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
 import { Redirect } from "@/types";
 import { timeAgo } from "@/lib/date";
@@ -226,9 +222,12 @@ export default function Dashboard() {
                           )
                           ?.length.toString()
                       : itemTitle === "paketlerim"
-                      ? "--"
+                      ? state.userData.purchasedPackages.length
                       : itemTitle === "hesaplarım"
-                      ? "--"
+                      ? state.userData.purchasedPackages.reduce(
+                          (sum, pkg) => sum + pkg.accounts.length,
+                          0
+                        )
                       : "--"
                     : "Yükleniyor..."}
                 </span>
@@ -337,8 +336,9 @@ export default function Dashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
-                {state.userRedirects?.map(
-                  (redirect: Redirect, index: number) => (
+                {state.userRedirects
+                  ?.slice(0, 5)
+                  .map((redirect: Redirect, index: number) => (
                     <tr
                       key={index}
                       className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
@@ -412,8 +412,7 @@ export default function Dashboard() {
                         </a>
                       </td>
                     </tr>
-                  )
-                )}
+                  ))}
               </tbody>
             </table>
           </div>

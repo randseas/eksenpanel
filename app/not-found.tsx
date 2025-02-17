@@ -8,7 +8,7 @@ export default function NotFound() {
   return (
     <>
       <Header />
-      <div className="mx-2.5 text-lg items-center text-center flex-col justify-center flex min-h-[85vh]">
+      <div className="mx-2.5 text-lg items-center text-center flex-col justify-center flex min-h-[100vh]">
         <h1 className="text-3xl font-medium">404</h1>
         <a className="font-medium">Sayfa bulunamadı</a>
         <button

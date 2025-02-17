@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../navbar";
-import DashboardHeader from "../dashboardHeader";
+import Navbar from "../../../../components/common/navbar";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
 import { Check } from "lucide-react";
 import { TelegramBotDetails } from "@/types";

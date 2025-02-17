@@ -1,68 +1,35 @@
 "use client";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
 import {
   Calendar,
-  CheckCircle,
-  Clock,
+  DollarSign,
   DotSquare,
   Globe,
-  SquareArrowOutUpRight,
-  SquarePen,
-  Trash2,
+  Hash,
+  Package as PkgIcon,
+  PackageOpen,
+  PackageSearch,
+  Users,
 } from "lucide-react";
 import { timeAgo } from "@/lib/date";
-import instance from "@/app/instance";
-import toast from "react-hot-toast";
 import { AppContext } from "../../context";
-import { Package, PurchasedPackage, Redirect } from "@/types";
+import { Package } from "@/types";
+import DashboardHeader from "@/components/common/dashboardHeader";
 
 export default function Links() {
   const router = useRouter();
   const { state } = useContext(AppContext);
-  function deleteRedirect(redirectId: string) {
-    const isConfirmed = window.confirm(
-      "Yönlendirmeyi silmek istediğinize emin misiniz?"
-    );
-    if (!isConfirmed) return;
-    instance
-      .post("deleteRedirect", {
-        token: state.userData.token,
-        redirectId,
-      })
-      .then((res) => {
-        if (res.data.status === "ok") {
-          toast.success("Yönlendirme başarıyla silindi");
-        } else {
-          toast.error("Yönlendirme silinemedi, tekrar deneyin.");
-        }
-      })
-      .catch((err: any) => {
-        console.error(err);
-        toast.error(err.message || "Bir hata oluştu!");
-      });
-  }
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
-      <div className="flex flex-row items-center justify-between w-full">
-        <h1 className="text-lg font-[450] text-zinc-800 dark:text-zinc-200">
-          Paketlerim
-        </h1>
-        <h2
-          onClick={() => router.push("/dashboard#packages")}
-          className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
-        >
-          Satın al {"->"}
-        </h2>
-      </div>
+      <DashboardHeader page="Paketler" />
       <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
         <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
-              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <Globe
+                  <Hash
                     className="text-blue-500"
                     height={17}
                     width={17}
@@ -73,7 +40,7 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <SquareArrowOutUpRight
+                  <PkgIcon
                     className="text-blue-500"
                     height={17}
                     width={17}
@@ -84,18 +51,40 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
+                  <PackageOpen
+                    className="text-blue-500"
+                    height={17}
+                    width={17}
+                    stroke="currentColor"
+                  />
+                  <span className="mt-px">Paket İçeriği</span>
+                </div>
+              </th>
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <div className="inline-flex items-center space-x-1.5">
+                  <PackageSearch
+                    className="text-blue-500"
+                    height={17}
+                    width={17}
+                    stroke="currentColor"
+                  />
+                  <span className="mt-px">Paket Açıklaması</span>
+                </div>
+              </th>
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <div className="inline-flex items-center space-x-1.5">
                   <Calendar
                     className="text-blue-500"
                     height={17}
                     width={17}
                     stroke="currentColor"
                   />
-                  <span className="mt-px">Satın Alınma Tarihi</span>
+                  <span className="mt-px">Oluşturulma Tarihi</span>
                 </div>
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <Clock
+                  <Users
                     className="text-blue-500"
                     height={17}
                     width={17}
@@ -106,13 +95,13 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <CheckCircle
+                  <DollarSign
                     className="text-blue-500"
                     height={17}
                     width={17}
                     stroke="currentColor"
                   />
-                  <span className="mt-px">Durum</span>
+                  <span className="mt-px">Fiyat (USD)</span>
                 </div>
               </th>
               <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
@@ -129,30 +118,29 @@ export default function Links() {
             </tr>
           </thead>
           <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
-            {state.userData.purchasedPackages?.map(
-              (purchasedPkg: PurchasedPackage, index: number) => {
-                const dbPackage: Package | undefined = state.packages.find(
-                  (pkg: Package) => pkg.packageId === purchasedPkg.packageId
-                );
-                return (
-                  <tr
-                    key={index}
-                    className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
-                  >
-                    <td className="text-[15px] px-2 py-4">
-                      {dbPackage?.packageId}
-                    </td>
-                    <td className="text-[15px] px-2 py-4">{dbPackage?.name}</td>
-                    <td className="text-[15px] px-2 py-4">
-                      {timeAgo(purchasedPkg.purchaseDate)}
-                    </td>
-                    <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                      Hesapları indir
-                    </td>
-                  </tr>
-                );
-              }
-            )}
+            {state.packages?.map((pkg: Package, index: number) => (
+              <tr
+                key={index}
+                className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
+              >
+                <td className="text-[15px] px-2 py-4">
+                  {pkg.packageId.split("-")[0]}
+                </td>
+                <td className="text-[15px] px-2 py-4">{pkg.name}</td>
+                <td className="text-[15px] px-2 py-4">{pkg.title}</td>
+                <td className="text-[15px] px-2 py-4">
+                  {pkg.description.slice(0, 16)}
+                </td>
+                <td className="text-[15px] px-2 py-4">
+                  {timeAgo(pkg.creationDate)}
+                </td>
+                <td className="text-[15px] px-2 py-4">{pkg.accounts.length}</td>
+                <td className="text-[15px] px-2 py-4">${pkg.price}</td>
+                <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
+                  Düzenle / Sil
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>

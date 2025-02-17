@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../navbar";
+import Navbar from "../../../../components/common/navbar";
 import {
   Calendar,
   CheckCircle,
