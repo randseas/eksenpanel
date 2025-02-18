@@ -11,6 +11,7 @@ import {
   PackageOpen,
   PackageSearch,
   Users,
+  PackageX,
 } from "lucide-react";
 import { timeAgo } from "@/lib/date";
 import { AppContext } from "../../context";
@@ -95,6 +96,17 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
+                  <PackageX
+                    className="text-blue-500"
+                    height={17}
+                    width={17}
+                    stroke="currentColor"
+                  />
+                  <span className="mt-px">Stok</span>
+                </div>
+              </th>
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <div className="inline-flex items-center space-x-1.5">
                   <DollarSign
                     className="text-blue-500"
                     height={17}
@@ -134,7 +146,13 @@ export default function Links() {
                 <td className="text-[15px] px-2 py-4">
                   {timeAgo(pkg.creationDate)}
                 </td>
-                <td className="text-[15px] px-2 py-4">{pkg.accounts.length}</td>
+                <td className="text-[15px] px-2 py-4">{pkg.accAmount}</td>
+                <td className="text-[15px] px-2 py-4">
+                  {pkg.accAmount !== "0"
+                    ? parseInt(pkg.accounts.length.toString()) /
+                      parseInt(pkg.accAmount)
+                    : "0"}
+                </td>
                 <td className="text-[15px] px-2 py-4">${pkg.price}</td>
                 <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                   Düzenle / Sil
