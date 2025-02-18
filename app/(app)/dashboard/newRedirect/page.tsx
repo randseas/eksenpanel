@@ -1,7 +1,6 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
 import Switch from "@/components/common/switch";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import instance from "@/app/instance";
@@ -16,6 +15,8 @@ export default function NewLink() {
   const [mainUrl, setMainURL] = useState<string>("");
   const [destinationUrl, setDestinationURL] = useState<string>("");
 
+  const [title, setTitle] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
   const [redirectDelay, setRedirectDelay] = useState<string>("0");
   const [redirectCode, setRedirectCode] = useState<string>("");
   function handleNewRedirect() {
@@ -24,6 +25,9 @@ export default function NewLink() {
         token: state.userData.token,
         mainUrl,
         destinationUrl,
+        redirectDelay,
+        title,
+        description,
       })
       .then((res) => {
         if (res.data.status === "ok") {
@@ -90,30 +94,30 @@ export default function NewLink() {
           <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="link"
+                htmlFor="title"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Başlık
               </label>
               <input
-                id="link"
-                value={mainUrl}
-                onChange={(e: any) => setMainURL(e.target.value)}
+                id="title"
+                value={title}
+                onChange={(e: any) => setTitle(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Örnek başlık"
               />
             </div>
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="link"
+                htmlFor="description"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Açıklama
               </label>
               <input
-                id="link"
-                value={destinationUrl}
-                onChange={(e: any) => setDestinationURL(e.target.value)}
+                id="description"
+                value={description}
+                onChange={(e: any) => setDescription(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Örnek site açıklaması"
               />
