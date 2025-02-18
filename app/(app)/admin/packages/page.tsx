@@ -12,15 +12,42 @@ import {
   PackageSearch,
   Users,
   PackageX,
+  SquarePen,
+  Trash2,
 } from "lucide-react";
 import { timeAgo } from "@/lib/date";
 import { AppContext } from "../../context";
 import { Package } from "@/types";
 import DashboardHeader from "@/components/common/dashboardHeader";
+import instance from "@/app/instance";
+import toast from "react-hot-toast";
 
-export default function Links() {
+export default function Packages() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+
+  function deletePackage(packageId: string) {
+    const isConfirmed = window.confirm(
+      "Paketi silmek istediğinize emin misiniz?"
+    );
+    if (!isConfirmed) return;
+    instance
+      .post("deletePackage", {
+        token: state.userData.token,
+        packageId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Paket başarıyla silindi");
+        } else {
+          toast.error("Paket silinemedi, tekrar deneyin.");
+        }
+      })
+      .catch((err: any) => {
+        console.error(err);
+        toast.error(err.message || "Bir hata oluştu!");
+      });
+  }
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
       <DashboardHeader page="Paketler" />
@@ -155,7 +182,20 @@ export default function Links() {
                 </td>
                 <td className="text-[15px] px-2 py-4">${pkg.price}</td>
                 <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                  Düzenle / Sil
+                  <a
+                    onClick={() =>
+                      router.push(`/admin/editPackage/${pkg.packageId}`)
+                    }
+                    className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                  >
+                    <SquarePen stroke="currentColor" width={22} height={22} />
+                  </a>
+                  <a
+                    onClick={() => deletePackage(pkg.packageId)}
+                    className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
+                  >
+                    <Trash2 stroke="currentColor" width={22} height={22} />
+                  </a>
                 </td>
               </tr>
             ))}

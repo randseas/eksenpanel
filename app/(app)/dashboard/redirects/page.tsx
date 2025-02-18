@@ -6,6 +6,7 @@ import {
   Calendar,
   CheckCircle,
   Clock,
+  Copy,
   DotSquare,
   Globe,
   SquareArrowOutUpRight,
@@ -188,6 +189,15 @@ export default function Links() {
                   )}
                 </td>
                 <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
+                  <a
+                    onClick={() => {
+                      navigator.clipboard.writeText(redirect.jsUrl);
+                      toast.success("JS kodu panoya kopyalandı");
+                    }}
+                    className="transition-all ease-linear duration-100 rounded-xl pr-3 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                  >
+                    <Copy stroke="currentColor" width={22} height={22} />
+                  </a>
                   <a
                     onClick={() =>
                       router.push(
