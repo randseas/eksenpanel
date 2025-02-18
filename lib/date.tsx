@@ -22,7 +22,7 @@ export default function formatDate(i: number): string {
     "0"
   )}:${String(seconds).padStart(2, "0")}`;
 }
-export function timeAgo(timestamp: string): string {
+export function timeAgo(timestamp: string | number): string {
   const date = new Date(timestamp); // ISO formatını destekler
   const now = new Date();
   const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);

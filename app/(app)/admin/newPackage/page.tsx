@@ -13,6 +13,7 @@ interface Package {
   description: string;
   price: string;
   accounts: string;
+  accAmount: string;
   creationDate: string;
 }
 
@@ -25,6 +26,7 @@ export default function NewPackage() {
     description: "",
     price: "",
     accounts: "",
+    accAmount: "",
   });
   function handleNewPackage() {
     instance
@@ -54,7 +56,7 @@ export default function NewPackage() {
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Paket Ekle" />
-      <div className="border mx-auto neon-box mt-2 md:mt-5 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
+      <div className="border mx-auto neon-box md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
         <h1 className="text-lg font-medium">Yeni Paket Ekle</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
           Yeni bir paket ekleyin.
@@ -148,6 +150,35 @@ export default function NewPackage() {
             </div>
           </div>
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
+            <label
+              htmlFor="accAmount"
+              className="text-md font-[450] dark:text-zinc-200"
+            >
+              Paket başına teslim edilecek hesap sayısı
+            </label>
+            <input
+              id="accAmount"
+              value={pkg.accAmount}
+              onChange={(e: any) => {
+                setPackage((prevPackage) => ({
+                  ...prevPackage,
+                  accAmount: e.target.value,
+                }));
+              }}
+              type="number"
+              min={0}
+              step={1}
+              spellCheck="false"
+              className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
+              placeholder="0"
+            />
+            <span className="dark:text-zinc-300 text-sm">
+              Örnek: 5 girerseniz, girdiğiniz hesaplardan 5 adet seçilip
+              müşteriye gönderilir ve bu hesaplar paketin stoklarından
+              kaldırılır, müşteriye eklenir.
+            </span>
+          </div>
+          <div className="flex mt-2 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
               htmlFor="accounts"
               className="text-md font-[450] dark:text-zinc-200"

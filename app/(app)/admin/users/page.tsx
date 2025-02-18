@@ -33,7 +33,7 @@ export default function Users() {
                     width={17}
                     stroke="currentColor"
                   />
-                  <span className="mt-px">User ID</span>
+                  <span className="mt-px">Kullanıcı ID</span>
                 </div>
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
@@ -80,6 +80,17 @@ export default function Users() {
                   <span className="mt-px">Kayıt tarihi</span>
                 </div>
               </th>
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <div className="inline-flex items-center space-x-1.5">
+                  <Calendar
+                    className="text-blue-500"
+                    height={17}
+                    width={17}
+                    stroke="currentColor"
+                  />
+                  <span className="mt-px">Satın Aldığı Paketler</span>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
@@ -97,11 +108,12 @@ export default function Users() {
                 <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
                   {user.permission === "admin" ? "Yönetici" : "Kullanıcı"}
                 </td>
-                <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                  -
-                </td>
+                <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">-</td>
                 <td className="text-[15px] px-2 py-4">
-                  {timeAgo(user.created || "0")}
+                  {timeAgo(parseInt(user.created || "0"))}
+                </td>
+                <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                  {user.purchasedPackages?.length.toString()}
                 </td>
               </tr>
             ))}

@@ -30,6 +30,7 @@ export interface Package {
   description: string;
   price: string;
   accounts: Account[];
+  accAmount: string;
   creationDate: string;
 }
 export interface PurchasedPackage {
