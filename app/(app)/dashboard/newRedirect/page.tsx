@@ -167,7 +167,7 @@ export default function NewLink() {
               Yönlendirme için beklenecek süre (0 = anında yönlendirme)
             </span>
           </div>
-          <div className="flex mt-3.5 flex-row w-full space-y-1 items-start justify-between text-start">
+          {/*<div className="flex mt-3.5 flex-row w-full space-y-1 items-start justify-between text-start">
             <div className="flex flex-col text-start items-start justify-center">
               <label
                 htmlFor="redirectStatus"
@@ -183,7 +183,7 @@ export default function NewLink() {
               checked={isRedirectActive}
               onClick={() => setIsRedirectActive(!isRedirectActive)}
             />
-          </div>
+          </div>*/}
           <button
             onClick={handleNewRedirect}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"

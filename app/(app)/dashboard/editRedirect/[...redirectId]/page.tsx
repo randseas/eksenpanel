@@ -27,9 +27,15 @@ export default function EditLink({
   const [destinationUrl, setDestinationURL] = useState<string>(
     existingRedirect?.destinationUrl || ""
   );
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [redirectDelay, setRedirectDelay] = useState<string>("0");
+  const [title, setTitle] = useState<string>(existingRedirect?.title || "");
+  const [description, setDescription] = useState<string>(
+    existingRedirect?.description || ""
+  );
+  const [redirectDelay, setRedirectDelay] = useState<string>(
+    existingRedirect?.redirectDelay
+      ? (parseInt(existingRedirect?.redirectDelay) / 1000).toString()
+      : "0"
+  );
   const [redirectCode, setRedirectCode] = useState<string>(
     existingRedirect?.jsUrl || ""
   );
@@ -174,23 +180,6 @@ export default function EditLink({
             <span className="dark:text-zinc-300 text-sm">
               Yönlendirme için beklenecek süre (0 = anında yönlendirme)
             </span>
-          </div>
-          <div className="flex mt-3.5 flex-row w-full space-y-1 items-start justify-between text-start">
-            <div className="flex flex-col text-start items-start justify-center">
-              <label
-                htmlFor="link"
-                className="text-md font-[450] dark:text-zinc-200"
-              >
-                Yönlendirme Durumu
-              </label>
-              <span className="dark:text-zinc-300 text-sm">
-                Yönlendirmenin aktifliğini belirleyin
-              </span>
-            </div>
-            <Switch
-              checked={isRedirectActive}
-              onClick={() => setIsRedirectActive(!isRedirectActive)}
-            />
           </div>
           <button
             onClick={handleEditRedirect}

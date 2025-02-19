@@ -206,15 +206,16 @@ export default function Navbar() {
           !isDrawerOpen ? "max-w-[17%]" : "max-w-[5%]"
         } flex neon-box-2 sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-[#111111] dark:border-dark-border flex-col items-center`}
       >
-        <div className="flex flex-row items-center justify-between w-full">
+        <div className="flex relative flex-row items-center justify-between w-full">
           {!isDrawerOpen && (
             <div
               onClick={() => router.push("/dashboard")}
               className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-start space-x-2.5 text-start px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
-              <span className="text-[17px] tracking-[-0.005em] font-medium">
-                Tumblr Yönlendirme
-              </span>
+              <img draggable="false" className="ml-[-12px] h-[95px] z-[77777]" src="/logo.png" />
+              <div className="rgb left-[20%] top-[11%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
+                &nbsp;
+              </div>
             </div>
           )}
           <div

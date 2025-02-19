@@ -6,18 +6,31 @@ export default function Auth() {
   const router = useRouter();
   return (
     <main className="relative flex flex-col items-center justify-center w-full h-full min-h-[99vh]">
-      <div className="logo">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
-      <div className="loginForm">
+      <div className="logo text-base">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
+      <div className="loginForm flex flex-col items-center justify-center">
+        <div
+          onClick={() => router.push("/")}
+          className="flex relative mb-4 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
+        >
+          <img
+            draggable="false"
+            className="h-[98px] z-[77777]"
+            src="/logo.png"
+          />
+          <div className="rgb left-[41%] top-[15%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
+            &nbsp;
+          </div>
+        </div>
         <h3>TUMBLR YÖNLENDİRME PANELİNE HOŞ GELDİNİZ</h3>
         <p>Giriş yaparak ya da kaydolarak devam edebilirsiniz.</p>
         <button
-          className="action-btn"
+          className="action-btn transition-all ease-linear duration-100"
           onClick={() => router.push("/auth/login")}
         >
           Giriş Yap
         </button>
         <button
-          className="action-btn secondary"
+          className="action-btn secondary transition-all ease-linear duration-100"
           onClick={() => router.push("/auth/register")}
         >
           Kayıt Ol

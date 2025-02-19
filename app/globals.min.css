@@ -392,3 +392,19 @@ html {
   color: white;
   font-size: 24px;
 }
+.rgb {
+  background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+  background-size: 200% 200%;
+  animation: rgbRotate 6s infinite linear;
+}
+
+@keyframes rgbRotate {
+  0% {
+      background-position: 50% 50%;
+      transform: rotate(0deg);
+  }
+  100% {
+      background-position: 50% 50%;
+      transform: rotate(360deg);
+  }
+}
