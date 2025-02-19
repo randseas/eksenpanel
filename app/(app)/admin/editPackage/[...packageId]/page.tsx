@@ -17,6 +17,19 @@ interface Package {
   creationDate: string;
 }
 
+function deformatUserInfo(
+  users: { username: string; email: string; password: string }[]
+): string {
+  return users
+    ?.map(
+      (user) =>
+        `Kullanıcı Adı: ${user.username || "-"} | E-POSTA: ${
+          user.email
+        } | ŞİFRE: ${user.password}`
+    )
+    ?.join("\n");
+}
+
 export default function EditPackage({
   params,
 }: {
@@ -28,12 +41,12 @@ export default function EditPackage({
     state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
   );
   const [pkg, setPackage] = useState<Partial<Package>>({
-    title: existingPackage.title || "",
-    name: existingPackage.name || "",
-    description: existingPackage.description || "",
-    price: existingPackage.price || "",
-    accounts: existingPackage.accounts || [],
-    accAmount: existingPackage.accAmount || "",
+    title: existingPackage?.title || "",
+    name: existingPackage?.name || "",
+    description: existingPackage?.description || "",
+    price: existingPackage?.price || "",
+    accounts: deformatUserInfo(existingPackage?.accounts) || "",
+    accAmount: existingPackage?.accAmount || "",
   });
   function handleEditPackage() {
     instance
@@ -45,6 +58,7 @@ export default function EditPackage({
         description: pkg.description,
         price: pkg.price,
         accounts: pkg.accounts,
+        accAmount: pkg.accAmount
       })
       .then((res) => {
         if (res.data.status === "ok") {
