@@ -11,6 +11,9 @@ export interface User {
 export interface Redirect {
   userId: string;
   redirectId: string;
+  redirectDelay: string;
+  title: string;
+  description: string;
   mainUrl: string;
   destinationUrl: string;
   jsUrl: string;
@@ -31,11 +34,6 @@ export interface Package {
   price: string;
   accounts: Account[];
   accAmount: string;
-  color?: {
-    from: string;
-    via: string;
-    to: string;
-  };
   creationDate: string;
 }
 export interface PurchasedPackage {
