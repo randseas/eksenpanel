@@ -1,8 +1,8 @@
 "use client";
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
-import DashboardHeader from "../../../../components/common/dashboardHeader";
-import { AppContext } from "../../context";
+import DashboardHeader from "@/components/common/dashboardHeader";
+import { AppContext } from "@/app/(app)/context";
 import instance from "@/app/instance";
 import toast from "react-hot-toast";
 
@@ -17,31 +17,43 @@ interface Package {
   creationDate: string;
 }
 
-export default function NewPackage() {
+export default function EditPackage({
+  params,
+}: {
+  params: { packageId: Array<string> };
+}) {
   const router = useRouter();
   const { state } = useContext(AppContext);
+  const [existingPackage, setExistingPackage] = useState<Package | any>(
+    state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
+  );
   const [pkg, setPackage] = useState<Partial<Package>>({
-    title: "",
-    name: "",
-    description: "",
-    price: "",
-    accounts: "",
-    accAmount: "",
+    title: existingPackage.title || "",
+    name: existingPackage.name || "",
+    description: existingPackage.description || "",
+    price: existingPackage.price || "",
+    accounts: existingPackage.accounts || [],
+    accAmount: existingPackage.accAmount || "",
   });
-  function handleNewPackage() {
+  function handleEditPackage() {
     instance
-      .post("newPackage", {
+      .post("editPackage", {
         token: state.userData.token,
-        pkg,
+        packageId: existingPackage.packageId,
+        title: pkg.title,
+        name: pkg.name,
+        description: pkg.description,
+        price: pkg.price,
+        accounts: pkg.accounts,
       })
       .then((res) => {
         if (res.data.status === "ok") {
-          toast.success("Paket oluşturuldu");
+          toast.success("Paket düzenleme başarılı");
           router.push("/admin/packages");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
         } else if (res.data.message === "package_already_exists") {
-          toast.error("Bu ad ile zaten bir paket mevcut");
+          toast.error("Bu ad ile bir paket mevcut değil");
         } else if (res.data.message === "forbidden") {
           toast.error("Erişim engellendi");
         } else if (res.data.message === "db_error") {
@@ -55,11 +67,11 @@ export default function NewPackage() {
   }
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
-      <DashboardHeader page="Paket Ekle" />
+      <DashboardHeader page="Paket Düzenleme" />
       <div className="border mx-auto neon-box md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
-        <h1 className="text-lg font-medium">Yeni Paket Ekle</h1>
+        <h1 className="text-lg font-medium">Paket Düzenleme</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
-          Yeni bir paket ekleyin.
+          Var olan bir paketi düzenleyin.
         </span>
         <div className="w-full flex flex-col mt-3.5 items-center justify-center">
           <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
@@ -206,10 +218,10 @@ export default function NewPackage() {
             </span>
           </div>
           <button
-            onClick={handleNewPackage}
+            onClick={handleEditPackage}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"
           >
-            Paketi Ekle
+            Paketi Kaydet
           </button>
         </div>
       </div>

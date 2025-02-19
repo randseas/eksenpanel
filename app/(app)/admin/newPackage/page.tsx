@@ -99,6 +99,7 @@ export default function NewPackage() {
                     description: e.target.value,
                   }))
                 }
+                spellCheck="false"
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Örn. 500k takipçili"
               />

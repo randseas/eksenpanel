@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   Calendar,
@@ -8,7 +8,7 @@ import {
   DotSquare,
   ExternalLink,
   Globe,
-  Package,
+  Package as PkgIcon,
   ShieldCheck,
   SquareArrowOutUpRight,
   SquarePen,
@@ -19,107 +19,14 @@ import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
-import { Redirect } from "@/types";
+import { Package, Redirect } from "@/types";
 import { timeAgo } from "@/lib/date";
 import instance from "@/app/instance";
-
-const packages = [
-  {
-    name: "Bronz Paket",
-    accounts: "35 Hesap",
-    color: {
-      from: "#cd7f3260",
-      via: "#b8733360",
-      to: "#8c623960",
-    },
-    backgroundImage: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23cd7f32" fill-opacity="0.3" d="M0,160L80,144C160,128,320,96,480,117.3C640,139,800,213,960,224C1120,235,1280,181,1360,154.7L1440,128V320H0Z"></path></svg>`,
-    details: [
-      "Rastgele/Blog",
-      "Takipçiler/Takipçi olmayanlar",
-      "Eski tarihli",
-      "E-posta adresi & şifre",
-      "DA/PA %20",
-      "Telafi yok",
-    ],
-    price: "$35.00",
-  },
-  {
-    name: "Silver Paket",
-    accounts: "45 Hesap",
-    color: {
-      from: "#c0c0c060",
-      via: "#a8a8a860",
-      to: "#80808060",
-    },
-    details: [
-      "İyi Blog Hesapları",
-      "500/1k Takipçiler",
-      "Eski tarihli",
-      "E-posta adresi & şifre",
-      "DA/PA %45",
-      "Telafi var",
-    ],
-    price: "$79.00",
-  },
-  {
-    name: "Gold Paket",
-    accounts: "65 Hesap",
-    color: {
-      from: "#ffd70060",
-      via: "#ffb70060",
-      to: "#d4af3760",
-    },
-    details: [
-      "Yüksek Blog Hesapları",
-      "1k/5k Takipçiler",
-      "Eski tarihli",
-      "E-posta adresi & şifre",
-      "DA/PA %80",
-      "Telafi var",
-    ],
-    price: "$175.00",
-  },
-  {
-    name: "Premium Paket",
-    accounts: "150 Hesap",
-    color: {
-      from: "#ff149360",
-      via: "#c7158560",
-      to: "#80008060",
-    },
-    details: [
-      "Yüksek Blog Hesapları",
-      "5k/10k Takipçiler",
-      "Eski tarihli",
-      "E-posta adresi & şifre",
-      "DA/PA %99",
-      "Telafi var",
-    ],
-    price: "$350.00",
-  },
-  {
-    name: "Random Paket",
-    accounts: "200 Hesap",
-    color: {
-      from: "#ff80b560",
-      via: "#d36ee860",
-      to: "#a855f760",
-    },
-    details: [
-      "Boş Rastgele Hesaplar",
-      "Takipçi yok",
-      "Yeni/Eski tarihli",
-      "E-posta adresi & şifre",
-      "DA/PA %5",
-      "Telafi var",
-    ],
-    price: "$150.00",
-  },
-];
 
 export default function Dashboard() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+
   function deleteRedirect(redirectId: string) {
     const isConfirmed = window.confirm(
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
@@ -169,7 +76,7 @@ export default function Dashboard() {
           },
           {
             title: "Paketlerim",
-            icon: Package,
+            icon: PkgIcon,
             bg: {
               from: "from-[#892ae1]/95",
               via: "via-[#6814e1]/95",
@@ -426,7 +333,7 @@ export default function Dashboard() {
           Paket Satın Al
         </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2.5 w-full">
-          {packages.map((pkg, index) => (
+          {state.packages.map((pkg, index) => (
             <div
               key={index}
               className={cn(
@@ -435,9 +342,9 @@ export default function Dashboard() {
               )}
               style={
                 {
-                  "--from-color": pkg.color.from,
-                  "--via-color": pkg.color.via,
-                  "--to-color": pkg.color.to,
+                  "--from-color": pkg.color?.from,
+                  "--via-color": pkg.color?.via,
+                  "--to-color": pkg.color?.to,
                 } as React.CSSProperties
               }
             >
@@ -457,12 +364,17 @@ export default function Dashboard() {
               >
                 {pkg.name}
               </h2>
-              <p className="text-[25px] z-50 font-[550] mt-2">{pkg.price}</p>
+              <p className="text-[25px] z-50 font-[550] mt-2">
+                $
+                {parseFloat(pkg.price).toLocaleString("tr-TR", {
+                  minimumFractionDigits: 2,
+                })}
+              </p>
               <p className="font-[450] z-50 text-[18px] text-zinc-800 dark:text-zinc-100">
-                {pkg.accounts}
+                {pkg.title}
               </p>
               <p className="text-base z-50 text-zinc-800 dark:text-zinc-100 mt-1.5 mb-[64px]">
-                {pkg.details?.map((detail: string) => (
+                {pkg.description?.split(",").map((detail: string) => (
                   <>
                     <span className="dot">•</span>&nbsp;
                     {detail}

@@ -76,7 +76,6 @@ export default function ProvideContext({
             loading: false,
           }));
         } else {
-          toast.error("Sync failed");
           setState((prev) => ({
             ...prev,
             ...data,

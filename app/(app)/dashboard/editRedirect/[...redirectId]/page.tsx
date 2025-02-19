@@ -2,49 +2,62 @@
 import React, { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import Switch from "@/components/common/switch";
-import DashboardHeader from "../../../../components/common/dashboardHeader";
+import DashboardHeader from "../../../../../components/common/dashboardHeader";
 import instance from "@/app/instance";
 import toast from "react-hot-toast";
-import { AppContext } from "../../context";
+import { AppContext } from "../../../context";
+import { Redirect } from "@/types";
+import CodeBlock from "@/components/common/codeBlock";
 
-export default function NewLink() {
+export default function EditLink({
+  params,
+}: {
+  params: { redirectId: Array<string> };
+}) {
   const router = useRouter();
   const { state } = useContext(AppContext);
   const [isRedirectActive, setIsRedirectActive] = useState<boolean>(true);
-
-  const [mainUrl, setMainURL] = useState<string>("");
-  const [destinationUrl, setDestinationURL] = useState<string>("");
-
+  const [existingRedirect, setExistingRedirect] = useState<
+    Redirect | undefined
+  >(
+    state.userRedirects.find(
+      (redirect: Redirect) => redirect.redirectId === params.redirectId[0]
+    )
+  );
+  const [destinationUrl, setDestinationURL] = useState<string>(
+    existingRedirect?.destinationUrl || ""
+  );
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [redirectDelay, setRedirectDelay] = useState<string>("0");
-  const [redirectCode, setRedirectCode] = useState<string>("");
-  function handleNewRedirect() {
-    if (mainUrl === destinationUrl) {
+  const [redirectCode, setRedirectCode] = useState<string>(
+    existingRedirect?.jsUrl || ""
+  );
+  function handleEditRedirect() {
+    if (existingRedirect?.mainUrl === destinationUrl) {
       toast.error("Ana URL Hedef URL ile aynı olamaz!");
       return;
     }
     instance
-      .post("newRedirect", {
+      .post("editRedirect", {
         token: state.userData.token,
-        mainUrl,
-        destinationUrl,
+        redirectId: existingRedirect?.redirectId,
+        destinationUrl: destinationUrl,
         redirectDelay,
         title,
         description,
       })
       .then((res) => {
         if (res.data.status === "ok") {
-          toast.success("Yönlendirme oluşturuldu");
-          setMainURL("");
+          toast.success("Yönlendirme düzenleme başarılı");
           setDestinationURL("");
           setRedirectDelay("0");
           setRedirectCode("");
           router.push("/dashboard/redirects");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
-        } else if (res.data.message === "redirect_already_exists") {
-          toast.error("Bu URL ile zaten bir yönlendirme mevcut");
+        } else if (res.data.message === "redirect_not_exists") {
+          toast.error("Bu yönlendirme mevcut değil");
         } else if (res.data.message === "db_error") {
           toast.error("Sunucu hatası");
         }
@@ -56,38 +69,38 @@ export default function NewLink() {
   }
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
-      <DashboardHeader page="Yönlendirme Ekle" />
+      <DashboardHeader page="Yönlendirme Düzenleme" />
       <div className="border mx-auto neon-box mt-2 md:mt-5 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
-        <h1 className="text-lg font-medium">Yeni Yönlendirme Ekle</h1>
+        <h1 className="text-lg font-medium">Yönlendirme Düzenleme</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
-          Yeni bir yönlendirme ekleyin.
+          Yönlendirmeyi düzenleme.
         </span>
         <div className="w-full flex flex-col mt-3.5 items-center justify-center">
           <div className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="mainUrl"
+                htmlFor="link"
                 className="text-md font-[450] dark:text-zinc-200"
               >
-                Ana URL
+                Yönlendirme ID
               </label>
               <input
-                id="mainUrl"
-                value={mainUrl}
-                onChange={(e: any) => setMainURL(e.target.value)}
+                id="link"
+                value={existingRedirect?.redirectId}
+                readOnly
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="https://example.com"
               />
             </div>
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="destinationUrl"
+                htmlFor="link"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Hedef URL
               </label>
               <input
-                id="destinationUrl"
+                id="link"
                 value={destinationUrl}
                 onChange={(e: any) => setDestinationURL(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
@@ -134,31 +147,26 @@ export default function NewLink() {
             >
               Yönlendirme Kodu
             </label>
-            <input
-              id="link"
-              disabled={true}
-              value={redirectCode}
-              readOnly={true}
-              className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-              placeholder="Otomatik oluşturulacak"
+            <CodeBlock
+              customStyle={{
+                maxWidth: "725px",
+                overflow: "auto",
+                borderRadius: "11px",
+                fontSize: "15px",
+              }}
+              code={redirectCode}
             />
-            <span className="dark:text-zinc-300 text-sm">
-              Yönlendirme kodu otomatik olarak oluşturulacaktır
-            </span>
           </div>
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
-              htmlFor="redirectDelay"
+              htmlFor="link"
               className="text-md font-[450] dark:text-zinc-200"
             >
               Yönlendirme Süresi (Saniye)
             </label>
             <input
-              id="redirectDelay"
+              id="link"
               value={redirectDelay}
-              type="number"
-              min={0}
-              step={1}
               onChange={(e: any) => setRedirectDelay(e.target.value)}
               className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
               placeholder="Yönlendirme süresi"
@@ -170,7 +178,7 @@ export default function NewLink() {
           <div className="flex mt-3.5 flex-row w-full space-y-1 items-start justify-between text-start">
             <div className="flex flex-col text-start items-start justify-center">
               <label
-                htmlFor="redirectStatus"
+                htmlFor="link"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Yönlendirme Durumu
@@ -185,10 +193,10 @@ export default function NewLink() {
             />
           </div>
           <button
-            onClick={handleNewRedirect}
+            onClick={handleEditRedirect}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"
           >
-            Yönlendirme Ekle
+            Yönlendirmeyi Kaydet
           </button>
         </div>
       </div>

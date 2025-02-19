@@ -168,7 +168,7 @@ export default function Packages() {
                 <td className="text-[15px] px-2 py-4">{pkg.name}</td>
                 <td className="text-[15px] px-2 py-4">{pkg.title}</td>
                 <td className="text-[15px] px-2 py-4">
-                  {pkg.description.slice(0, 16)}
+                  {pkg.description.slice(0, 20) + "..."}
                 </td>
                 <td className="text-[15px] px-2 py-4">
                   {timeAgo(pkg.creationDate)}
@@ -176,8 +176,10 @@ export default function Packages() {
                 <td className="text-[15px] px-2 py-4">{pkg.accAmount}</td>
                 <td className="text-[15px] px-2 py-4">
                   {pkg.accAmount !== "0"
-                    ? parseInt(pkg.accounts.length.toString()) /
-                      parseInt(pkg.accAmount)
+                    ? Math.floor(
+                        parseInt(pkg.accounts.length.toString()) /
+                          parseInt(pkg.accAmount)
+                      )
                     : "0"}
                 </td>
                 <td className="text-[15px] px-2 py-4">${pkg.price}</td>

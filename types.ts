@@ -31,6 +31,11 @@ export interface Package {
   price: string;
   accounts: Account[];
   accAmount: string;
+  color?: {
+    from: string;
+    via: string;
+    to: string;
+  };
   creationDate: string;
 }
 export interface PurchasedPackage {
