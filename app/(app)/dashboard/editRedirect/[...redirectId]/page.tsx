@@ -31,11 +31,6 @@ export default function EditLink({
   const [description, setDescription] = useState<string>(
     existingRedirect?.description || ""
   );
-  const [redirectDelay, setRedirectDelay] = useState<string>(
-    existingRedirect?.redirectDelay
-      ? (parseInt(existingRedirect?.redirectDelay) / 1000).toString()
-      : "0"
-  );
   const [redirectCode, setRedirectCode] = useState<string>(
     existingRedirect?.jsUrl || ""
   );
@@ -49,7 +44,6 @@ export default function EditLink({
         token: state.userData.token,
         redirectId: existingRedirect?.redirectId,
         destinationUrl: destinationUrl,
-        redirectDelay,
         title,
         description,
       })
@@ -57,7 +51,7 @@ export default function EditLink({
         if (res.data.status === "ok") {
           toast.success("Yönlendirme düzenleme başarılı");
           setDestinationURL("");
-          setRedirectDelay("0");
+
           setRedirectCode("");
           router.push("/dashboard/redirects");
         } else if (res.data.message === "missing_fields") {
@@ -162,24 +156,6 @@ export default function EditLink({
               }}
               code={redirectCode}
             />
-          </div>
-          <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
-            <label
-              htmlFor="link"
-              className="text-md font-[450] dark:text-zinc-200"
-            >
-              Yönlendirme Süresi (Saniye)
-            </label>
-            <input
-              id="link"
-              value={redirectDelay}
-              onChange={(e: any) => setRedirectDelay(e.target.value)}
-              className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-              placeholder="Yönlendirme süresi"
-            />
-            <span className="dark:text-zinc-300 text-sm">
-              Yönlendirme için beklenecek süre (0 = anında yönlendirme)
-            </span>
           </div>
           <button
             onClick={handleEditRedirect}
