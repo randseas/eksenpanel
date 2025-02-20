@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../../../../components/common/navbar";
 import {
@@ -22,6 +22,14 @@ import { Redirect } from "@/types";
 export default function Links() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   function deleteRedirect(redirectId: string) {
     const isConfirmed = window.confirm(
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
@@ -113,17 +121,6 @@ export default function Links() {
                     width={17}
                     stroke="currentColor"
                   />
-                  <span className="mt-px">Durum</span>
-                </div>
-              </th>
-              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
-                <div className="inline-flex items-center space-x-1.5">
-                  <CheckCircle
-                    className="text-blue-500"
-                    height={17}
-                    width={17}
-                    stroke="currentColor"
-                  />
                   <span className="mt-px">Yönlendirme Durumu</span>
                 </div>
               </th>
@@ -161,17 +158,6 @@ export default function Links() {
                 </td>
                 <td className="text-[15px] px-2 py-4">
                   {timeAgo(redirect.lastCheckDate)}
-                </td>
-                <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                  {redirect.status === "active" ? (
-                    <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
-                      Aktif
-                    </a>
-                  ) : (
-                    <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
-                      Pasif
-                    </a>
-                  )}
                 </td>
                 <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
                   {redirect.check === "success" ? (

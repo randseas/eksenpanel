@@ -6,6 +6,7 @@ export interface User {
   permission: string;
   purchasedPackages: PurchasedPackage[];
   telegramBot: TelegramBotDetails;
+  notifications: NotificationInterface[];
   created: string;
 }
 export interface Redirect {
@@ -25,10 +26,17 @@ export interface Account {
   email: string;
   password: string;
 }
+export interface NotificationInterface {
+  title: string;
+  content: string;
+  read: boolean;
+  timestamp: string;
+}
 export interface Package {
   packageId: string;
   title: string;
   name: string;
+  color: any;
   description: string;
   price: string;
   accounts: Account[];

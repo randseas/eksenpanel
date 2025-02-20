@@ -5,6 +5,8 @@ import { Popover, Transition } from "@headlessui/react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 import { AppContext } from "../../app/(app)/context";
+import { NotificationInterface } from "@/types";
+import { timeAgo } from "@/lib/date";
 
 export default function DashboardHeader({ page }: { page: string }) {
   const { state } = useContext(AppContext);
@@ -55,9 +57,21 @@ export default function DashboardHeader({ page }: { page: string }) {
                       Bildirimler (0)
                     </div>
                     <div className="mt-0.5">
-                      <span className="dark:text-zinc-200 text-base text-zinc-700">
-                        Hiç bildiriminiz yok.
-                      </span>
+                      {state.userData?.notifications?.length > 0 ? (
+                        state.userData?.notifications?.map(
+                          (notification: NotificationInterface) => (
+                            <div className="">
+                              <span>{notification.title}</span>
+                              <p>{notification.content}</p>
+                              <span>{timeAgo(notification.timestamp)}</span>
+                            </div>
+                          )
+                        )
+                      ) : (
+                        <span className="dark:text-zinc-200 text-base text-zinc-700">
+                          Hiç bildiriminiz yok.
+                        </span>
+                      )}
                     </div>
                   </div>
                 </Popover.Panel>
