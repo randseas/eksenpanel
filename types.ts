@@ -11,7 +11,6 @@ export interface User {
 export interface Redirect {
   userId: string;
   redirectId: string;
-  redirectDelay: string;
   title: string;
   description: string;
   mainUrl: string;
