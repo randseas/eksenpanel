@@ -8,6 +8,15 @@ import { AppContext } from "../../app/(app)/context";
 import { NotificationInterface } from "@/types";
 import { timeAgo } from "@/lib/date";
 
+const formatContent = (content: string) => {
+  return content.split(/(\*[^*]+\*)/g).map((part, index) => {
+    if (part.startsWith("*") && part.endsWith("*")) {
+      return <span className="font-[500] text-[15px]" key={index}>{part.slice(1, -1)}</span>;
+    }
+    return part;
+  });
+};
+
 export default function DashboardHeader({ page }: { page: string }) {
   const { state } = useContext(AppContext);
   const router = useRouter();
@@ -51,22 +60,31 @@ export default function DashboardHeader({ page }: { page: string }) {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel className="absolute bg-zinc-50 rounded-2xl dark:bg-[#333333] text-dark dark:text-white left-[-250px] z-[999999] mt-2 w-[300px]">
-                  <div className="overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5 p-4 min-h-[230px]">
+                <Popover.Panel className="absolute bg-zinc-50 rounded-2xl dark:bg-[#252525] border dark:border-[#333333] border-zinc-100 text-dark dark:text-white left-[-310px] z-[999999] mt-2 w-[360px]">
+                  <div className="overflow-hidden rounded-2xl shadow-xl ring-1 ring-black/5 p-[18px] min-h-[230px]">
                     <div className="font-[500] text-[16.5px] text-zinc-900 dark:text-white">
-                      Bildirimler (0)
+                      Bildirimler (
+                      {state.userData?.notifications?.length?.toString() || "-"}
+                      )
                     </div>
-                    <div className="mt-0.5">
+                    <div className="mt-3 flex flex-col items-center justify-center space-y-1.5">
                       {state.userData?.notifications?.length > 0 ? (
-                        state.userData?.notifications?.map(
-                          (notification: NotificationInterface) => (
-                            <div className="">
-                              <span>{notification.title}</span>
-                              <p>{notification.content}</p>
-                              <span>{timeAgo(notification.timestamp)}</span>
-                            </div>
+                        state.userData?.notifications
+                          ?.sort(
+                            (
+                              a: NotificationInterface,
+                              b: NotificationInterface
+                            ) =>
+                              new Date(b.timestamp).getTime() -
+                              new Date(a.timestamp).getTime()
                           )
-                        )
+                          .map((notification: NotificationInterface) => (
+                            <div className="bg-zinc-900/80 border border-zinc-900 max-w-[100%] w-full rounded-xl px-4 py-3">
+                              <span className="text-[16px] tracking-[-0.005em] font-[500]">{notification.title}</span>
+                              <p className="text-zinc-100 mt-1 text-[15px]">{formatContent(notification.content)}</p>
+                              <span className="mt-1 text-[15px] font-[500]">{timeAgo(notification.timestamp)}</span>
+                            </div>
+                          ))
                       ) : (
                         <span className="dark:text-zinc-200 text-base text-zinc-700">
                           Hiç bildiriminiz yok.

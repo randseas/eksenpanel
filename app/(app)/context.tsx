@@ -1,7 +1,13 @@
 "use client";
 import React, { createContext, useEffect, useState, useCallback } from "react";
 import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
-import { Activity, Package, Redirect, User } from "@/types";
+import {
+  Activity,
+  NotificationInterface,
+  Package,
+  Redirect,
+  User,
+} from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
@@ -27,6 +33,7 @@ const emptyUser: User = {
   permission: "user",
   created: "0",
   purchasedPackages: [],
+  notifications: [],
   telegramBot: {
     key: "",
     groupId: "",
@@ -88,7 +95,79 @@ export default function ProvideContext({
       }
     };
     socket.on("live_data", handleLiveData);
+    socket.on("notification", (notification: NotificationInterface) => {
+      const audio = new Audio("/sounds/notify.mp3");
+      audio.volume = 1;
+      audio.play();
+      toast.custom(
+        (t) => (
+          <div
+            className={`${
+              t.visible ? "animate-enter scale-[1]" : "animate-leave scale-[0]"
+            } max-w-md transition-all ease-linear duration-100 origin-top w-full border dark:border-[#333333] border-zinc-200 dark:bg-[#242424] bg-light dark:text-light text-dark shadow-lg shadow-black/40 rounded-2xl pointer-events-auto flex`}
+          >
+            <div className="flex-1 w-0 p-4">
+              <div className="flex items-start">
+                <div className="flex-shrink-0 pt-0.5">
+                  <div className="flex rounded-full flex-col items-center justify-center p-2.5 bg-red-500/15 text-red-100">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="21"
+                      height="21"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      {false ? (
+                        <>
+                          <path d="M10.268 21a2 2 0 0 0 3.464 0" />
+                          <path d="M22 8c0-2.3-.8-4.3-2-6" />
+                          <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
+                          <path d="M4 2C2.8 3.7 2 5.7 2 8" />
+                        </>
+                      ) : (
+                        <>
+                          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                          <path d="M12 9v4" />
+                          <path d="M12 17h.01" />
+                        </>
+                      )}
+                    </svg>
+                  </div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <p className="text-[15px] font-medium dark:text-zinc-50 text-zinc-900">
+                    {notification.title}
+                  </p>
+                  <p className="mt-1 text-sm dark:text-zinc-200 text-zinc-400">
+                    {notification.content.replaceAll("*", "")}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="flex border-l dark:border-zinc-700 border-zinc-200">
+              <button
+                onClick={() => toast.dismiss(t.id)}
+                className="w-full border transition-all ease-linear duration-100 border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-500 hover:text-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                Kapat
+              </button>
+            </div>
+          </div>
+        ),
+        {
+          position: "top-center",
+          duration: 5000,
+          style: { borderRadius: 12 },
+        }
+      );
+    });
     return () => {
+      socket.off("live_data");
+      socket.off("notification");
       socket.disconnect();
       console.log("Socket disconnected");
     };

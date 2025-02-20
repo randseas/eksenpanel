@@ -259,12 +259,16 @@ export default function Dashboard() {
                     >
                       <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-3 py-4">
                         <a target="blank" href={redirect.mainUrl}>
-                          {redirect.mainUrl}
+                          {redirect.mainUrl.length > 28
+                            ? redirect.mainUrl.slice(0, 28) + "..."
+                            : redirect.mainUrl}
                         </a>
                       </td>
                       <td className="text-[15px] text-blue-500 hover:text-blue-600 transition-all ease-linear duration-100 hover:underline hover:cursor-pointer px-2 py-4">
                         <a target="blank" href={redirect.destinationUrl}>
-                          {redirect.destinationUrl}
+                          {redirect.destinationUrl.length > 28
+                            ? redirect.destinationUrl.slice(0, 28) + "..."
+                            : redirect.destinationUrl}
                         </a>
                       </td>
                       <td className="text-[15px] px-2 py-4">
@@ -272,6 +276,21 @@ export default function Dashboard() {
                       </td>
                       <td className="text-[15px] px-2 py-4">
                         {timeAgo(redirect.lastCheckDate)}
+                      </td>
+                      <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                        {redirect.status === "active" ? (
+                          <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                            Aktif
+                          </a>
+                        ) : redirect.status === "passive" ? (
+                          <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                            Pasif
+                          </a>
+                        ) : (
+                          <a className="bg-zinc-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
+                            --
+                          </a>
+                        )}
                       </td>
                       <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
                         {redirect.check === "success" ? (
