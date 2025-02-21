@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import config from "@/config";
 
 export default function Auth() {
   const router = useRouter();
@@ -37,7 +38,7 @@ export default function Auth() {
         </button>
       </div>
       <a
-        href="https://wa.me/1234567890"
+        href={config.WHATSAPP_LINK}
         target="_blank"
         className="anchor whatsapp-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >
@@ -52,7 +53,7 @@ export default function Auth() {
         </svg>
       </a>
       <a
-        href="https://t.me/Eksenmedya"
+        href={config.TELEGRAM_LINK}
         target="_blank"
         className="anchor telegram-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >

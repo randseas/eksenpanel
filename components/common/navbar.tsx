@@ -9,23 +9,25 @@ import {
   History,
   PackagePlus,
   Users,
+  UserCheck,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { cn } from "@/lib/utils";
+import { AppContext } from "@/app/(app)/context";
 
 export default function Navbar() {
+  const { state } = useContext(AppContext);
   const router = useRouter();
   const pathname = usePathname();
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("sidebarCollapse") === "true";
-    }
-    return false;
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(() => {
+    return typeof window !== "undefined"
+      ? localStorage.getItem("sidebarCollapse") == "true"
+      : undefined;
   });
   useEffect(() => {
-    localStorage.setItem("sidebarCollapse", isDrawerOpen.toString());
+    localStorage.setItem("sidebarCollapse", isDrawerOpen?.toString() || "true");
   }, [isDrawerOpen]);
   const [isMobile, setIsMobile] = useState<boolean>(false);
   useEffect(() => {
@@ -36,32 +38,45 @@ export default function Navbar() {
       return () => window.removeEventListener("resize", checkMobile);
     }
   }, []);
-  const menuItems =
+  const menuItems: Array<{
+    label: string;
+    icon: React.ExoticComponent | any;
+    path: string;
+  }> =
     pathname.split("/")[1] === "admin"
+      ? state.userData.permission === "admin"
+        ? [
+            { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
+            {
+              label: "Aktivite Logları",
+              icon: History,
+              path: "/admin/activities",
+            },
+            {
+              label: "Paketler",
+              icon: Package,
+              path: "/admin/packages",
+            },
+            {
+              label: "Paket ekle",
+              icon: PackagePlus,
+              path: "/admin/newPackage",
+            },
+            {
+              label: "Kullanıcılar",
+              icon: Users,
+              path: "/admin/users",
+            },
+          ]
+        : []
+      : state.userData.permission === "user" ||
+        state.userData.permission === "admin"
       ? [
-          { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
-          {
-            label: "Aktivite Logları",
-            icon: History,
-            path: "/admin/activities",
-          },
-          {
-            label: "Paketler",
-            icon: Package,
-            path: "/admin/packages",
-          },
-          {
-            label: "Paket ekle",
-            icon: PackagePlus,
-            path: "/admin/newPackage",
-          },
-          {
-            label: "Kullanıcılar",
-            icon: Users,
-            path: "/admin/users",
-          },
+          { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
+          { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
         ]
-      : [
+      : state.userData.permission === "verified"
+      ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
           {
             label: "Yeni Yönlendirme Ekle",
@@ -75,7 +90,8 @@ export default function Navbar() {
           },
           { label: "Paketlerim", icon: Package, path: "/dashboard/packages" },
           { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
-        ];
+        ]
+      : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
     <div className="flex flex-col w-full space-y-[5px] items-center justify-start h-full">
       {menuItems.map(({ label, icon: Icon, path }) => (
@@ -83,7 +99,7 @@ export default function Navbar() {
           key={path}
           onClick={() => {
             router.push(path);
-            setIsDrawerOpen(false);
+            device === "mobile" && setIsDrawerOpen(false);
           }}
           className={cn(
             device === "mobile" ? "mt-5" : "mt-0",
@@ -203,8 +219,8 @@ export default function Navbar() {
     <>
       <nav
         className={`${
-          !isDrawerOpen ? "max-w-[17%]" : "max-w-[5%]"
-        } flex neon-box-2 sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-[#111111] dark:border-dark-border flex-col items-center`}
+          !isDrawerOpen ? "max-w-[17%]" : "max-w-[4.75%] //hover:max-w-[15%]//"
+        } flex neon-box-2 transition-all ease-in-out duration-200 transform sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-[#111111] dark:border-dark-border flex-col items-center`}
       >
         <div className="flex relative flex-row items-center justify-between w-full">
           {!isDrawerOpen && (
@@ -212,7 +228,11 @@ export default function Navbar() {
               onClick={() => router.push("/dashboard")}
               className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-start space-x-2.5 text-start px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
-              <img draggable="false" className="ml-[-12px] h-[95px] z-[77777]" src="/logo.png" />
+              <img
+                draggable="false"
+                className="ml-[-12px] h-[95px] z-[77777]"
+                src="/logo.png"
+              />
               <div className="rgb left-[20%] top-[11%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
                 &nbsp;
               </div>

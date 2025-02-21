@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 import toast from "react-hot-toast";
 import instance from "@/app/instance";
 import { CircularProgress } from "@mui/material";
-dotenv.config();
+import config from "@/config";
 
 export default function Register() {
   const router = useRouter();
@@ -13,8 +13,6 @@ export default function Register() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-  const whatsappLink = process.env.WHATSAPP_LINK;
-  const telegramLink = process.env.TELEGRAM_LINK;
   useEffect(() => {
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
@@ -125,7 +123,7 @@ export default function Register() {
         </button>
       </div>
       <a
-        href={whatsappLink}
+        href={config.WHATSAPP_LINK}
         target="_blank"
         className="anchor whatsapp-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >
@@ -140,7 +138,7 @@ export default function Register() {
         </svg>
       </a>
       <a
-        href={telegramLink}
+        href={config.TELEGRAM_LINK}
         target="_blank"
         className="anchor telegram-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >
