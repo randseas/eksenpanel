@@ -16,7 +16,7 @@ export default function EditLink({
 }) {
   const router = useRouter();
   const { state } = useContext(AppContext);
-  const [isRedirectActive, setIsRedirectActive] = useState<boolean>(true);
+
   const [existingRedirect, setExistingRedirect] = useState<
     Redirect | undefined
   >(
@@ -24,6 +24,9 @@ export default function EditLink({
       (redirect: Redirect) => redirect.redirectId === params.redirectId[0]
     )
   );
+  const [isRedirectActive, setIsRedirectActive] = useState<
+    "active" | "passive" | any
+  >(existingRedirect?.status);
   const [destinationUrl, setDestinationURL] = useState<string>(
     existingRedirect?.destinationUrl || ""
   );
@@ -44,6 +47,7 @@ export default function EditLink({
         token: state.userData.token,
         redirectId: existingRedirect?.redirectId,
         destinationUrl: destinationUrl,
+        status: isRedirectActive,
         title,
         description,
       })
@@ -157,7 +161,17 @@ export default function EditLink({
               code={redirectCode}
             />
           </div>
-          <div></div>
+          <div className="flex flex-row items-center justify-between w-full py-1">
+            <span>Yönlendirme Durumu</span>
+            <Switch
+              checked={isRedirectActive === "active" ? true : false}
+              onClick={() =>
+                setIsRedirectActive(
+                  isRedirectActive === "active" ? "passive" : "active"
+                )
+              }
+            />
+          </div>
           <button
             onClick={handleEditRedirect}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"
