@@ -27,20 +27,27 @@ export interface Redirect extends Document {
   creationDate: string;
 }
 export interface Account {
+  username: string;
   email: string;
   password: string;
 }
 export interface UserSubscriptionInterface extends Document {
   subscriptionId: string;
   status: "active" | "passive";
+  permissions: Array<Permission>;
   startDate: string;
   endDate?: string;
+}
+export interface Permission {
+  permission: string;
+  limit: number;
 }
 export interface SubscriptionInterface extends Document {
   subscriptionId: string;
   title: string;
   description: string;
   price: string;
+  permissions: Array<Permission>;
   creationDate: string;
 }
 export interface NotificationInterface {

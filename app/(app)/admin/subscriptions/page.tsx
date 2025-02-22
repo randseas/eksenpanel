@@ -25,6 +25,7 @@ export default function Subscriptions() {
       "Bu aboneliği silmek istediğinizden emin misiniz?"
     );
     if (!isConfirmed) return;
+    const loadingtoast = toast.loading("Abonelik siliniyor");
     instance
       .post("deleteSubscription", {
         token: state.userData.token,
@@ -50,6 +51,9 @@ export default function Subscriptions() {
       .catch((err) => {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
       });
   }
   return (
@@ -151,7 +155,7 @@ export default function Subscriptions() {
                     <a
                       onClick={() =>
                         router.push(
-                          `/admin/editSubscription?id=${sub.subscriptionId}`
+                          `/admin/editSubscription/${sub.subscriptionId}`
                         )
                       }
                       className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"

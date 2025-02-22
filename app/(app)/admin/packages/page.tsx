@@ -31,6 +31,7 @@ export default function Packages() {
       "Paketi silmek istediğinize emin misiniz?"
     );
     if (!isConfirmed) return;
+    const loadingtoast = toast.loading("Paket siliniyor");
     instance
       .post("deletePackage", {
         token: state.userData.token,
@@ -46,6 +47,9 @@ export default function Packages() {
       .catch((err: any) => {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
       });
   }
   return (
@@ -168,7 +172,7 @@ export default function Packages() {
                 <td className="text-[15px] px-2 py-4">{pkg.name}</td>
                 <td className="text-[15px] px-2 py-4">{pkg.title}</td>
                 <td className="text-[15px] px-2 py-4">
-                  {pkg.description.length <= 20
+                  {pkg.description.length >= 20
                     ? pkg.description.slice(0, 20) + "..."
                     : pkg.description}
                 </td>

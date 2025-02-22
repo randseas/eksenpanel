@@ -58,7 +58,7 @@ export default function AdminPanel() {
   return (
     <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
       <DashboardHeader page={`Yönetim Paneli`} />
-      <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-5 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-5 xl:grid-rows-1">
+      <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
         {[
           {
             title: "Toplam Yönlendirme",
@@ -69,16 +69,6 @@ export default function AdminPanel() {
               to: "to-[#4f04e0]/95",
             },
             shadow: "shadow-[#5b21b6]/10",
-          },
-          {
-            title: "Aktif Yönlendirme",
-            icon: ShieldCheck,
-            bg: {
-              from: "from-[#8900ff]/95",
-              via: "via-[#bd00ff]/95",
-              to: "to-[#d80bff]/95",
-            },
-            shadow: "shadow-[#15803d]/10",
           },
           {
             title: "Abonelikler",
@@ -138,12 +128,6 @@ export default function AdminPanel() {
                   {!state.loading
                     ? itemTitle === "toplamyönlendirme"
                       ? state?.userRedirects?.length.toString()
-                      : itemTitle === "aktifyönlendirme"
-                      ? state?.userRedirects
-                          ?.filter(
-                            (redirect: Redirect) => redirect.status === "active"
-                          )
-                          ?.length.toString()
                       : itemTitle === "paketler"
                       ? state.packages.length
                       : itemTitle === "hesaplar"

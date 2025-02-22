@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/components/common/dashboardHeader";
 import { AppContext } from "@/app/(app)/context";
@@ -40,6 +40,11 @@ export default function EditPackage({
   const [existingPackage, setExistingPackage] = useState<Package | any>(
     state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
   );
+  useEffect(() => {
+    setExistingPackage(
+      state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
+    );
+  }, [state.packages, params.packageId]);
   const [pkg, setPackage] = useState<Partial<Package>>({
     title: existingPackage?.title || "",
     name: existingPackage?.name || "",
@@ -49,6 +54,7 @@ export default function EditPackage({
     accAmount: existingPackage?.accAmount || "",
   });
   function handleEditPackage() {
+    const loadingtoast = toast.loading("Paket düzenleniyor");
     instance
       .post("editPackage", {
         token: state.userData.token,
@@ -58,7 +64,7 @@ export default function EditPackage({
         description: pkg.description,
         price: pkg.price,
         accounts: pkg.accounts,
-        accAmount: pkg.accAmount
+        accAmount: pkg.accAmount,
       })
       .then((res) => {
         if (res.data.status === "ok") {
@@ -77,6 +83,9 @@ export default function EditPackage({
       .catch((err) => {
         console.error(err);
         toast.error(err.message);
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
       });
   }
   return (
@@ -222,11 +231,12 @@ export default function EditPackage({
               }}
               spellCheck="false"
               className="px-3.5 font-mono focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 min-h-[100px] rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-              placeholder="Kullanıcı Adı:example | E-POSTA:example@holder.com | ŞİFRE:1234"
+              placeholder="Kullanıcı Adı: example | E-POSTA: example@holder.com | ŞİFRE: 1234"
             />
             <span className="dark:text-zinc-300 text-sm">
               <span className="font-mono">
-                Kullanıcı Adı:example | E-POSTA:example@holder.com | ŞİFRE:1234
+                Kullanıcı Adı: example | E-POSTA: example@holder.com | ŞİFRE:
+                1234
               </span>
               &nbsp; formatında giriş yapınız.
             </span>

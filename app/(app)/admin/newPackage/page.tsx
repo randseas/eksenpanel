@@ -29,6 +29,7 @@ export default function NewPackage() {
     accAmount: "",
   });
   function handleNewPackage() {
+    const loadingtoast = toast.loading("Paket ekleniyor");
     instance
       .post("newPackage", {
         token: state.userData.token,
@@ -51,6 +52,9 @@ export default function NewPackage() {
       .catch((err) => {
         console.error(err);
         toast.error(err.message);
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
       });
   }
   return (

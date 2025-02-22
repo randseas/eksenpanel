@@ -19,6 +19,7 @@ export default function NewSubscription() {
   });
 
   function handleNewSubscription() {
+    const loadingtoast = toast.loading("Abonelik oluşturuluyor");
     instance
       .post("newSubscription", {
         token: state.userData.token,
@@ -45,6 +46,9 @@ export default function NewSubscription() {
       .catch((err) => {
         console.error(err);
         toast.error(err.message);
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
       });
   }
 
@@ -56,7 +60,11 @@ export default function NewSubscription() {
         <span className="dark:text-zinc-200 text-base font-[450]">
           Yeni bir abonelik ekleyin.
         </span>
-        <div className="w-full flex flex-col mt-3.5 items-center justify-center">
+        <div className="w-full flex flex-col mt-2 items-center justify-center">
+          <span className="dark:text-yellow-500 text-[15.25px]">
+            UYARI: Lütfen başlık ve açıklamada aylık veya yıllık olarak süre
+            belirtmeyiniz. Paket ve fiyatı varsayılan olarak aylıktır.
+          </span>
           <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
@@ -75,7 +83,7 @@ export default function NewSubscription() {
                   }))
                 }
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-700"
-                placeholder="Örn. Aylık Premium"
+                placeholder="Örn. Premium"
               />
             </div>
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
@@ -83,7 +91,7 @@ export default function NewSubscription() {
                 htmlFor="subPrice"
                 className="text-md font-[450] dark:text-zinc-200"
               >
-                Fiyat (USD)
+                Aylık Fiyat (USD)
               </label>
               <input
                 id="subPrice"
@@ -120,8 +128,29 @@ export default function NewSubscription() {
               }
               spellCheck="false"
               className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 min-h-[100px] rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-700"
-              placeholder="Örn. Aylık premium abonelik, tüm özelliklere erişim sağlar."
+              placeholder="Örn. Premium abonelik, tüm özelliklere erişim sağlar."
             />
+          </div>
+          <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
+            <label
+              htmlFor="subPermissions"
+              className="text-md font-[450] dark:text-zinc-200"
+            >
+              Yetki(ler)
+            </label>
+            <textarea
+              id="subPermissions"
+              spellCheck="false"
+              className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 min-h-[100px] rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-700"
+              placeholder="Yetki tipi: yönlendirme | Limit: 1000"
+            />
+            <span className="dark:text-zinc-300 text-sm">
+              <span className="font-mono">
+                Yetki tipi: yönlendirme | Limit: sınırsız/(sayı)
+              </span>
+              &nbsp; formatında giriş yapınız. <br />
+              Büyük/küçük harf duyarlılığı bulunmamaktadır.
+            </span>
           </div>
           <button
             onClick={handleNewSubscription}
