@@ -168,7 +168,9 @@ export default function Packages() {
                 <td className="text-[15px] px-2 py-4">{pkg.name}</td>
                 <td className="text-[15px] px-2 py-4">{pkg.title}</td>
                 <td className="text-[15px] px-2 py-4">
-                  {pkg.description.slice(0, 20) + "..."}
+                  {pkg.description.length <= 20
+                    ? pkg.description.slice(0, 20) + "..."
+                    : pkg.description}
                 </td>
                 <td className="text-[15px] px-2 py-4">
                   {timeAgo(pkg.creationDate)}

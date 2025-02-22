@@ -6,11 +6,11 @@ import {
   NotificationInterface,
   Package,
   Redirect,
+  SubscriptionInterface,
   User,
 } from "@/types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
 import dotenv from "dotenv";
 dotenv.config();
 
@@ -20,6 +20,7 @@ export interface State {
   packages: Package[];
   users: Partial<User>[];
   activities: Activity[];
+  subscriptions: SubscriptionInterface[];
   loading: boolean;
 }
 interface AppContextType {
@@ -32,6 +33,7 @@ const emptyUser: User = {
   token: "",
   permission: "user",
   created: "0",
+  orderedPackages: [],
   purchasedPackages: [],
   notifications: [],
   telegramBot: {
@@ -45,6 +47,7 @@ const initialState: State = {
   packages: [],
   users: [],
   activities: [],
+  subscriptions: [],
   loading: true,
 };
 export const AppContext = createContext<AppContextType>({
@@ -75,6 +78,7 @@ export default function ProvideContext({
             packages: data.packages,
             users: data?.users || [],
             activities: data?.activities || [],
+            subscriptions: data?.subscriptions || [],
             loading: false,
           };
           setState((prev) => ({

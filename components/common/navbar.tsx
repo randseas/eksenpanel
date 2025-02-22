@@ -10,6 +10,8 @@ import {
   PackagePlus,
   Users,
   UserCheck,
+  TicketPlus,
+  Ticket,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -63,19 +65,29 @@ export default function Navbar() {
               path: "/admin/newPackage",
             },
             {
+              label: "Abonelikler",
+              icon: Ticket,
+              path: "/admin/subscriptions",
+            },
+            {
+              label: "Abonelik ekle",
+              icon: TicketPlus,
+              path: "/admin/newSubscription",
+            },
+            {
               label: "Kullanıcılar",
               icon: Users,
               path: "/admin/users",
             },
           ]
         : []
-      : state.userData.permission === "user" ||
-        state.userData.permission === "admin"
+      : state.userData.permission === "user"
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
           { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
         ]
-      : state.userData.permission === "verified"
+      : state.userData.permission === "verified" ||
+        state.userData.permission === "admin"
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
           {

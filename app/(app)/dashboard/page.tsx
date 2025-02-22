@@ -156,7 +156,8 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-      ) : state.userData.permission === "verified" ? (
+      ) : state.userData.permission === "verified" ||
+        state.userData.permission === "admin" ? (
         <>
           <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">
             {[

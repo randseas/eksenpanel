@@ -1,15 +1,19 @@
-export interface User {
+type Document = any;
+
+export interface User extends Document {
   userId: string;
   email: string;
   token?: string;
   password?: string;
   permission: string;
   purchasedPackages: PurchasedPackage[];
+  orderedPackages: OrderedPackage[];
   telegramBot: TelegramBotDetails;
   notifications: NotificationInterface[];
+  activeSubscription: UserSubscriptionInterface;
   created: string;
 }
-export interface Redirect {
+export interface Redirect extends Document {
   userId: string;
   redirectId: string;
   title: string;
@@ -26,6 +30,19 @@ export interface Account {
   email: string;
   password: string;
 }
+export interface UserSubscriptionInterface extends Document {
+  subscriptionId: string;
+  status: "active" | "passive";
+  startDate: string;
+  endDate?: string;
+}
+export interface SubscriptionInterface extends Document {
+  subscriptionId: string;
+  title: string;
+  description: string;
+  price: string;
+  creationDate: string;
+}
 export interface NotificationInterface {
   title: string;
   content: string;
@@ -36,7 +53,6 @@ export interface Package {
   packageId: string;
   title: string;
   name: string;
-  color: any;
   description: string;
   price: string;
   accounts: Account[];
@@ -47,6 +63,11 @@ export interface PurchasedPackage {
   packageId: string;
   accounts: Account[];
   purchaseDate: string;
+}
+export interface OrderedPackage {
+  packageId: string;
+  status: string;
+  orderDate: string;
 }
 export interface TelegramBotDetails {
   key: string;
