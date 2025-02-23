@@ -117,7 +117,7 @@ export default function Navbar() {
         ]
       : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
-    <div className="flex flex-col w-full space-y-[5px] items-center justify-start h-full">
+    <div className="flex flex-col w-full overflow-y-auto max-h-[440px] rounded-[22px] mt-20 space-y-[5px] items-center justify-start">
       {menuItems.map(({ label, icon: Icon, path }) => (
         <div
           key={path}
@@ -192,7 +192,7 @@ export default function Navbar() {
         ></div>
         <div
           className={cn(
-            "fixed top-0 z-[99999] left-0 h-full bg-light dark:bg-dark border-r border-light-border dark:border-dark-border w-[280px] p-4 transition-transform duration-200",
+            "fixed top-0 z-[99999] left-0 h-full bg-light dark:bg-dark border-r border-light-border dark:border-dark-border w-[280px] py-4 transition-transform duration-200",
             isDrawerOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >

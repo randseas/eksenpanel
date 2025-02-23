@@ -26,12 +26,14 @@ import config from "@/config";
 
 const monthlyPlans = [
   {
+    subscriptionId: "1",
     title: "Üyelik 1",
     price: "50",
     description:
       "1000 Yönlendirme sayısı,Her yönlendirme için başlık ve açıklama ekleme imkanı,Paket süresi boyunca sınırsız kullanım hakkı,30 gün boyunca geçerli",
   },
   {
+    subscriptionId: "2",
     title: "Üyelik 2",
     price: "100",
     description:
@@ -140,8 +142,31 @@ export default function Dashboard() {
                 </ul>
                 <div
                   onClick={() => {
-                    toast.loading("Telegram'a yönlendiriliyorsunuz");
-                    document.location.href = config.TELEGRAM_LINK;
+                    const loadingtoast = toast.loading(
+                      "Sipariş oluşturuluyor..."
+                    );
+                    instance
+                      .post("createSubscriptionOrder", {
+                        token: state.userData.token,
+                        subscriptionId: plan.subscriptionId,
+                        subscriptionPlan: subscriptionPlan,
+                      })
+                      .then((res) => {
+                        if (res.data.status === "ok") {
+                          toast.success("Sipariş başarıyla oluşturuldu");
+                          toast.loading("Telegram'a yönlendiriliyorsunuz");
+                          document.location.href = config.TELEGRAM_LINK;
+                        } else {
+                          toast.error(
+                            "Sipariş oluşturulamadı, tekrar deneyin."
+                          );
+                        }
+                      })
+                      .catch((err) => {
+                        toast.error("Sipariş oluşturulamadı, tekrar deneyin.");
+                        toast.dismiss(loadingtoast);
+                      })
+                      .finally(() => toast.dismiss(loadingtoast));
                   }}
                   className="bg-white/90 z-50 backdrop-blur-lg space-x-[9.25vw] absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
                 >
