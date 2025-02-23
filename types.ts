@@ -10,7 +10,7 @@ export interface User extends Document {
   orderedPackages: OrderedPackage[];
   telegramBot: TelegramBotDetails;
   notifications: NotificationInterface[];
-  activeSubscription: UserSubscriptionInterface;
+  activeSubscription?: UserSubscriptionInterface | null;
   created: string;
 }
 export interface Redirect extends Document {

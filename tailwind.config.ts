@@ -36,11 +36,12 @@ const config = {
       colors: {
         light: "#ffffff",
         dark: "#181818",
-        primary: "#2196f3",
+        primary: {
+          400: "#1C82F4",
+          500: "#1473E6",
+        },
         "light-border": "#DFDFDFFF",
-        "light-foreground": "#F4F4F4FF",
         "dark-border": "#171718",
-        "dark-foreground": "#161616",
         blue: {
           50: "#e3f2fd",
           100: "#bbdefb",
@@ -56,12 +57,11 @@ const config = {
           "accent-200": "#448aff",
           "accent-400": "#2979ff",
           "accent-700": "#2962ff",
-          primary: "#3773f5",
         },
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
 } satisfies Config;
 
 export default config;

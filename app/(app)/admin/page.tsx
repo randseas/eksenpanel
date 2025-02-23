@@ -127,7 +127,7 @@ export default function AdminPanel() {
                 <span className="text-2xl font-semibold text-white">
                   {!state.loading
                     ? itemTitle === "toplamyönlendirme"
-                      ? state?.userRedirects?.length.toString()
+                      ? state?.redirects?.length.toString()
                       : itemTitle === "paketler"
                       ? state.packages.length
                       : itemTitle === "hesaplar"

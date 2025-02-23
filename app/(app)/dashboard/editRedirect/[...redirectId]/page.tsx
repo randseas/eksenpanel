@@ -16,7 +16,7 @@ export default function EditLink({
 }) {
   const router = useRouter();
   const { state } = useContext(AppContext);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const [existingRedirect, setExistingRedirect] = useState<
     Redirect | undefined
   >(
@@ -38,38 +38,46 @@ export default function EditLink({
     existingRedirect?.jsUrl || ""
   );
   function handleEditRedirect() {
-    if (existingRedirect?.mainUrl === destinationUrl) {
-      toast.error("Ana URL Hedef URL ile aynı olamaz!");
-      return;
-    }
-    instance
-      .post("editRedirect", {
-        token: state.userData.token,
-        redirectId: existingRedirect?.redirectId,
-        destinationUrl: destinationUrl,
-        status: isRedirectActive,
-        title,
-        description,
-      })
-      .then((res) => {
-        if (res.data.status === "ok") {
-          toast.success("Yönlendirme düzenleme başarılı");
-          setDestinationURL("");
+    if (!loading) {
+      if (existingRedirect?.mainUrl === destinationUrl) {
+        toast.error("Ana URL Hedef URL ile aynı olamaz!");
+        return;
+      }
+      setLoading(true);
+      const loadingtoast = toast.loading("Yönlendirme düzenleniyor...");
+      instance
+        .post("editRedirect", {
+          token: state.userData.token,
+          redirectId: existingRedirect?.redirectId,
+          destinationUrl: destinationUrl,
+          status: isRedirectActive,
+          title,
+          description,
+        })
+        .then((res) => {
+          if (res.data.status === "ok") {
+            toast.success("Yönlendirme düzenleme başarılı");
+            setDestinationURL("");
 
-          setRedirectCode("");
-          router.push("/dashboard/redirects");
-        } else if (res.data.message === "missing_fields") {
-          toast.error("Lütfen tüm alanları doldurun");
-        } else if (res.data.message === "redirect_not_exists") {
-          toast.error("Bu yönlendirme mevcut değil");
-        } else if (res.data.message === "db_error") {
-          toast.error("Sunucu hatası");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error(err.message);
-      });
+            setRedirectCode("");
+            router.push("/dashboard/redirects");
+          } else if (res.data.message === "missing_fields") {
+            toast.error("Lütfen tüm alanları doldurun");
+          } else if (res.data.message === "redirect_not_exists") {
+            toast.error("Bu yönlendirme mevcut değil");
+          } else if (res.data.message === "db_error") {
+            toast.error("Sunucu hatası");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error(err.message);
+        })
+        .finally(() => {
+          toast.dismiss(loadingtoast);
+          setLoading(false);
+        });
+    }
   }
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">

@@ -10,51 +10,57 @@ import { AppContext } from "../../context";
 export default function NewLink() {
   const router = useRouter();
   const { state } = useContext(AppContext);
-  const [isRedirectActive, setIsRedirectActive] = useState<boolean>(true);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const [mainUrl, setMainURL] = useState<string>("");
   const [destinationUrl, setDestinationURL] = useState<string>("");
-
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [redirectCode, setRedirectCode] = useState<string>("");
   function handleNewRedirect() {
-    if (mainUrl === destinationUrl) {
-      toast.error("Ana URL Hedef URL ile aynı olamaz!");
-      return;
+    if (!loading) {
+      if (mainUrl === destinationUrl) {
+        toast.error("Ana URL Hedef URL ile aynı olamaz!");
+        return;
+      }
+      setLoading(true);
+      const loadingtoast = toast.loading("Yönlendirme ekleniyor...");
+      instance
+        .post("newRedirect", {
+          token: state.userData.token,
+          mainUrl,
+          destinationUrl,
+          title,
+          description,
+        })
+        .then((res) => {
+          if (res.data.status === "ok") {
+            toast.success("Yönlendirme oluşturuldu");
+            setMainURL("");
+            setDestinationURL("");
+            setRedirectCode("");
+            router.push("/dashboard/redirects");
+          } else if (res.data.message === "missing_fields") {
+            toast.error("Lütfen tüm alanları doldurun");
+          } else if (res.data.message === "redirect_already_exists") {
+            toast.error("Bu URL ile zaten bir yönlendirme mevcut");
+          } else if (res.data.message === "db_error") {
+            toast.error("Sunucu hatası");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+          toast.error(err.message);
+        })
+        .finally(() => {
+          toast.dismiss(loadingtoast);
+          setLoading(false);
+        });
     }
-    instance
-      .post("newRedirect", {
-        token: state.userData.token,
-        mainUrl,
-        destinationUrl,
-        title,
-        description,
-      })
-      .then((res) => {
-        if (res.data.status === "ok") {
-          toast.success("Yönlendirme oluşturuldu");
-          setMainURL("");
-          setDestinationURL("");
-          setRedirectCode("");
-          router.push("/dashboard/redirects");
-        } else if (res.data.message === "missing_fields") {
-          toast.error("Lütfen tüm alanları doldurun");
-        } else if (res.data.message === "redirect_already_exists") {
-          toast.error("Bu URL ile zaten bir yönlendirme mevcut");
-        } else if (res.data.message === "db_error") {
-          toast.error("Sunucu hatası");
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        toast.error(err.message);
-      });
   }
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Yönlendirme Ekle" />
-      <div className="border mx-auto neon-box mt-2 md:mt-5 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
+      <div className="border mx-auto neon-box mt-2 md:mt-20 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
         <h1 className="text-lg font-medium">Yeni Yönlendirme Ekle</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
           Yeni bir yönlendirme ekleyin.

@@ -12,6 +12,8 @@ import {
   UserCheck,
   TicketPlus,
   Ticket,
+  ChartArea,
+  ExternalLinkIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -50,9 +52,19 @@ export default function Navbar() {
         ? [
             { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
             {
+              label: "İstatistikler",
+              icon: ChartArea,
+              path: "/admin/stats",
+            },
+            {
               label: "Aktivite Logları",
               icon: History,
               path: "/admin/activities",
+            },
+            {
+              label: "Yönlendirmeler",
+              icon: ExternalLinkIcon,
+              path: "/admin/redirects",
             },
             {
               label: "Paketler",

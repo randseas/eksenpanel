@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Toaster } from "react-hot-toast";
 import { Inter } from "next/font/google";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css"; // NProgress stillerini eklemeyi unutma
 import "./globals.min.css";
@@ -41,7 +41,7 @@ export default function RootLayout({
     NProgress.start();
     const timer = setTimeout(() => {
       NProgress.done();
-    }, 500);
+    }, 600);
     return () => clearTimeout(timer);
   }, [pathname]);
   const styles = {
