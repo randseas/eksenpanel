@@ -123,7 +123,7 @@ export default function Navbar() {
         ]
       : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
-    <div className="flex flex-col w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
+    <div className="flex flex-col mx-4 w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
       {menuItems.map(({ label, icon: Icon, path }) => (
         <div
           key={path}
