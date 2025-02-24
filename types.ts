@@ -1,6 +1,24 @@
-type Document = any;
-
-export interface User extends Document {
+export interface Permission {
+  permission: string;
+  title: string;
+  type: "string" | "boolean" | "number";
+  value: string | boolean | number;
+}
+export interface UserSubscriptionInterface {
+  subscriptionId: string;
+  permissions: Array<Permission>;
+  startDate: string;
+  endDate?: string;
+}
+export interface SubscriptionInterface {
+  subscriptionId: string;
+  title: string;
+  description: string;
+  price: string;
+  permissions: Array<Permission>;
+  creationDate: string;
+}
+export interface User {
   userId: string;
   email: string;
   token?: string;
@@ -11,9 +29,10 @@ export interface User extends Document {
   telegramBot: TelegramBotDetails;
   notifications: NotificationInterface[];
   activeSubscription?: UserSubscriptionInterface | null;
+  orderedSubscription: OrderedSubscription | null;
   created: string;
 }
-export interface Redirect extends Document {
+export interface Redirect {
   userId: string;
   redirectId: string;
   title: string;
@@ -31,24 +50,12 @@ export interface Account {
   email: string;
   password: string;
 }
-export interface UserSubscriptionInterface extends Document {
+export interface OrderedSubscription {
   subscriptionId: string;
-  status: "active" | "passive";
-  permissions: Array<Permission>;
-  startDate: string;
-  endDate?: string;
-}
-export interface Permission {
-  permission: string;
-  limit: number;
-}
-export interface SubscriptionInterface extends Document {
-  subscriptionId: string;
-  title: string;
-  description: string;
-  price: string;
-  permissions: Array<Permission>;
-  creationDate: string;
+  orderId: string;
+  status: "pending" | "success" | "cancelled";
+  subscriptionPlan: "monthly" | "yearly";
+  orderDate: string;
 }
 export interface NotificationInterface {
   title: string;

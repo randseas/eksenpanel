@@ -7,7 +7,11 @@ import instance from "@/app/instance";
 import toast from "react-hot-toast";
 import { Permission, SubscriptionInterface } from "@/types";
 
-export default function NewSubscription() {
+export default function EditSubscription({
+  params,
+}: {
+  params: { subscriptionIds: Array<string> };
+}) {
   const router = useRouter();
   const { state } = useContext(AppContext);
   const [defaultPerms, setDefaultPerms] = useState<Permission[]>([
@@ -38,23 +42,42 @@ export default function NewSubscription() {
     price: "",
     permissions: [],
   });
-  function handleNewSubscription() {
+  useEffect(() => {
+    const loadingtoast = toast.loading("Abonelik aranıyor");
+    const findedSubscription = state.subscriptions.find(
+      (sub: SubscriptionInterface) =>
+        sub.subscriptionId?.toString().toLowerCase().trim() ===
+        params?.subscriptionIds[0]?.toString().toLowerCase().trim()
+    );
+    if (findedSubscription) {
+      toast.dismiss(loadingtoast);
+      setSubscription(findedSubscription);
+    } else {
+      toast.dismiss(loadingtoast);
+      toast.error("Abonelik bulunamadı");
+      router.push("/admin/subscriptions");
+    }
+  }, [params.subscriptionIds]);
+  function handleEditSubscription() {
     if (subscription.permissions?.length === 0) {
       toast.error("En az bir yetki eklenmelidir");
       return;
     }
-    const loadingtoast = toast.loading("Abonelik oluşturuluyor");
+    const loadingtoast = toast.loading("Abonelik düzenleniyor");
     instance
-      .post("newSubscription", {
+      .post("editSubscription", {
         token: state.userData.token,
+        subscriptionId: subscription.subscriptionId,
         title: subscription.title,
         description: subscription.description,
         price: subscription.price,
         permissions: subscription.permissions,
       })
       .then((res) => {
+        console.log("sended", subscription);
+        console.log("result", res.data);
         if (res.data.status === "ok") {
-          toast.success("Abonelik oluşturuldu");
+          toast.success("Abonelik düzenlendi");
           router.push("/admin/subscriptions");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
@@ -62,7 +85,7 @@ export default function NewSubscription() {
           toast.error("Kullanıcı bulunamadı");
         } else if (res.data.message === "forbidden") {
           toast.error(
-            "Erişim engellendi: Yalnızca adminler abonelik oluşturabilir"
+            "Erişim engellendi: Yalnızca adminler abonelik düzenleyebilir"
           );
         } else if (res.data.message === "db_error") {
           toast.error("Sunucu hatası");
@@ -140,9 +163,9 @@ export default function NewSubscription() {
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Abonelik Ekle" />
       <div className="border mx-auto neon-box md:mt-2 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
-        <h1 className="text-lg font-medium">Yeni Abonelik Ekle</h1>
+        <h1 className="text-lg font-medium">Aboneliği Düzenle</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
-          Yeni bir abonelik ekleyin.
+          Var olan aboneliği düzenleyin.
         </span>
         <div className="w-full flex flex-col mt-2 items-center justify-center">
           <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
@@ -309,10 +332,10 @@ export default function NewSubscription() {
           </div>
           {/* Aboneliği Ekle Butonu */}
           <button
-            onClick={handleNewSubscription}
+            onClick={handleEditSubscription}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"
           >
-            Aboneliği Ekle
+            Aboneliği Düzenle
           </button>
         </div>
       </div>

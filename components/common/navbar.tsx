@@ -14,6 +14,7 @@ import {
   Ticket,
   ChartArea,
   ExternalLinkIcon,
+  TicketSlash,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -67,6 +68,11 @@ export default function Navbar() {
               path: "/admin/redirects",
             },
             {
+              label: "Abonelik Siparişleri",
+              icon: TicketSlash,
+              path: "/admin/subscriptionOrders",
+            },
+            {
               label: "Paketler",
               icon: Package,
               path: "/admin/packages",
@@ -117,7 +123,7 @@ export default function Navbar() {
         ]
       : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
-    <div className="flex flex-col w-full overflow-y-auto max-h-[440px] rounded-[22px] mt-20 space-y-[5px] items-center justify-start">
+    <div className="flex flex-col w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
       {menuItems.map(({ label, icon: Icon, path }) => (
         <div
           key={path}

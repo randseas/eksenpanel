@@ -25,7 +25,7 @@ export default function Header() {
                 pathname.split("/")[1] === "dashboard"
                   ? "dark:text-white bg-zinc-300/40 dark:bg-zinc-800/90 text-zinc-900"
                   : "dark:text-zinc-300/95 hover:bg-zinc-300/30 dark:hover:bg-zinc-800/70 text-zinc-800/95"
-              } text-zinc-800 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
+              } text-zinc-800 border dark:border-zinc-800 border-zinc-200 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
             >
               Dashboard
             </a>
@@ -36,7 +36,7 @@ export default function Header() {
                 pathname.split("/")[1] === "auth"
                   ? "dark:text-white bg-zinc-300/40 dark:bg-zinc-800/90 text-zinc-900"
                   : "dark:text-zinc-300/95 hover:bg-zinc-300/30 dark:hover:bg-zinc-800/70 text-zinc-800/95"
-              } text-zinc-800 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
+              } text-zinc-800 border dark:border-zinc-800 border-zinc-200 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
             >
               Oturum aç
             </a>

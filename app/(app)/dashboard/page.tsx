@@ -19,27 +19,10 @@ import toast from "react-hot-toast";
 import { cn } from "@/lib/utils";
 import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
-import { Redirect } from "@/types";
+import { Redirect, SubscriptionInterface } from "@/types";
 import { timeAgo } from "@/lib/date";
 import instance from "@/app/instance";
 import config from "@/config";
-
-const monthlyPlans = [
-  {
-    subscriptionId: "1",
-    title: "Üyelik 1",
-    price: "50",
-    description:
-      "1000 Yönlendirme sayısı,Her yönlendirme için başlık ve açıklama ekleme imkanı,Paket süresi boyunca sınırsız kullanım hakkı,30 gün boyunca geçerli",
-  },
-  {
-    subscriptionId: "2",
-    title: "Üyelik 2",
-    price: "100",
-    description:
-      "Sınırsız Yönlendirme sayısı,Her yönlendirme için başlık ve açıklama ekleme imkanı,Paket süresi boyunca sınırsız kullanım hakkı,30 gün boyunca geçerli",
-  },
-];
 
 export default function Dashboard() {
   const router = useRouter();
@@ -117,24 +100,24 @@ export default function Dashboard() {
               Yıllık
             </span>
           </div>
-          <div className="flex flex-row mt-4 mx-auto items-center justify-center gap-2.5 w-full">
-            {monthlyPlans.map((plan, index: number) => (
+          <div className="flex flex-col md:flex-row mt-4 mx-auto items-center justify-center gap-2.5 w-full">
+            {state.subscriptions.map((subscription: SubscriptionInterface, index: number) => (
               <div
                 key={index}
-                className="bg-[#282828] max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
+                className="bg-[#282828] w-full md:max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
               >
-                <h3 className="text-[18px] font-medium">{plan.title}</h3>
+                <h3 className="text-[18px] font-medium">{subscription.title}</h3>
                 <p className="text-2xl font-medium pt-2.5">
                   $
                   {subscriptionPlan === "monthly"
-                    ? plan.price
-                    : (parseFloat(plan.price) * 12).toString()}
+                    ? subscription.price
+                    : (parseFloat(subscription.price) * 12).toString()}
                   <span className="opacity-95 text-lg">
                     /{subscriptionPlan === "monthly" ? "ay" : "yıl"}
                   </span>
                 </p>
                 <ul className="list-disc pl-4 pb-16 pt-0.5 space-y-0.5">
-                  {plan.description
+                  {subscription.description
                     .split(",")
                     .map((text: string, key: number) => (
                       <li key={key}>{text}</li>
@@ -148,7 +131,7 @@ export default function Dashboard() {
                     instance
                       .post("createSubscriptionOrder", {
                         token: state.userData.token,
-                        subscriptionId: plan.subscriptionId,
+                        subscriptionId: subscription.subscriptionId,
                         subscriptionPlan: subscriptionPlan,
                       })
                       .then((res) => {
@@ -157,6 +140,7 @@ export default function Dashboard() {
                           toast.loading("Telegram'a yönlendiriliyorsunuz");
                           document.location.href = config.TELEGRAM_LINK;
                         } else {
+                          console.log(res.data);
                           toast.error(
                             "Sipariş oluşturulamadı, tekrar deneyin."
                           );
@@ -164,11 +148,10 @@ export default function Dashboard() {
                       })
                       .catch((err) => {
                         toast.error("Sipariş oluşturulamadı, tekrar deneyin.");
-                        toast.dismiss(loadingtoast);
                       })
                       .finally(() => toast.dismiss(loadingtoast));
                   }}
-                  className="bg-white/90 z-50 backdrop-blur-lg space-x-[9.25vw] absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
+                  className="bg-white/90 z-50 backdrop-blur-lg min-w-[89%] left-4 right-4 absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
                 >
                   <span className="px-2 font-medium text-zinc-900 text-base">
                     Satın al
@@ -485,8 +468,11 @@ export default function Dashboard() {
                   )}
                   style={
                     {
+                      //@ts-expect-error
                       "--from-color": pkg.color?.from,
+                      //@ts-expect-error
                       "--via-color": pkg.color?.via,
+                      //@ts-expect-error
                       "--to-color": pkg.color?.to,
                     } as React.CSSProperties
                   }

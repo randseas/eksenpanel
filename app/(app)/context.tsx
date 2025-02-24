@@ -1,12 +1,6 @@
 "use client";
-import React, {
-  createContext,
-  useEffect,
-  useState,
-  useCallback,
-  Component,
-} from "react";
-import getLocalKey, { setLocalKey } from "@/helpers/localStorage";
+import React, { createContext, Component } from "react";
+import getLocalKey from "@/helpers/localStorage";
 import {
   Activity,
   NotificationInterface,
@@ -18,7 +12,6 @@ import {
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
 import dotenv from "dotenv";
-import { usePathname } from "next/navigation";
 import nProgress from "nprogress";
 dotenv.config();
 
@@ -40,16 +33,20 @@ const emptyUser: User = {
   userId: "",
   email: "",
   token: "",
-  permission: "user",
+  permission: "",
   created: "0",
   activeSubscription: null,
+  orderedSubscription: {
+    subscriptionId: "",
+    orderId: "",
+    subscriptionPlan: "monthly",
+    status: "pending",
+    orderDate: "",
+  },
   orderedPackages: [],
   purchasedPackages: [],
   notifications: [],
-  telegramBot: {
-    key: "",
-    groupId: "",
-  },
+  telegramBot: { key: "", groupId: "" },
 };
 const initialState: State = {
   userData: emptyUser,
@@ -71,13 +68,17 @@ export default class ProvideContext extends Component<
   State
 > {
   socket: any;
+  reconnectInterval: NodeJS.Timeout | null = null;
+  pingInterval: NodeJS.Timeout | null = null;
+  toastLoadingId: string | null = null;
   constructor(props: { children: React.ReactNode }) {
     super(props);
     this.state = initialState;
     this.socket = io(
       process.env.NODE_ENV === "production"
         ? "https://bionlukbackend.onrender.com"
-        : "http://localhost:3000"
+        : "http://localhost:3000",
+      { autoConnect: false }
     );
   }
   componentDidMount() {
@@ -86,12 +87,26 @@ export default class ProvideContext extends Component<
     this.socket.emit("chat message", `live_user::${userToken}`);
     this.socket.on("live_data", this.handleLiveData);
     this.socket.on("notification", this.handleNotification);
+    this.socket.on("disconnect", this.handleDisconnect);
+    this.socket.on("connect", this.handleConnect);
+    this.socket.connect();
   }
   componentWillUnmount() {
     nProgress.done();
     this.socket.off("live_data", this.handleLiveData);
     this.socket.off("notification", this.handleNotification);
+    this.socket.off("disconnect", this.handleDisconnect);
+    this.socket.off("connect", this.handleConnect);
     this.socket.disconnect();
+    if (this.reconnectInterval) {
+      clearInterval(this.reconnectInterval);
+    }
+    if (this.pingInterval) {
+      clearInterval(this.pingInterval);
+    }
+    if (this.toastLoadingId) {
+      toast.dismiss(this.toastLoadingId);
+    }
     console.log("Socket disconnected");
   }
   handleLiveData = async (data: any) => {
@@ -108,17 +123,9 @@ export default class ProvideContext extends Component<
           subscriptions: data?.subscriptions || [],
           loading: false,
         };
-        this.setState((prev) => ({
-          ...prev,
-          ...updatedData,
-          loading: false,
-        }));
+        this.setState((prev) => ({ ...prev, ...updatedData, loading: false }));
       } else {
-        this.setState((prev) => ({
-          ...prev,
-          ...data,
-          loading: false,
-        }));
+        this.setState((prev) => ({ ...prev, ...data, loading: false }));
       }
       nProgress.done();
     } catch (err) {
@@ -152,20 +159,9 @@ export default class ProvideContext extends Component<
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   >
-                    {false ? (
-                      <>
-                        <path d="M10.268 21a2 2 0 0 0 3.464 0" />
-                        <path d="M22 8c0-2.3-.8-4.3-2-6" />
-                        <path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326" />
-                        <path d="M4 2C2.8 3.7 2 5.7 2 8" />
-                      </>
-                    ) : (
-                      <>
-                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
-                        <path d="M12 9v4" />
-                        <path d="M12 17h.01" />
-                      </>
-                    )}
+                    <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" />
+                    <path d="M12 9v4" />
+                    <path d="M12 17h.01" />
                   </svg>
                 </div>
               </div>
@@ -189,12 +185,39 @@ export default class ProvideContext extends Component<
           </div>
         </div>
       ),
-      {
-        position: "top-center",
-        duration: 5000,
-        style: { borderRadius: 12 },
-      }
+      { position: "top-center", duration: 5000, style: { borderRadius: 12 } }
     );
+  };
+  handleDisconnect = () => {
+    console.log("Socket disconnected. Attempting to reconnect...");
+    if (!this.toastLoadingId) {
+      this.toastLoadingId = toast.loading(
+        "Soket bağlantısı kesildi. Yeniden bağlanılıyor..."
+      );
+    }
+    this.setState({ loading: true });
+    this.reconnectInterval = setInterval(() => {
+      if (!this.socket.connected) {
+        this.socket.connect();
+      }
+    }, 30000);
+  };
+  handleConnect = () => {
+    console.log("Socket connected.");
+    if (this.reconnectInterval) {
+      clearInterval(this.reconnectInterval);
+      this.reconnectInterval = null;
+    }
+    if (this.toastLoadingId) {
+      toast.success("Soket bağlantısı başarılı");
+      toast.dismiss(this.toastLoadingId);
+      const userToken = getLocalKey("user-token");
+      this.socket.emit("chat message", `live_user::${userToken}`);
+      this.toastLoadingId = null;
+    }
+    this.pingInterval = setInterval(() => {
+      this.socket.emit("chat message", "ping");
+    }, 60000);
   };
   render() {
     return (

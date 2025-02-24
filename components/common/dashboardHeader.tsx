@@ -82,19 +82,27 @@ export default function DashboardHeader({ page }: { page: string }) {
                               new Date(b.timestamp).getTime() -
                               new Date(a.timestamp).getTime()
                           )
-                          .map((notification: NotificationInterface) => (
-                            <div className="bg-zinc-900/80 border border-zinc-900 max-w-[100%] w-full rounded-xl px-4 py-3">
-                              <span className="text-[16px] tracking-[-0.005em] font-[500]">
-                                {notification.title}
-                              </span>
-                              <p className="text-zinc-100 mt-1 text-[15px]">
-                                {formatContent(notification.content)}
-                              </p>
-                              <span className="mt-1 text-[15px] font-[500]">
-                                {timeAgo(notification.timestamp)}
-                              </span>
-                            </div>
-                          ))
+                          .map(
+                            (
+                              notification: NotificationInterface,
+                              index: number
+                            ) => (
+                              <div
+                                key={index}
+                                className="bg-zinc-900/80 border border-zinc-900 max-w-[100%] w-full rounded-xl px-4 py-3"
+                              >
+                                <span className="text-[16px] tracking-[-0.005em] font-[500]">
+                                  {notification.title}
+                                </span>
+                                <p className="text-zinc-100 mt-1 text-[15px]">
+                                  {formatContent(notification.content)}
+                                </p>
+                                <span className="mt-1 text-[15px] font-[500]">
+                                  {timeAgo(notification.timestamp)}
+                                </span>
+                              </div>
+                            )
+                          )
                       ) : (
                         <span className="dark:text-zinc-200 text-start text-base text-zinc-700">
                           Hiç bildiriminiz yok.
