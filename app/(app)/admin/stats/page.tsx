@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/components/common/dashboardHeader";
 import { AppContext } from "@/app/(app)/context";
@@ -9,6 +9,7 @@ import { ApexOptions } from "apexcharts";
 export default function AdminStats() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+  const [mount, setMount] = useState<boolean>(false);
   const series = {
     successfulSalesData: [
       { x: new Date("2025-02-01").getTime(), y: 1 }, // 1 Şubat, 120 başarılı satış
@@ -102,26 +103,35 @@ export default function AdminStats() {
       },
     },
   });
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setMount(true);
+    } else {
+      setMount(false);
+    }
+  }, [window]);
   return (
-    <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
-      <DashboardHeader page="İstatistikler" />
-      <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-3 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-3 xl:grid-rows-1">
-        <div className="first-line:relative neon-box-2 hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md">
-          <div className="flex flex-col w-full space-y-1 items-start justify-start z-10">
-            <span className="text-lg px-6 pt-6 font-medium text-white">
-              Paket Satışları
-            </span>
-            <div className="w-full pl-6">
-              <ReactApexChart
-                options={chart.options}
-                series={chart.series}
-                type="area"
-                height={280}
-              />
+    mount && (
+      <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
+        <DashboardHeader page="İstatistikler" />
+        <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-3 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-3 xl:grid-rows-1">
+          <div className="first-line:relative neon-box-2 hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md">
+            <div className="flex flex-col w-full space-y-1 items-start justify-start z-10">
+              <span className="text-lg px-6 pt-6 font-medium text-white">
+                Paket Satışları
+              </span>
+              <div className="w-full pl-6">
+                <ReactApexChart
+                  options={chart.options}
+                  series={chart.series}
+                  type="area"
+                  height={280}
+                />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    )
   );
 }
