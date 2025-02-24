@@ -98,7 +98,7 @@ export default function Navbar() {
               path: "/admin/users",
             },
           ]
-        : []
+        : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }]
       : state.userData.permission === "user"
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },

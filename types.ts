@@ -6,7 +6,6 @@ export interface Permission {
 }
 export interface UserSubscriptionInterface {
   subscriptionId: string;
-  permissions: Array<Permission>;
   startDate: string;
   endDate?: string;
 }

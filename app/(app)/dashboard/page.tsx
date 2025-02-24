@@ -62,11 +62,11 @@ export default function Dashboard() {
     <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
       <DashboardHeader
         page={
-          state.userData.permission === "admin"
-            ? "Hoş geldiniz, Yönetici"
-            : state.userData.permission === "verified" ||
+          state.userData.permission === "verified" ||
               state.userData.permission === "user"
             ? "Ana sayfa"
+            : state.userData.permission === "admin"
+            ? "Hoş geldiniz, Yönetici"
             : ""
         }
       />

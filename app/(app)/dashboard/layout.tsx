@@ -6,7 +6,6 @@ import { CircularProgress } from "@mui/material";
 
 export default function layout({ children }: { children: React.ReactNode }) {
   const { state } = useContext(AppContext);
-  useEffect(() => {}, []);
   return !state.loading ? (
     <main className="!relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-visible">
       <Navbar />

@@ -127,6 +127,7 @@ export default class ProvideContext extends Component<
       } else {
         this.setState((prev) => ({ ...prev, ...data, loading: false }));
       }
+      console.log("Live data received", data);
       nProgress.done();
     } catch (err) {
       toast.error("Data processing failed");

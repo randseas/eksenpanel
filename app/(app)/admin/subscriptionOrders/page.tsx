@@ -56,7 +56,7 @@ export default function SubscriptionOrders() {
         action,
       })
       .then((res) => {
-        if (res.data.success) {
+        if (res.data.status === "ok") {
           toast.success(
             `Abonelik ${action === "approve" ? "onaylandı" : "reddedildi"}`
           );
