@@ -35,7 +35,11 @@ export default function RootLayout({
         ? window.matchMedia("(prefers-color-scheme: dark)")
         : null;
     setTheme(mediaQuery?.matches ? "dark" : "light");
-    setMount(true);
+    if (typeof window !== "undefined") {
+      setMount(true);
+    } else {
+      setMount(false);
+    }
   }, []);
   useEffect(() => {
     NProgress.start();

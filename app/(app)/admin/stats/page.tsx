@@ -104,7 +104,7 @@ export default function AdminStats() {
     },
   });
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (window && typeof window !== "undefined") {
       setMount(true);
     } else {
       setMount(false);
