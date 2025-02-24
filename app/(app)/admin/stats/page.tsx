@@ -3,7 +3,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/components/common/dashboardHeader";
 import { AppContext } from "@/app/(app)/context";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false,
+});
 import { ApexOptions } from "apexcharts";
 
 export default function AdminStats() {
