@@ -123,7 +123,7 @@ export default function Navbar() {
         ]
       : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
-    <div className="flex flex-col mx-4 w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
+    <div className="flex flex-col w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
       {menuItems.map(({ label, icon: Icon, path }) => (
         <div
           key={path}
@@ -136,7 +136,7 @@ export default function Navbar() {
             "flex flex-row items-center justify-start px-3.5 py-[12px] space-x-2.5 w-full rounded-full text-base transition-all duration-100 hover:cursor-pointer",
             pathname.split("/")[2] ===
               (path.split("/")[2] === "dashboard" ? "" : path.split("/")[2])
-              ? `relative text-blue-50 font-medium
+              ? `relative text-white font-medium
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full 
               before:bg-gradient-to-tr before:from-[#cb0af2] before:via-[#b205dd] before:to-[#5209d5]
               before:bg-[length:200%_200%] before:animate-rgb before:rounded-full before:z-[-1] 
@@ -165,7 +165,7 @@ export default function Navbar() {
         <div className="fixed top-0 left-0 w-full z-[88888] backdrop-blur-lg bg-light/10 dark:bg-dark/10 border-b border-light-border dark:border-dark-border px-2 py-2 flex items-center justify-between">
           <div
             onClick={() => setIsDrawerOpen(true)}
-            className="dark:text-zinc-100 px-2.5 py-2 hover:bg-zinc-900/50 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+            className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
           >
             <svg
               width="24"
@@ -184,14 +184,31 @@ export default function Navbar() {
               ></path>
             </svg>
           </div>
-          <span className="text-[17px] font-medium mr-4">
+          <span
+            onClick={() => router.push("/dashboard")}
+            className="text-[17px] hover:cursor-pointer dark:text-zinc-50 text-zinc-800 font-medium"
+          >
             Tumblr Yönlendirme
           </span>
-          <div></div>
+          {pathname.split("/")[1] === "dashboard" ? (
+            <div
+              onClick={() => router.push("/admin")}
+              className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+            >
+              Admin
+            </div>
+          ) : (
+            <div
+              onClick={() => router.push("/dashboard")}
+              className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+            >
+              Dashboard
+            </div>
+          )}
         </div>
         <div
           className={cn(
-            "fixed inset-0 bg-light/50 dark:bg-black/50 z-40 transition-opacity duration-300",
+            "fixed z-[99999] inset-0 bg-dark/20 backdrop-blur-lg dark:bg-black/50 transition-all ease-linear duration-150",
             isDrawerOpen ? "opacity-100 visible" : "opacity-0 invisible"
           )}
           onClick={() => setIsDrawerOpen(false)}
@@ -202,10 +219,10 @@ export default function Navbar() {
             isDrawerOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
-          <div className="flex flex-row items-center justify-between w-full">
+          <div className="flex flex-row items-center justify-between pl-[22px] pr-[12px]">
             <div
               onClick={() => router.push("/dashboard")}
-              className="sticky top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
+              className="sticky top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <span className="text-[17px] tracking-[-0.005em] font-medium">
                 Tumblr Yönlendirme
@@ -213,7 +230,7 @@ export default function Navbar() {
             </div>
             <div
               onClick={() => setIsDrawerOpen(false)}
-              className="dark:text-zinc-100 px-2.5 py-2 hover:bg-zinc-900/50 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+              className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
             >
               <svg
                 width="24"
@@ -234,13 +251,15 @@ export default function Navbar() {
             </div>
           </div>
           {renderMenu("mobile")}
-          <div
-            onClick={() => router.push("/auth/logout")}
-            className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
-          >
-            <LogOut width={20} height={20} stroke="currentColor" />
-            <span className="text-[15px]">Çıkış yap</span>
-          </div>
+          {pathname.split("/")[1] === "dashboard" && (
+            <div
+              onClick={() => router.push("/auth/logout")}
+              className="border left-3 right-3 sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
+            >
+              <LogOut width={20} height={20} stroke="currentColor" />
+              <span className="text-[15px]">Çıkış yap</span>
+            </div>
+          )}
         </div>
       </>
     );
@@ -291,18 +310,20 @@ export default function Navbar() {
           </div>
         </div>
         {renderMenu()}
-        <div
-          onClick={() => router.push("/auth/logout")}
-          className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
-        >
-          <LogOut
-            width={20}
-            height={20}
-            stroke="currentColor"
-            className={isDrawerOpen ? "mx-auto" : ""}
-          />
-          {!isDrawerOpen && <span className="text-[15px]">Çıkış yap</span>}
-        </div>
+        {pathname.split("/")[1] === "dashboard" && (
+          <div
+            onClick={() => router.push("/auth/logout")}
+            className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
+          >
+            <LogOut
+              width={20}
+              height={20}
+              stroke="currentColor"
+              className={isDrawerOpen ? "mx-auto" : ""}
+            />
+            {!isDrawerOpen && <span className="text-[15px]">Çıkış yap</span>}
+          </div>
+        )}
       </nav>
     </>
   );

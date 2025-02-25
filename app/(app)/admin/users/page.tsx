@@ -21,10 +21,42 @@ import {
   UserSubscriptionInterface,
 } from "@/types";
 import DashboardHeader from "@/components/common/dashboardHeader";
+import toast from "react-hot-toast";
+import instance from "@/app/instance";
 
 export default function Users() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+
+  function updatePermission(userId: string) {
+    const permInput = prompt(
+      "Kullanıcı yetkisini güncellemek için 'admin' veya 'user' yazınız."
+    );
+    if (!permInput) return;
+    const permission = permInput.toLowerCase().trim();
+    if (permission !== "admin" && permission !== "user") {
+      toast.error("Geçersiz yetki türü girdiniz.");
+      return;
+    }
+    const loadingtoast = toast.loading("Kullanıcı yetkisi güncelleniyor...");
+    instance
+      .post("updatePermission", {
+        token: state.userData.token,
+        userId,
+        permission,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Kullanıcı yetkisi başarıyla güncellendi.");
+        }
+      })
+      .catch((err) => {
+        toast.error("Kullanıcı yetkisi güncellenirken bir hata oluştu.");
+      })
+      .finally(() => {
+        toast.dismiss(loadingtoast);
+      });
+  }
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
       <DashboardHeader page="Kullanıcılar" />
@@ -155,10 +187,11 @@ export default function Users() {
                     <a className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
                       Paket ekle
                     </a>
-                    <a className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer">
-                      {user.permission === "admin"
-                        ? "Yetki düşür"
-                        : "Yetki yükselt"}
+                    <a
+                      onClick={() => updatePermission(user.userId || "")}
+                      className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
+                    >
+                      Yetki düzenle
                     </a>
                   </td>
                 </tr>

@@ -96,7 +96,7 @@ html {
 /* auth */
 .logo {
   position: absolute;
-  bottom: 10px;
+  bottom: 14.5px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 8px;
@@ -108,7 +108,21 @@ html {
   -webkit-background-clip: text;
   background-clip: text;
   animation: neonLogo 1.5s infinite alternate;
-  font-family: "Poppins", sans-serif;
+}
+.logo2 {
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 8px;
+  font-weight: bold;
+  color: #ff8aff;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  background: linear-gradient(45deg, #ff3b62, #8e24ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: neonLogo 1.5s infinite alternate;
 }
 @keyframes neonLogo {
   0% {
@@ -393,18 +407,142 @@ html {
   font-size: 24px;
 }
 .rgb {
-  background: conic-gradient(red, orange, yellow, green, blue, indigo, violet, red);
+  background: conic-gradient(
+    red,
+    orange,
+    yellow,
+    green,
+    blue,
+    indigo,
+    violet,
+    red
+  );
   background-size: 200% 200%;
   animation: rgbRotate 6s infinite linear;
 }
 
 @keyframes rgbRotate {
   0% {
-      background-position: 50% 50%;
-      transform: rotate(0deg);
+    background-position: 50% 50%;
+    transform: rotate(0deg);
   }
   100% {
-      background-position: 50% 50%;
-      transform: rotate(360deg);
+    background-position: 50% 50%;
+    transform: rotate(360deg);
   }
+}
+
+.home h1 {
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.75px;
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.6), 0 0 20px rgba(0, 255, 255, 0.6);
+}
+.home .intro-box {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #00ff99;
+  padding: 15px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4), 0 0 20px rgba(0, 255, 255, 0.3);
+  margin-top: 20px;
+  width: 100%;
+  max-width: 850px;
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  animation: fadeInBox 2s ease-in-out forwards;
+  line-height: 1.5;
+}
+@keyframes fadeInBox {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.home .intro-box:hover {
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6), 0 0 40px rgba(0, 255, 255, 0.5);
+  transform: scale(1.05);
+}
+.home h2,
+.homeh3 {
+  color: #00ff99;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.home strong {
+  font-weight: bold;
+  color: #00ccff;
+}
+.home .cta-button {
+  margin-top: 15px;
+  background: linear-gradient(45deg, #ff5733, #8e44ad);
+  color: #fff;
+  padding: 12px 30px;
+  font-size: 16px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 0 10px rgba(255, 87, 51, 0.7), 0 0 20px rgba(142, 68, 173, 0.7);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  position: relative;
+}
+.home .cta-button:hover {
+  animation: rgbPulse 1s ease-in-out infinite;
+}
+@keyframes rgbPulse {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(0, 255, 0, 0.8),
+      0 0 30px rgba(0, 0, 255, 0.8);
+  }
+  25% {
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.8),
+      0 0 40px rgba(255, 255, 0, 0.8);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.8),
+      0 0 40px rgba(255, 0, 255, 0.8), 0 0 50px rgba(0, 255, 255, 0.8);
+  }
+  75% {
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.8), 0 0 50px rgba(0, 255, 0, 0.8),
+      0 0 60px rgba(255, 0, 0, 0.8);
+  }
+  100% {
+    box-shadow: 0 0 50px rgba(0, 0, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.8),
+      0 0 70px rgba(255, 255, 0, 0.8);
+  }
+}
+.home footer {
+  position: absolute;
+  bottom: 10px;
+  width: 100%;
+  color: #00ccff;
+  font-size: 12px;
+  text-align: center;
+  margin-top: 20px;
+}
+.home .notification {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #ff5733;
+  color: white;
+  padding: 15px;
+  font-size: 16px;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0;
+  transition: top 0.5s, opacity 0.5s;
+}
+.home .notification.show {
+  top: 20px;
+  opacity: 1;
 }
