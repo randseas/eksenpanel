@@ -62,15 +62,15 @@ export default function Dashboard() {
     <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
       <DashboardHeader
         page={
-          state.userData.permission === "verified" ||
-              state.userData.permission === "user"
+          state.userData.permission === "user"
             ? "Ana sayfa"
             : state.userData.permission === "admin"
             ? "Hoş geldiniz, Yönetici"
             : ""
         }
       />
-      {state.userData.permission === "user" ? (
+      {state.userData.permission === "user" &&
+      !state.userData.activeSubscription?.subscriptionId ? (
         <div className="flex flex-col items-center justify-center min-h-[88vh] w-full h-full">
           <h2 className="text-[27px] font-medium">Tumblr'da tam güce ulaş!</h2>
           <p className="mb-3 mt-1.5 text-[15.5px] text-center max-w-[480px]">
@@ -101,70 +101,76 @@ export default function Dashboard() {
             </span>
           </div>
           <div className="flex flex-col md:flex-row mt-4 mx-auto items-center justify-center gap-2.5 w-full">
-            {state.subscriptions.map((subscription: SubscriptionInterface, index: number) => (
-              <div
-                key={index}
-                className="bg-[#282828] w-full md:max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
-              >
-                <h3 className="text-[18px] font-medium">{subscription.title}</h3>
-                <p className="text-2xl font-medium pt-2.5">
-                  $
-                  {subscriptionPlan === "monthly"
-                    ? subscription.price
-                    : (parseFloat(subscription.price) * 12).toString()}
-                  <span className="opacity-95 text-lg">
-                    /{subscriptionPlan === "monthly" ? "ay" : "yıl"}
-                  </span>
-                </p>
-                <ul className="list-disc pl-4 pb-16 pt-0.5 space-y-0.5">
-                  {subscription.description
-                    .split(",")
-                    .map((text: string, key: number) => (
-                      <li key={key}>{text}</li>
-                    ))}
-                </ul>
+            {state.subscriptions.map(
+              (subscription: SubscriptionInterface, index: number) => (
                 <div
-                  onClick={() => {
-                    const loadingtoast = toast.loading(
-                      "Sipariş oluşturuluyor..."
-                    );
-                    instance
-                      .post("createSubscriptionOrder", {
-                        token: state.userData.token,
-                        subscriptionId: subscription.subscriptionId,
-                        subscriptionPlan: subscriptionPlan,
-                      })
-                      .then((res) => {
-                        if (res.data.status === "ok") {
-                          toast.success("Sipariş başarıyla oluşturuldu");
-                          toast.loading("Telegram'a yönlendiriliyorsunuz");
-                          document.location.href = config.TELEGRAM_LINK;
-                        } else {
-                          console.log(res.data);
+                  key={index}
+                  className="bg-[#282828] w-full md:max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
+                >
+                  <h3 className="text-[18px] font-medium">
+                    {subscription.title}
+                  </h3>
+                  <p className="text-2xl font-medium pt-2.5">
+                    $
+                    {subscriptionPlan === "monthly"
+                      ? subscription.price
+                      : (parseFloat(subscription.price) * 12).toString()}
+                    <span className="opacity-95 text-lg">
+                      /{subscriptionPlan === "monthly" ? "ay" : "yıl"}
+                    </span>
+                  </p>
+                  <ul className="list-disc pl-4 pb-16 pt-0.5 space-y-0.5">
+                    {subscription.description
+                      .split(",")
+                      .map((text: string, key: number) => (
+                        <li key={key}>{text}</li>
+                      ))}
+                  </ul>
+                  <div
+                    onClick={() => {
+                      const loadingtoast = toast.loading(
+                        "Sipariş oluşturuluyor..."
+                      );
+                      instance
+                        .post("createSubscriptionOrder", {
+                          token: state.userData.token,
+                          subscriptionId: subscription.subscriptionId,
+                          subscriptionPlan: subscriptionPlan,
+                        })
+                        .then((res) => {
+                          if (res.data.status === "ok") {
+                            toast.success("Sipariş başarıyla oluşturuldu");
+                            toast.loading("Telegram'a yönlendiriliyorsunuz");
+                            document.location.href = config.TELEGRAM_LINK;
+                          } else {
+                            console.log(res.data);
+                            toast.error(
+                              "Sipariş oluşturulamadı, tekrar deneyin."
+                            );
+                          }
+                        })
+                        .catch((err) => {
                           toast.error(
                             "Sipariş oluşturulamadı, tekrar deneyin."
                           );
-                        }
-                      })
-                      .catch((err) => {
-                        toast.error("Sipariş oluşturulamadı, tekrar deneyin.");
-                      })
-                      .finally(() => toast.dismiss(loadingtoast));
-                  }}
-                  className="bg-white/90 z-50 backdrop-blur-lg min-w-[89%] left-4 right-4 absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
-                >
-                  <span className="px-2 font-medium text-zinc-900 text-base">
-                    Satın al
-                  </span>
-                  <div className="bg-zinc-900 px-2.5 py-1 text-white rounded-full font-medium text-lg">
-                    {"->"}
+                        })
+                        .finally(() => toast.dismiss(loadingtoast));
+                    }}
+                    className="bg-white/90 z-50 backdrop-blur-lg min-w-[89%] left-4 right-4 absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
+                  >
+                    <span className="px-2 font-medium text-zinc-900 text-base">
+                      Satın al
+                    </span>
+                    <div className="bg-zinc-900 px-2.5 py-1 text-white rounded-full font-medium text-lg">
+                      {"->"}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            )}
           </div>
         </div>
-      ) : state.userData.permission === "verified" ||
+      ) : state.userData.permission === "user" ||
         state.userData.permission === "admin" ? (
         <>
           <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-4 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-4 xl:grid-rows-1">

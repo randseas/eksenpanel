@@ -22,7 +22,7 @@ export interface User {
   email: string;
   token?: string;
   password?: string;
-  permission: string;
+  permission: "admin" | "user";
   purchasedPackages: PurchasedPackage[];
   orderedPackages: OrderedPackage[];
   telegramBot: TelegramBotDetails;

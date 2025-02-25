@@ -99,12 +99,13 @@ export default function Navbar() {
             },
           ]
         : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }]
-      : state.userData.permission === "user"
+      : state.userData.permission === "user" &&
+        !state.userData.activeSubscription?.subscriptionId
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
           { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
         ]
-      : state.userData.permission === "verified" ||
+      : state.userData.activeSubscription?.subscriptionId ||
         state.userData.permission === "admin"
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
