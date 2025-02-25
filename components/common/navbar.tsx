@@ -15,6 +15,8 @@ import {
   ChartArea,
   ExternalLinkIcon,
   TicketSlash,
+  PackageCheck,
+  TicketCheck,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -68,11 +70,6 @@ export default function Navbar() {
               path: "/admin/redirects",
             },
             {
-              label: "Abonelik Siparişleri",
-              icon: TicketSlash,
-              path: "/admin/subscriptionOrders",
-            },
-            {
               label: "Paketler",
               icon: Package,
               path: "/admin/packages",
@@ -83,6 +80,11 @@ export default function Navbar() {
               path: "/admin/newPackage",
             },
             {
+              label: "Paket siparişleri",
+              icon: PackageCheck,
+              path: "/admin/packageOrders",
+            },
+            {
               label: "Abonelikler",
               icon: Ticket,
               path: "/admin/subscriptions",
@@ -91,6 +93,11 @@ export default function Navbar() {
               label: "Abonelik ekle",
               icon: TicketPlus,
               path: "/admin/newSubscription",
+            },
+            {
+              label: "Abonelik Siparişleri",
+              icon: TicketCheck,
+              path: "/admin/subscriptionOrders",
             },
             {
               label: "Kullanıcılar",

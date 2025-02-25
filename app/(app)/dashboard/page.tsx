@@ -29,14 +29,13 @@ export default function Dashboard() {
   const { state } = useContext(AppContext);
   const [subscriptionPlan, setSubscriptionPlan] = useState<string>("monthly");
   const [currentTime, setCurrentTime] = useState(new Date());
-
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  function deleteRedirect(redirectId: string) {
+  function handleDeleteRedirect(redirectId: string) {
     const isConfirmed = window.confirm(
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
     );
@@ -57,6 +56,27 @@ export default function Dashboard() {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
       });
+  }
+  function handleOrderPackage(packageId: string) {
+    const loadingtoast = toast.loading("Paket siparişi oluşturuluyor...");
+    instance
+      .post("createPackageOrder", {
+        token: state.userData.token,
+        packageId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok" && config.TELEGRAM_LINK) {
+          toast.success("Paket siparişi başarıyla oluşturuldu");
+          toast.loading("Telegram'a yönlendiriliyorsunuz...");
+          document.location.href = config.TELEGRAM_LINK;
+        } else {
+          toast.error("Paket siparişi oluşturulamadı, tekrar deneyin.");
+        }
+      })
+      .catch((err: any) => {
+        toast.error("Paket siparişi oluşturulamadı, tekrar deneyin.");
+      })
+      .finally(() => toast.dismiss(loadingtoast));
   }
   return (
     <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
@@ -439,7 +459,7 @@ export default function Dashboard() {
                             </a>
                             <a
                               onClick={() =>
-                                deleteRedirect(redirect.redirectId)
+                                handleDeleteRedirect(redirect.redirectId)
                               }
                               className="transition-all ease-linear duration-100 rounded-xl pl-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
                             >
@@ -518,9 +538,7 @@ export default function Dashboard() {
                     ))}
                   </p>
                   <div
-                    onClick={() =>
-                      toast.error("Ödeme sağlayıcısı ile bağlantı kurulamadı")
-                    }
+                    onClick={() => handleOrderPackage(pkg.packageId.toString())}
                     className="bg-white/90 z-50 backdrop-blur-lg space-x-[70px] absolute bottom-4 border dark:hover:bg-white border-light-border dark:border-dark-border p-2 hover:cursor-pointer rounded-full flex flex-row items-center justify-between w-auto"
                   >
                     <span className="px-2 font-medium text-zinc-900 text-base">

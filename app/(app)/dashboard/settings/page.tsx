@@ -133,7 +133,7 @@ export default function Settings() {
                   );
                 })()
               ) : (
-                <span className="text-xs font-[450] dark:text-zinc-200">
+                <span className="text-base font-[450] dark:text-zinc-100">
                   Aboneliğiniz bulunmamaktadır.
                 </span>
               )}
