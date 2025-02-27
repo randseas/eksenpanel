@@ -24,22 +24,32 @@ import instance from "@/app/instance";
 export default function SubscriptionOrders() {
   const router = useRouter();
   const { state } = useContext(AppContext);
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   const [orderedSubscriptions, setOrderedSubscriptions] = useState<
-    Array<OrderedSubscription & { userId: string }> | Array<any>
-  >(
-    state.users.flatMap((user) =>
-      user.orderedSubscription
-        ? [{ ...user.orderedSubscription, userId: user.userId }]
-        : []
-    )
-  );
+    Array<OrderedSubscription & { userId: string }>
+  >([]);
   useEffect(() => {
     setOrderedSubscriptions(
-      state.users.flatMap((user) =>
-        user.orderedSubscription
-          ? [{ ...user.orderedSubscription, userId: user.userId }]
-          : []
-      )
+      state.users
+        .flatMap(
+          (user) =>
+            user.orderedSubscriptions
+              ?.filter((sub) => sub.status === "pending")
+              .map((sub) => ({
+                ...sub,
+                userId: user.userId ?? "",
+              })) || []
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
+        )
     );
   }, [state.users]);
   function handleUpdateSubscription(
@@ -75,8 +85,8 @@ export default function SubscriptionOrders() {
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
       <DashboardHeader page="Abonelik Siparişleri" />
-      <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
-        <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+      <div className="flex neon-box-2 overflow-x-auto overflow-y-auto flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+        <table className="min-w-full w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
@@ -110,6 +120,17 @@ export default function SubscriptionOrders() {
                     stroke="currentColor"
                   />
                   <span className="mt-px">Sipariş ID</span>
+                </div>
+              </th>
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <div className="inline-flex items-center space-x-1.5">
+                  <Hash
+                    className="text-blue-500"
+                    height={17}
+                    width={17}
+                    stroke="currentColor"
+                  />
+                  <span className="mt-px">Abonelik Adı</span>
                 </div>
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
@@ -167,8 +188,9 @@ export default function SubscriptionOrders() {
                     <td className="text-[15px] px-2 py-4">
                       {sub.subscriptionId}
                     </td>
+                    <td className="text-[15px] px-2 py-4">{sub.orderId}</td>
                     <td className="text-[15px] px-2 py-4">
-                      {sub.subscriptionId}
+                      {findedSubscription?.title}
                     </td>
                     <td className="text-[15px] px-2 py-4">
                       {timeAgo(sub.orderDate)}

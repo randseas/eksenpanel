@@ -1,25 +1,11 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import {
-  Calendar,
-  DollarSign,
-  DotSquare,
-  Hash,
-  SquarePen,
-  Trash2,
-  User,
-} from "lucide-react";
+import { Calendar, DollarSign, DotSquare, Hash, User } from "lucide-react";
 import { timeAgo } from "@/lib/date";
 import { AppContext } from "../../context";
 import DashboardHeader from "@/components/common/dashboardHeader";
-import {
-  OrderedPackage,
-  OrderedSubscription,
-  Package,
-  SubscriptionInterface,
-  UserSubscriptionInterface,
-} from "@/types";
+import { OrderedPackage, Package } from "@/types";
 import toast from "react-hot-toast";
 import instance from "@/app/instance";
 
@@ -27,43 +13,49 @@ export default function PackageOrders() {
   const router = useRouter();
   const { state } = useContext(AppContext);
   const [orderedPackages, setOrderedPackages] = useState<
-    Array<OrderedPackage & { userId: string }> | Array<any>
-  >(
-    state.users.flatMap((user) =>
-      user.orderedSubscription
-        ? [{ ...user.orderedSubscription, userId: user.userId }]
-        : []
-    )
-  );
+    Array<OrderedPackage & { userId: string }>
+  >([]);
   useEffect(() => {
-    setOrderedSubscriptions(
-      state.users.flatMap((user) =>
-        user.orderedSubscription
-          ? [{ ...user.orderedSubscription, userId: user.userId }]
-          : []
-      )
+    setOrderedPackages(
+      state.users
+        .flatMap((user) =>
+          user.orderedPackages
+            ? user.orderedPackages
+                .filter((pkg) => pkg.status === "pending")
+                .map((pkg) => ({
+                  ...pkg,
+                  userId: user.userId ?? "",
+                }))
+            : []
+        )
+        .sort(
+          (a, b) =>
+            new Date(b.orderDate).getTime() - new Date(a.orderDate).getTime()
+        )
     );
   }, [state.users]);
-  function handleUpdateSubscription(
-    subscriptionId: string,
+  function handleUpdatePackage(
+    packageId: string,
     orderId: string,
     action: "approve" | "reject"
   ) {
     const loadingtoast = toast.loading("İşlem yapılıyor...");
     instance
-      .post("updateSubscription", {
+      .post("updatePackage", {
         token: state.userData.token,
         orderId,
-        subscriptionId,
+        packageId,
         action,
       })
       .then((res) => {
         if (res.data.status === "ok") {
           toast.success(
-            `Abonelik ${action === "approve" ? "onaylandı" : "reddedildi"}`
+            `Paket siparişi ${
+              action === "approve" ? "onaylandı" : "reddedildi"
+            }`
           );
           setOrderedPackages((prev) =>
-            prev.filter((sub) => sub.subscriptionId !== subscriptionId)
+            prev.filter((pkg) => pkg.packageId !== packageId)
           );
         } else {
           toast.error(res.data.message);
@@ -75,10 +67,10 @@ export default function PackageOrders() {
       .finally(() => toast.dismiss(loadingtoast));
   }
   return (
-    <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
+    <div className="flex space-y-4 flex-col min-h-[90vh] md:min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
       <DashboardHeader page="Paket Siparişleri" />
-      <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
-        <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+      <div className="flex neon-box-2 overflow-y-auto overflow-x-auto flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+        <table className="min-w-full w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
@@ -160,25 +152,21 @@ export default function PackageOrders() {
                     key={index}
                     className="transition-all hover:bg-zinc-900/20 ease-linear duration-100"
                   >
-                    <td className="text-[15px] px-2 py-4">{sub.userId}</td>
+                    <td className="text-[15px] px-2 py-4">{pkg.userId}</td>
+                    <td className="text-[15px] px-2 py-4">{pkg.packageId}</td>
+                    <td className="text-[15px] px-2 py-4">{pkg.orderId}</td>
                     <td className="text-[15px] px-2 py-4">
-                      {sub.subscriptionId}
+                      {timeAgo(pkg.orderDate)}
                     </td>
                     <td className="text-[15px] px-2 py-4">
-                      {sub.subscriptionId}
-                    </td>
-                    <td className="text-[15px] px-2 py-4">
-                      {timeAgo(sub.orderDate)}
-                    </td>
-                    <td className="text-[15px] px-2 py-4">
-                      ${findedSubscription?.price}
+                      ${findedPackage?.price}
                     </td>
                     <td className="flex flex-row items-center justify-end space-x-2 px-3 py-2 h-full">
                       <button
                         onClick={() =>
-                          handleUpdateSubscription(
-                            sub.subscriptionId,
-                            sub.orderId,
+                          handleUpdatePackage(
+                            findedPackage?.packageId || "",
+                            pkg.orderId,
                             "approve"
                           )
                         }
@@ -188,9 +176,10 @@ export default function PackageOrders() {
                       </button>
                       <button
                         onClick={() =>
-                          handleUpdateSubscription(
-                            sub.subscriptionId,
-                            sub.orderId,
+                          handleUpdatePackage(
+                            findedPackage?.packageId || "",
+                            pkg.orderId,
+
                             "reject"
                           )
                         }

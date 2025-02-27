@@ -1,47 +1,31 @@
 "use client";
 import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
-import {
-  Calendar,
-  CheckCircle,
-  Clock,
-  DotSquare,
-  Globe,
-  SquareArrowOutUpRight,
-  SquarePen,
-  Trash2,
-} from "lucide-react";
+import { Calendar, DotSquare, Globe, PackageIcon, User } from "lucide-react";
 import { timeAgo } from "@/lib/date";
-import instance from "@/app/instance";
-import toast from "react-hot-toast";
 import { AppContext } from "../../context";
-import { Package, PurchasedPackage, Redirect } from "@/types";
+import { Package, PurchasedPackage } from "@/types";
+import { deformatUserInfo } from "../../admin/editPackage/[...packageId]/page";
 
-export default function Links() {
+export default function Packages() {
   const router = useRouter();
   const { state } = useContext(AppContext);
-  function deleteRedirect(redirectId: string) {
-    const isConfirmed = window.confirm(
-      "Yönlendirmeyi silmek istediğinize emin misiniz?"
+
+  function downloadAccounts(packageId: string) {
+    const pkg = state.userData.purchasedPackages?.find(
+      (purchasedPkg: PurchasedPackage) => purchasedPkg.packageId === packageId
     );
-    if (!isConfirmed) return;
-    instance
-      .post("deleteRedirect", {
-        token: state.userData.token,
-        redirectId,
-      })
-      .then((res) => {
-        if (res.data.status === "ok") {
-          toast.success("Yönlendirme başarıyla silindi");
-        } else {
-          toast.error("Yönlendirme silinemedi, tekrar deneyin.");
-        }
-      })
-      .catch((err: any) => {
-        console.error(err);
-        toast.error(err.message || "Bir hata oluştu!");
-      });
+    if (!pkg) return;
+    const text = deformatUserInfo(pkg.accounts);
+    const blob = new Blob([text], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `paket-${pkg.packageId}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
   }
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
@@ -73,7 +57,7 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <SquareArrowOutUpRight
+                  <PackageIcon
                     className="text-blue-500"
                     height={17}
                     width={17}
@@ -95,24 +79,13 @@ export default function Links() {
               </th>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
-                  <Clock
+                  <User
                     className="text-blue-500"
                     height={17}
                     width={17}
                     stroke="currentColor"
                   />
                   <span className="mt-px">Hesap Sayısı</span>
-                </div>
-              </th>
-              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
-                <div className="inline-flex items-center space-x-1.5">
-                  <CheckCircle
-                    className="text-blue-500"
-                    height={17}
-                    width={17}
-                    stroke="currentColor"
-                  />
-                  <span className="mt-px">Durum</span>
                 </div>
               </th>
               <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
@@ -146,8 +119,18 @@ export default function Links() {
                     <td className="text-[15px] px-2 py-4">
                       {timeAgo(purchasedPkg.purchaseDate)}
                     </td>
+                    <td className="text-[15px] px-2 py-4">
+                      {dbPackage?.accAmount}
+                    </td>
                     <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                      Hesapları indir
+                      <a
+                        onClick={() =>
+                          downloadAccounts(dbPackage?.packageId || "")
+                        }
+                        className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                      >
+                        Hesapları İndir (.txt)
+                      </a>
                     </td>
                   </tr>
                 );

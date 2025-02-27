@@ -28,7 +28,7 @@ export interface User {
   telegramBot: TelegramBotDetails;
   notifications: NotificationInterface[];
   activeSubscription?: UserSubscriptionInterface | null;
-  orderedSubscription: OrderedSubscription | null;
+  orderedSubscriptions: OrderedSubscription[] | null;
   created: string;
 }
 export interface Redirect {
@@ -52,7 +52,7 @@ export interface Account {
 export interface OrderedSubscription {
   subscriptionId: string;
   orderId: string;
-  status: "pending" | "success" | "cancelled";
+  status: "pending" | "success" | "rejected" | "cancelled";
   subscriptionPlan: "monthly" | "yearly";
   orderDate: string;
 }
@@ -61,6 +61,13 @@ export interface NotificationInterface {
   content: string;
   read: boolean;
   timestamp: string;
+}
+export interface UserOrder {
+  type: "package" | "subscription";
+  orderId: string;
+  productId: string;
+  status: "pending" | "success" | "rejected";
+  orderDate: string;
 }
 export interface Package {
   packageId: string;
@@ -73,13 +80,15 @@ export interface Package {
   creationDate: string;
 }
 export interface PurchasedPackage {
+  orderId: string;
   packageId: string;
   accounts: Account[];
   purchaseDate: string;
 }
 export interface OrderedPackage {
+  orderId: string;
   packageId: string;
-  status: string;
+  status: "success" | "pending" | "rejected" | "cancelled";
   orderDate: string;
 }
 export interface TelegramBotDetails {

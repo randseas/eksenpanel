@@ -36,7 +36,14 @@ export default function NewSubscription() {
     title: "",
     description: "",
     price: "",
-    permissions: [],
+    permissions: [
+      {
+        permission: "Yönlendirme sayısı",
+        title: "redirects",
+        type: "number",
+        value: "",
+      },
+    ],
   });
   function handleNewSubscription() {
     if (subscription.permissions?.length === 0) {

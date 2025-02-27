@@ -17,6 +17,7 @@ import {
   TicketSlash,
   PackageCheck,
   TicketCheck,
+  HistoryIcon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
@@ -110,6 +111,11 @@ export default function Navbar() {
         !state.userData.activeSubscription?.subscriptionId
       ? [
           { label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" },
+          {
+            label: "Siparişlerim",
+            icon: HistoryIcon,
+            path: "/dashboard/orderhistory",
+          },
           { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
         ]
       : state.userData.activeSubscription?.subscriptionId ||
@@ -127,11 +133,16 @@ export default function Navbar() {
             path: "/dashboard/redirects",
           },
           { label: "Paketlerim", icon: Package, path: "/dashboard/packages" },
+          {
+            label: "Siparişlerim",
+            icon: HistoryIcon,
+            path: "/dashboard/orderhistory",
+          },
           { label: "Ayarlar", icon: Settings, path: "/dashboard/settings" },
         ]
       : [{ label: "Ana sayfa", icon: LayoutDashboard, path: "/dashboard" }];
   const renderMenu = (device: "mobile" | "desktop" = "desktop") => (
-    <div className="flex flex-col w-full overflow-y-auto rounded-[22px] mt-2 space-y-[4px] items-center justify-start">
+    <div className="flex flex-col w-full overflow-y-auto rounded-[22px] mt-2 space-y-1.5 md:space-y-[4px] items-center justify-start">
       {menuItems.map(({ label, icon: Icon, path }) => (
         <div
           key={path}
@@ -223,7 +234,7 @@ export default function Navbar() {
         ></div>
         <div
           className={cn(
-            "fixed top-0 z-[99999] left-0 h-full bg-light dark:bg-dark border-r border-light-border dark:border-dark-border w-[280px] py-4 transition-transform duration-200",
+            "fixed top-0 shadow-xl shadow-black/20 dark:shadow-black/30 z-[99999] left-0 h-full bg-light dark:bg-dark border-r border-light-border dark:border-dark-border w-[280px] py-4 transition-transform duration-200",
             isDrawerOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
@@ -258,16 +269,18 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
-          {renderMenu("mobile")}
-          {pathname.split("/")[1] === "dashboard" && (
-            <div
-              onClick={() => router.push("/auth/logout")}
-              className="border left-3 right-3 sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
-            >
-              <LogOut width={20} height={20} stroke="currentColor" />
-              <span className="text-[15px]">Çıkış yap</span>
-            </div>
-          )}
+          <div className="flex flex-col items-start justify-between max-w-[86%] w-full h-full mx-4">
+            {renderMenu("mobile")}
+            {pathname.split("/")[1] === "dashboard" && (
+              <div
+                onClick={() => router.push("/auth/logout")}
+                className="border left-3 right-3 sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
+              >
+                <LogOut width={20} height={20} stroke="currentColor" />
+                <span className="text-[15px]">Çıkış yap</span>
+              </div>
+            )}
+          </div>
         </div>
       </>
     );
@@ -276,21 +289,21 @@ export default function Navbar() {
     <>
       <nav
         className={`${
-          !isDrawerOpen ? "max-w-[17%]" : "max-w-[4.75%] //hover:max-w-[15%]//"
+          !isDrawerOpen ? "max-w-[17%]" : "max-w-[4.75%]" //hover:max-w-[15%]//
         } flex neon-box-2 transition-all ease-in-out duration-200 transform sticky top-0 w-full z-[66666] min-h-screen left-0 h-full justify-between border-r px-2.5 py-3 border-light-border bg-light/10 dark:bg-[#111111] dark:border-dark-border flex-col items-center`}
       >
         <div className="flex relative flex-row items-center justify-between w-full">
           {!isDrawerOpen && (
             <div
               onClick={() => router.push("/dashboard")}
-              className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-start space-x-2.5 text-start px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
+              className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <img
                 draggable="false"
                 className="ml-[-12px] h-[95px] z-[77777]"
                 src="/logo.png"
               />
-              <div className="rgb left-[20%] top-[11%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
+              <div className="rgb left-[22%] top-[11%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
                 &nbsp;
               </div>
             </div>
@@ -317,6 +330,7 @@ export default function Navbar() {
             </svg>
           </div>
         </div>
+
         {renderMenu()}
         {pathname.split("/")[1] === "dashboard" && (
           <div

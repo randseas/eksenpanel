@@ -60,8 +60,8 @@ export default function Users() {
   return (
     <div className="flex space-y-4 flex-col min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">
       <DashboardHeader page="Kullanıcılar" />
-      <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
-        <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+      <div className="flex neon-box-2 overflow-x-auto overflow-y-auto flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+        <table className="min-w-full w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
@@ -182,16 +182,13 @@ export default function Users() {
                   </td>
                   <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                     <a className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
-                      Abonelik ekle
-                    </a>
-                    <a className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
-                      Paket ekle
+                      Kullanıcıyı Düzenle
                     </a>
                     <a
                       onClick={() => updatePermission(user.userId || "")}
                       className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
                     >
-                      Yetki düzenle
+                      Yetki Düzenle
                     </a>
                   </td>
                 </tr>

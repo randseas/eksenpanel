@@ -529,13 +529,15 @@ export default function Dashboard() {
                     {pkg.title}
                   </p>
                   <p className="text-base z-50 text-zinc-800 dark:text-zinc-100 mt-1.5 mb-[64px]">
-                    {pkg.description?.split(",").map((detail: string) => (
-                      <>
-                        <span className="dot">•</span>&nbsp;
-                        {detail}
-                        <br />
-                      </>
-                    ))}
+                    {pkg.description
+                      ?.split(",")
+                      .map((detail: string, index: number) => (
+                        <React.Fragment key={index}>
+                          <span className="dot">•</span>&nbsp;
+                          {detail}
+                          <br />
+                        </React.Fragment>
+                      ))}
                   </p>
                   <div
                     onClick={() => handleOrderPackage(pkg.packageId.toString())}

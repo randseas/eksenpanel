@@ -17,7 +17,7 @@ interface Package {
   creationDate: string;
 }
 
-function deformatUserInfo(
+export function deformatUserInfo(
   users: { username: string; email: string; password: string }[]
 ): string {
   return users

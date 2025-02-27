@@ -65,8 +65,8 @@ export default function AdminRedirects() {
           Yeni Ekle {"->"}
         </h2>
       </div>
-      <div className="flex neon-box-2 flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
-        <table className="min-w-full overflow-x-auto overflow-y-auto w-full">
+      <div className="flex neon-box-2 overflow-x-auto overflow-y-auto flex-col bg-light/20 dark:bg-[#292929] border dark:border-zinc-700 border-light-border rounded-2xl w-full h-full">
+        <table className="min-w-full w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
               <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">

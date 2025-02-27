@@ -1,10 +1,14 @@
 "use client";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import Navbar from "../../../components/common/navbar";
 import { AppContext } from "../context";
 import { CircularProgress } from "@mui/material";
 
-export default function layout({ children }: { children: React.ReactNode }) {
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const { state } = useContext(AppContext);
   return !state.loading ? (
     <main className="!relative mt-[55px] md:mt-0 flex flex-row h-full w-full overflow-visible">

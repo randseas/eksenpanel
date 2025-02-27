@@ -26,11 +26,11 @@ body.light {
   font-size: 15px;
 }
 :root {
-  --scrollbar: rgba(234, 234, 234, 0.5);
+  --scrollbar: rgba(234, 234, 234, 0.671);
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --scrollbar: rgba(40, 40, 40, 0.5);
+    --scrollbar: rgba(82, 82, 82, 0.66);
   }
 }
 html {
