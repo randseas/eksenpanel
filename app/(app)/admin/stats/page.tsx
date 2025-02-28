@@ -7,130 +7,184 @@ import dynamic from "next/dynamic";
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false,
 });
-import { ApexOptions } from "apexcharts";
+import instance from "@/app/instance";
+import toast from "react-hot-toast";
 
 export default function AdminStats() {
   const router = useRouter();
   const { state } = useContext(AppContext);
   const [mount, setMount] = useState<boolean>(false);
-  const series = {
-    successfulSalesData: [
-      { x: new Date("2025-02-01").getTime(), y: 1 }, // 1 Şubat, 120 başarılı satış
-      { x: new Date("2025-02-02").getTime(), y: 2 }, // 2 Şubat, 95 başarılı satış
-      { x: new Date("2025-02-03").getTime(), y: 3 }, // 3 Şubat, 150 başarılı satış
-      { x: new Date("2025-02-04").getTime(), y: 4 }, // 4 Şubat, 130 başarılı satış
-      { x: new Date("2025-02-05").getTime(), y: 5 }, // 5 Şubat, 110 başarılı satış
-    ],
-    failedSalesData: [
-      { x: new Date("2025-02-01").getTime(), y: 0 }, // 1 Şubat, 30 başarısız satış
-      { x: new Date("2025-02-02").getTime(), y: 0 }, // 2 Şubat, 25 başarısız satış
-      { x: new Date("2025-02-03").getTime(), y: 1 }, // 3 Şubat, 40 başarısız satış
-      { x: new Date("2025-02-04").getTime(), y: 2 }, // 4 Şubat, 20 başarısız satış
-      { x: new Date("2025-02-05").getTime(), y: 0 }, // 5 Şubat, 35 başarısız satış
-    ],
-    monthDataSeries1: {
-      prices: [
-        { x: new Date("2025-02-01").getTime(), y: 1 },
-        { x: new Date("2025-02-02").getTime(), y: 2 },
-        { x: new Date("2025-02-03").getTime(), y: 4 },
-        { x: new Date("2025-02-04").getTime(), y: 6 },
-        { x: new Date("2025-02-05").getTime(), y: 5 },
-      ],
-      dates: [
-        "2025-02-01",
-        "2025-02-02",
-        "2025-02-03",
-        "2025-02-04",
-        "2025-02-05",
-      ],
+  const [stats, setStats] = useState({
+    loading: true,
+    packageSales: {
+      successfulSalesData: [],
+      failedSalesData: [],
+      monthDataSeries1: { prices: [], dates: [] },
     },
-  };
-  const [chart, setChart] = useState<{
-    series: Array<any>;
-    options: ApexOptions;
-  }>({
+    subscriptionSales: {
+      successfulSalesData: [],
+      failedSalesData: [],
+      monthDataSeries1: { prices: [], dates: [] },
+    },
+    redirects: {
+      activeRedirectsData: [],
+      passiveRedirectsData: [],
+      monthDataSeries1: { prices: [], dates: [] },
+    },
+  });
+  useEffect(() => {
+    setStats((prevStats) => ({ ...prevStats, loading: true }));
+    instance
+      .post("statictics")
+      .then((res) => {
+        if (res.data.status === "ok") {
+          console.log("receivedStatsData", res.data);
+          setStats({
+            loading: false,
+            packageSales: res.data.packageSales,
+            subscriptionSales: res.data.subscriptionSales,
+            redirects: res.data.redirects,
+          });
+        } else {
+          toast.error("İstatistikler yüklenirken bir hata oluştu.");
+        }
+      })
+      .catch(() => {
+        toast.error("İstatistikler yüklenirken bir hata oluştu.");
+      });
+  }, [state.loading]);
+  const generateChartData = (salesData: any) => ({
     series: [
       {
-        name: "Başarılı Paket Satışları",
-        data: series.successfulSalesData,
-        color: "#00FF00", // Yeşil renk
+        name: "Başarılı Satışlar",
+        data: salesData.successfulSalesData || [],
+        color: "#00FF00",
         type: "area",
-        curve: "smooth",
-        stroke: {
-          width: 0.1, // Line genişliği
-        },
       },
       {
-        name: "Başarısız Paket Satışları",
-        data: series.failedSalesData,
-        color: "#FF0000", // Kırmızı renk
+        name: "Başarısız Satışlar",
+        data: salesData.failedSalesData || [],
+        color: "#FF0000",
         type: "area",
-        curve: "smooth",
-        stroke: {
-          width: 0.1, // Line genişliği
-        },
       },
       {
         name: "Toplam Satışlar",
-        data: series.monthDataSeries1.prices,
+        data: salesData.monthDataSeries1.prices || [],
+        color: "#ffffff",
         type: "area",
-        curve: "smooth",
       },
     ],
     options: {
       grid: {
-        padding: { left: 0, right: 5, top: 0, bottom: 0 },
+        padding: { left: 0, right: 5, top: 0, bottom: -1 },
         borderColor: "#252525",
       },
-      theme: { mode: "dark" },
+      theme: { mode: "dark" as any },
       chart: {
         toolbar: { show: false },
-        background: "transparent",
-        type: "area",
-        zoom: {
-          enabled: false,
-        },
+        background: "transparent" as any,
+        type: "area" as any,
+        zoom: { enabled: false },
       },
-      dataLabels: {
-        enabled: false,
-      },
-      stroke: {
-        curve: "smooth",
-      },
-      labels: series.monthDataSeries1.dates,
-      xaxis: {
-        type: "datetime",
-      },
-      yaxis: {
-        opposite: true,
-      },
+      dataLabels: { enabled: false },
+      stroke: { curve: "smooth" as any },
+      labels: salesData.monthDataSeries1.dates || [],
+      xaxis: { type: "datetime" as any },
+      yaxis: { opposite: true },
     },
   });
+  const generateRedirectsChartData = (redirects: any) => ({
+    series: [
+      {
+        name: "Aktif Yönlendirmeler",
+        data: redirects.activeRedirectsData || [],
+        color: "#00FF00",
+        type: "area",
+      },
+      {
+        name: "Pasif Yönlendirmeler",
+        data: redirects.passiveRedirectsData || [],
+        color: "#FF0000",
+        type: "area",
+      },
+      {
+        name: "Toplam Yönlendirmeler",
+        data: redirects.monthDataSeries1.prices || [],
+        color: "#ffffff",
+        type: "area",
+      },
+    ],
+    options: {
+      grid: {
+        padding: { left: 0, right: 5, top: 0, bottom: -1 },
+        borderColor: "#252525",
+      },
+      theme: { mode: "dark" as any },
+      chart: {
+        toolbar: { show: false },
+        background: "transparent" as any,
+        type: "area" as any,
+        zoom: { enabled: false },
+      },
+      dataLabels: { enabled: false },
+      stroke: { curve: "smooth" as any },
+      labels: redirects.monthDataSeries1.dates || [],
+      xaxis: { type: "datetime" as any },
+      yaxis: { opposite: true },
+    },
+  });
+  const packageChart = generateChartData(stats.packageSales);
+  const subscriptionChart = generateChartData(stats.subscriptionSales);
+  const redirectsChart = generateRedirectsChartData(stats.redirects);
   useEffect(() => {
     if (window && typeof window !== "undefined") {
       setMount(true);
     } else {
       setMount(false);
     }
-  }, [window]);
+  }, []);
   return (
     mount && (
       <div className="flex space-y-2.5 flex-col items-start px-5 py-4 justify-start w-full h-full">
         <DashboardHeader page="İstatistikler" />
         <div className="w-full gap-3 grid z-50 grid-cols-1 grid-rows-3 md:grid-rows-2 md:grid-cols-2 lg:grid-cols-2 lg:grid-rows-2 xl:grid-cols-3 xl:grid-rows-1">
-          <div className="first-line:relative neon-box-2 hover:cursor-pointer min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-row items-start justify-between transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md">
-            <div className="flex flex-col w-full space-y-1 items-start justify-start z-10">
-              <span className="text-lg px-6 pt-6 font-medium text-white">
-                Paket Satışları
-              </span>
-              <div className="w-full pl-6">
-                <ReactApexChart
-                  options={chart.options}
-                  series={chart.series}
-                  type="area"
-                  height={280}
-                />
-              </div>
+          <div className="neon-box-2 min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-col items-start justify-start transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md pt-6 px-6">
+            <span className="text-lg font-medium text-white">
+              Paket Satışları
+            </span>
+            <div className="w-full h-full">
+              <ReactApexChart
+                options={packageChart.options}
+                series={packageChart.series}
+                type="area"
+                height={280}
+              />
+            </div>
+          </div>
+          <div className="neon-box-2 min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-col items-start justify-start transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md pt-6 px-6">
+            <span className="text-lg font-medium text-white">
+              Abonelik Satışları
+            </span>
+            <div className="w-full h-full">
+              <ReactApexChart
+                options={subscriptionChart.options}
+                series={subscriptionChart.series}
+                type="area"
+                height={280}
+              />
+            </div>
+          </div>
+          <div className="neon-box-2 min-h-[140px] lg:min-h-[150px] rounded-3xl flex flex-col items-start justify-start transition-all ease-out duration-200 border border-transparent bg-gradient-to-br backdrop-blur-md pt-6 px-6">
+            <span className="text-lg font-medium text-white">
+              Yönlendirmeler
+            </span>
+            <div className="w-full h-full">
+              <ReactApexChart
+                options={redirectsChart.options}
+                series={redirectsChart.series}
+                type="area"
+                height={280}
+              />
             </div>
           </div>
         </div>

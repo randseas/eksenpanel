@@ -5,7 +5,7 @@ import { Calendar, DotSquare, Globe, PackageIcon, User } from "lucide-react";
 import { timeAgo } from "@/lib/date";
 import { AppContext } from "../../context";
 import { Package, PurchasedPackage } from "@/types";
-import { deformatUserInfo } from "../../admin/editPackage/[...packageId]/page";
+import { deformatUserInfo } from "@/helpers/userHelper";
 
 export default function Packages() {
   const router = useRouter();

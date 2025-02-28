@@ -5,6 +5,7 @@ import DashboardHeader from "@/components/common/dashboardHeader";
 import { AppContext } from "@/app/(app)/context";
 import instance from "@/app/instance";
 import toast from "react-hot-toast";
+import { deformatUserInfo } from "@/helpers/userHelper";
 
 interface Package {
   packageId: string;
@@ -15,19 +16,6 @@ interface Package {
   accounts: string;
   accAmount: string;
   creationDate: string;
-}
-
-export function deformatUserInfo(
-  users: { username: string; email: string; password: string }[]
-): string {
-  return users
-    ?.map(
-      (user) =>
-        `Kullanıcı Adı: ${user.username || "-"} | E-POSTA: ${
-          user.email
-        } | ŞİFRE: ${user.password}`
-    )
-    ?.join("\n");
 }
 
 export default function EditPackage({

@@ -30,6 +30,13 @@ export default function Dashboard() {
   const [subscriptionPlan, setSubscriptionPlan] = useState<string>("monthly");
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
+    if (
+      state.userData.permission !== "user" &&
+      state.userData.permission !== "admin"
+    ) {
+      toast.error("Bir şeyler ters gitti");
+      router.push("/");
+    }
     const interval = setInterval(() => {
       setCurrentTime(new Date());
     }, 1000);
@@ -40,6 +47,7 @@ export default function Dashboard() {
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
     );
     if (!isConfirmed) return;
+    const toastloading = toast.loading("Yönlendirme siliniyor...");
     instance
       .post("deleteRedirect", {
         token: state.userData.token,
@@ -55,6 +63,9 @@ export default function Dashboard() {
       .catch((err: any) => {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
+      })
+      .finally(() => {
+        toast.dismiss(toastloading);
       });
   }
   function handleOrderPackage(packageId: string) {
@@ -556,7 +567,7 @@ export default function Dashboard() {
           </div>
         </>
       ) : (
-        <>ne gösterecem bilmiyom bekle biraz belki yüklenir...</>
+        <></>
       )}
     </div>
   );

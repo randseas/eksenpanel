@@ -18,6 +18,22 @@ export default function NewLink() {
   const [redirectCode, setRedirectCode] = useState<string>("");
   function handleNewRedirect() {
     if (!loading) {
+      const normalUrlRegex =
+        /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)(:\d+)?(\/.*)?$/;
+      if (!normalUrlRegex.test(mainUrl)) {
+        toast.error("Ana URL geçerli bir alan adı olmalıdır");
+        return;
+      }
+      if (!normalUrlRegex.test(destinationUrl)) {
+        toast.error("Hedef URL geçerli bir alan adı olmalıdır");
+        return;
+      }
+      const tumblrUrlRegex =
+        /^(https?:\/\/)?([a-zA-Z0-9_-]+\.)?tumblr\.com\/?$/;
+      if (!tumblrUrlRegex.test(mainUrl)) {
+        toast.error("Ana URL bir Tumblr alt adı olmalıdır.");
+        return;
+      }
       if (mainUrl === destinationUrl) {
         toast.error("Ana URL Hedef URL ile aynı olamaz!");
         return;
@@ -41,6 +57,10 @@ export default function NewLink() {
             router.push("/dashboard/redirects");
           } else if (res.data.message === "missing_fields") {
             toast.error("Lütfen tüm alanları doldurun");
+          } else if (res.data.message === "main_url_invalid") {
+            toast.error("Ana URL bir tumblr alt adı olmalıdır");
+          } else if (res.data.message === "destination_url_invalid") {
+            toast.error("Hedef URL geçerli bir alan adı olmalıdır");
           } else if (res.data.message === "redirect_already_exists") {
             toast.error("Bu URL ile zaten bir yönlendirme mevcut");
           } else if (res.data.message === "db_error") {

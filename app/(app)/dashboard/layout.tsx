@@ -16,8 +16,9 @@ export default function DashboardLayout({
       {children}
     </main>
   ) : (
-    <main className="!relative flex flex-row h-full min-h-[100vh] w-full justify-center items-center">
+    <main className="!relative flex flex-col space-y-4 h-full min-h-[100vh] w-full justify-center items-center">
       <CircularProgress color="inherit" />
+      <span>Yükleniyor...</span>
     </main>
   );
 }

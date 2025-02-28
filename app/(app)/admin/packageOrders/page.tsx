@@ -39,7 +39,9 @@ export default function PackageOrders() {
     orderId: string,
     action: "approve" | "reject"
   ) {
-    const loadingtoast = toast.loading("İşlem yapılıyor...");
+    const loadingtoast = toast.loading(
+      action === "approve" ? "Paket onaylanıyor..." : "Paket reddediliyor..."
+    );
     instance
       .post("updatePackage", {
         token: state.userData.token,

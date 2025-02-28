@@ -4,6 +4,10 @@ const nextConfig = {
   trailingSlash: false,
   optimizeFonts: true,
   productionBrowserSourceMaps: false,
+  output: "export",
+  images: {
+    unoptimized: true,
+  },
   typescript: {
     tsconfigPath: "./tsconfig.json",
     ignoreBuildErrors: false,
@@ -15,11 +19,5 @@ const nextConfig = {
     buildActivityPosition: "bottom-left",
   },
   crossOrigin: "anonymous",
-  images: {
-    domains: ["localhost", "waultdex.com"],
-  },
-  async redirects() {
-    return [];
-  },
 };
 export default nextConfig;

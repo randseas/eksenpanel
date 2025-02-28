@@ -57,7 +57,11 @@ export default function SubscriptionOrders() {
     orderId: string,
     action: "approve" | "reject"
   ) {
-    const loadingtoast = toast.loading("İşlem yapılıyor...");
+    const loadingtoast = toast.loading(
+      action === "approve"
+        ? "Abonelik onaylanıyor..."
+        : "Abonelik reddediliyor..."
+    );
     instance
       .post("updateSubscription", {
         token: state.userData.token,
