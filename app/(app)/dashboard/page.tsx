@@ -505,8 +505,11 @@ export default function DashboardHome() {
                   )}
                   style={
                     {
+                      //@ts-ignore
                       "--from-color": pkg.color?.from,
+                      //@ts-ignore
                       "--via-color": pkg.color?.via,
+                      //@ts-ignore
                       "--to-color": pkg.color?.to,
                     } as React.CSSProperties
                   }
