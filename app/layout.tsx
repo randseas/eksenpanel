@@ -34,6 +34,9 @@ import AdminStats from "./(app)/admin/stats/page.tsx";
 import SubscriptionOrders from "./(app)/admin/subscriptionOrders/page.tsx";
 import Subscriptions from "./(app)/admin/subscriptions/page.tsx";
 import Users from "./(app)/admin/users/page.tsx";
+import UserPackages from "./(app)/dashboard/packages/page.tsx";
+import AdminPackages from "./(app)/admin/packages/page.tsx";
+import AdminRedirects from "./(app)/admin/redirects/page.tsx";
 
 NProgress.configure({
   showSpinner: false,
@@ -109,9 +112,9 @@ export default function Layout() {
             <Route path="editRedirect/:redirectId" element={<EditRedirect />} />
             <Route path="newRedirect" element={<NewRedirect />} />
             <Route path="orderhistory" element={<OrderHistory />} />
-            <Route path="packages" element={<Packages />} />
-            <Route path="redirects" element={<Register />} />
-            <Route path="settings" element={<PasswordReset />} />
+            <Route path="packages" element={<UserPackages />} />
+            <Route path="redirects" element={<Redirects />} />
+            <Route path="settings" element={<Settings />} />
             <Route path="subscription" element={<LogOut />} />
           </Route>
           {/* App: Admin Layout */}
@@ -126,8 +129,8 @@ export default function Layout() {
             <Route path="newPackage" element={<NewPackage />} />
             <Route path="newSubscription" element={<NewSubscription />} />
             <Route path="packageOrders" element={<PackageOrders />} />
-            <Route path="packages" element={<Packages />} />
-            <Route path="redirects" element={<Redirects />} />
+            <Route path="packages" element={<AdminPackages />} />
+            <Route path="redirects" element={<AdminRedirects />} />
             <Route path="settings" element={<Settings />} />
             <Route path="stats" element={<AdminStats />} />
             <Route path="subscriptionOrders" element={<SubscriptionOrders />} />

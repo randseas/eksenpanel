@@ -7,7 +7,7 @@ import { Package, PurchasedPackage } from "../../../../types";
 import { deformatUserInfo } from "../../../../helpers/userHelper";
 import { useNavigate } from "react-router";
 
-export default function Packages() {
+export default function UserPackages() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 

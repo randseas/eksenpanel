@@ -24,13 +24,14 @@ import { useLocation, useNavigate } from "react-router";
 export default function Navbar() {
   const { state } = useContext(AppContext);
   const navigate = useNavigate();
-  const location = useLocation().toString();
+  const { pathname } = useLocation();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(() => {
     return typeof window !== "undefined"
       ? localStorage.getItem("sidebarCollapse") == "true"
       : undefined;
   });
   useEffect(() => {
+    console.log(pathname);
     localStorage.setItem("sidebarCollapse", isDrawerOpen?.toString() || "true");
   }, [isDrawerOpen]);
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -47,7 +48,7 @@ export default function Navbar() {
     icon: React.ExoticComponent | any;
     path: string;
   }> =
-    location.split("/")[1] === "admin"
+    pathname.split("/")[1] === "admin"
       ? state.userData.permission === "admin"
         ? [
             { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
@@ -149,7 +150,7 @@ export default function Navbar() {
           className={cn(
             device === "mobile" ? "mt-5" : "mt-0",
             "flex flex-row items-center justify-start px-3.5 py-[12px] space-x-2.5 w-full rounded-full text-base transition-all duration-100 hover:cursor-pointer",
-            location.split("/")[2] ===
+            pathname.split("/")[2] ===
               (path.split("/")[2] === "dashboard" ? "" : path.split("/")[2])
               ? `relative text-white font-medium
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full 
@@ -205,7 +206,7 @@ export default function Navbar() {
           >
             Tumblr Yönlendirme
           </span>
-          {location.split("/")[1] === "dashboard" ? (
+          {pathname.split("/")[1] === "dashboard" ? (
             <div
               onClick={() => navigate("/admin")}
               className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
@@ -267,7 +268,7 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col items-start justify-between max-w-[86%] w-full h-full mx-4">
             {renderMenu("mobile")}
-            {location.split("/")[1] === "dashboard" && (
+            {pathname.split("/")[1] === "dashboard" && (
               <div
                 onClick={() => navigate("/auth/logout")}
                 className="border left-3 right-3 sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
@@ -328,7 +329,7 @@ export default function Navbar() {
         </div>
 
         {renderMenu()}
-        {location.split("/")[1] === "dashboard" && (
+        {pathname.split("/")[1] === "dashboard" && (
           <div
             onClick={() => navigate("/auth/logout")}
             className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"

@@ -21,7 +21,7 @@ import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-export default function Packages() {
+export default function AdminPackages() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 

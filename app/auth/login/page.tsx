@@ -41,6 +41,9 @@ export default function Login() {
         } else if (res.data.message === "user_not_found") {
           setLoading(false);
           toast.error("Hesap bulunamadı");
+        } else if (res.data.message === "invalid_credentials") {
+          toast.error("E-posta ve şifre kombinasyonu bulunamadı");
+          setLoading(false);
         } else if (res.data.message === "password_err") {
           toast.error("Şifreler uyuşmuyor");
           setLoading(false);
