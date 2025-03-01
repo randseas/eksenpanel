@@ -1,16 +1,16 @@
 "use client";
 import React from "react";
-import { useRouter } from "next/navigation";
-import config from "@/config";
+import config from "../../config";
+import { useNavigate } from "react-router";
 
-export default function Auth() {
-  const router = useRouter();
+export default function AuthHome() {
+  const navigate = useNavigate();
   return (
     <main className="relative flex flex-col items-center justify-center w-full h-full min-h-[99vh]">
       <div className="logo text-base">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
       <div className="loginForm flex flex-col items-center justify-center">
         <div
-          onClick={() => router.push("/")}
+          onClick={() => navigate("/")}
           className="flex relative mb-4 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
         >
           <img
@@ -26,13 +26,13 @@ export default function Auth() {
         <p>Giriş yaparak ya da kaydolarak devam edebilirsiniz.</p>
         <button
           className="action-btn transition-all ease-linear duration-100"
-          onClick={() => router.push("/auth/login")}
+          onClick={() => navigate("/auth/login")}
         >
           Giriş Yap
         </button>
         <button
           className="action-btn secondary transition-all ease-linear duration-100"
-          onClick={() => router.push("/auth/register")}
+          onClick={() => navigate("/auth/register")}
         >
           Kayıt Ol
         </button>

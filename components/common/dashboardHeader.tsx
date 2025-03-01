@@ -1,12 +1,10 @@
-"use client";
-import { Bell, DatabaseZap } from "lucide-react";
 import React, { Fragment, useContext } from "react";
-import { Popover, Transition } from "@headlessui/react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
+import { Bell, DatabaseZap } from "lucide-react";
 import { AppContext } from "../../app/(app)/context";
-import { NotificationInterface } from "@/types";
-import { timeAgo } from "@/lib/date";
+import { NotificationInterface } from "../../types.ts";
+import { timeAgo } from "../../lib/date";
+import { useLocation, useNavigate } from "react-router";
+import { Popover, Transition } from "@headlessui/react";
 
 const formatContent = (content: string) => {
   return content.split(/(\*[^*]+\*)/g).map((part, index) => {
@@ -23,8 +21,8 @@ const formatContent = (content: string) => {
 
 export default function DashboardHeader({ page }: { page: string }) {
   const { state } = useContext(AppContext);
-  const router = useRouter();
-  const pathname = usePathname();
+  const navigate = useNavigate();
+  const location = useLocation().toString();
   return (
     <div className="hidden z-[99999] md:flex top-0 left-0 pb-0.5 right-0 bg-transparent dark:bg-transparent flex-row items-center w-full justify-between">
       <h1 className="text-lg font-[450] pb-1 text-zinc-900 dark:text-zinc-200">
@@ -33,9 +31,9 @@ export default function DashboardHeader({ page }: { page: string }) {
       <div className="flex flex-row items-center justify-center space-x-1">
         {state.userData.permission === "admin" && (
           <div
-            onClick={() => router.push("/admin")}
+            onClick={() => navigate("/admin")}
             className={`${
-              pathname.split("/")[1] === "admin"
+              location.split("/")[1] === "admin"
                 ? "bg-zinc-200/60 dark:bg-zinc-800/60"
                 : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
             } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}

@@ -1,11 +1,39 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import { Toaster } from "react-hot-toast";
-import { Inter } from "next/font/google";
-import { usePathname, useRouter } from "next/navigation";
+import { Routes, Route, useLocation } from "react-router";
+import Home from "./page.tsx";
 import NProgress from "nprogress";
-import "nprogress/nprogress.css"; // NProgress stillerini eklemeyi unutma
-import "./globals.min.css";
+import { useEffect, useState } from "react";
+import { Toaster } from "react-hot-toast";
+
+import NotFound from "./notfound.tsx";
+import AppLayout from "./(app)/layout.tsx";
+/* Auth: Layout */
+import AuthHome from "./auth/page.tsx";
+import Login from "./auth/login/page.tsx";
+import Register from "./auth/register/page.tsx";
+import PasswordReset from "./auth/password-reset/page.tsx";
+import LogOut from "./auth/logout/page.tsx";
+/* Dashboard: User Layout */
+import DashboardHome from "./(app)/dashboard/page.tsx";
+import DashboardLayout from "./(app)/dashboard/layout.tsx";
+import EditRedirect from "./(app)/dashboard/editRedirect/page.tsx";
+import NewRedirect from "./(app)/dashboard/newRedirect/page.tsx";
+import OrderHistory from "./(app)/dashboard/orderhistory/page.tsx";
+import Packages from "./(app)/admin/packages/page.tsx";
+/* Dashboard: Admin Layout */
+import AdminHome from "./(app)/admin/page.tsx";
+import Activities from "./(app)/admin/activities/page.tsx";
+import AdminLayout from "./(app)/admin/layout.tsx";
+import EditSubscription from "./(app)/admin/editSubscription/page.tsx";
+import EditPackage from "./(app)/admin/editPackage/page.tsx";
+import NewPackage from "./(app)/admin/newPackage/page.tsx";
+import NewSubscription from "./(app)/admin/newSubscription/page.tsx";
+import PackageOrders from "./(app)/admin/packageOrders/page.tsx";
+import Redirects from "./(app)/dashboard/redirects/page.tsx";
+import Settings from "./(app)/dashboard/settings/page.tsx";
+import AdminStats from "./(app)/admin/stats/page.tsx";
+import SubscriptionOrders from "./(app)/admin/subscriptionOrders/page.tsx";
+import Subscriptions from "./(app)/admin/subscriptions/page.tsx";
+import Users from "./(app)/admin/users/page.tsx";
 
 NProgress.configure({
   showSpinner: false,
@@ -14,15 +42,8 @@ NProgress.configure({
   trickleSpeed: 750,
 });
 
-const Font = Inter({ subsets: ["latin"], display: "auto" });
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  const pathname = usePathname();
-  const [mount, setMount] = useState<boolean>(false);
+export default function Layout() {
+  const location = useLocation();
   const [theme, setTheme] = useState<string>(
     typeof window !== "undefined" &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
@@ -35,11 +56,6 @@ export default function RootLayout({
         ? window.matchMedia("(prefers-color-scheme: dark)")
         : null;
     setTheme(mediaQuery?.matches ? "dark" : "light");
-    if (typeof window !== "undefined") {
-      setMount(true);
-    } else {
-      setMount(false);
-    }
   }, []);
   useEffect(() => {
     NProgress.start();
@@ -47,7 +63,7 @@ export default function RootLayout({
       NProgress.done();
     }, 600);
     return () => clearTimeout(timer);
-  }, [pathname]);
+  }, [location]);
   const styles = {
     toast: {
       backgroundColor: "white",
@@ -64,40 +80,64 @@ export default function RootLayout({
   };
   const isDarkMode = theme === "dark" ? true : false;
   return (
-    <html className="!relative !p-0 !m-0 dark:bg-dark bg-light text-black dark:text-white">
-      <head>
-        <title>Tumblr Yönlendirme</title>
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Tumblr Yönlendirme" />
-        <meta name="keywords" content="tumblr, redirecting, redirect" />
-        <meta property="og:title" content="Tumblr Yönlendirme" />
-        <meta property="og:description" content="Tumblr Yönlendirme" />
-        <meta property="og:image" content="" />
-        <meta property="og:url" content="https://tumblryonlendirme.xyz" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Tumblr Yönlendirme" />
-        <meta property="og:locale" content="en_US" />
-        <link rel="icon" type="image/png" href="/icons/favicon.ico" />
-      </head>
-      <body
-        className={`${Font.className} !relative dark:bg-dark bg-light text-black dark:text-white`}
-      >
-        {mount && (
-          <>
-            <Toaster
-              containerClassName="!z-[999999]"
-              toastOptions={{
-                style: {
-                  ...styles.toast,
-                  ...(isDarkMode ? styles.darkToast : {}),
-                },
-              }}
+    <>
+      <Toaster
+        containerClassName="!z-[999999]"
+        toastOptions={{
+          style: {
+            ...styles.toast,
+            ...(isDarkMode ? styles.darkToast : {}),
+          },
+        }}
+      />
+      <Routes>
+        {/* Home */}
+        <Route index element={<Home />} />
+        {/* Authentication */}
+        <Route path="/auth">
+          <Route index element={<AuthHome />} />
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          <Route path="passwordReset" element={<PasswordReset />} />
+          <Route path="logout" element={<LogOut />} />
+        </Route>
+        {/* App: Main Layout */}
+        <Route element={<AppLayout />}>
+          {/* App: User Layout */}
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index element={<DashboardHome />} />
+            <Route path="editRedirect/:redirectId" element={<EditRedirect />} />
+            <Route path="newRedirect" element={<NewRedirect />} />
+            <Route path="orderhistory" element={<OrderHistory />} />
+            <Route path="packages" element={<Packages />} />
+            <Route path="redirects" element={<Register />} />
+            <Route path="settings" element={<PasswordReset />} />
+            <Route path="subscription" element={<LogOut />} />
+          </Route>
+          {/* App: Admin Layout */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminHome />} />
+            <Route path="activities" element={<Activities />} />
+            <Route path="editPackage/:packageId" element={<EditPackage />} />
+            <Route
+              path="editSubscription/:subscriptionId"
+              element={<EditSubscription />}
             />
-            {children}
-          </>
-        )}
-      </body>
-    </html>
+            <Route path="newPackage" element={<NewPackage />} />
+            <Route path="newSubscription" element={<NewSubscription />} />
+            <Route path="packageOrders" element={<PackageOrders />} />
+            <Route path="packages" element={<Packages />} />
+            <Route path="redirects" element={<Redirects />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="stats" element={<AdminStats />} />
+            <Route path="subscriptionOrders" element={<SubscriptionOrders />} />
+            <Route path="subscriptions" element={<Subscriptions />} />
+            <Route path="users" element={<Users />} />
+          </Route>
+        </Route>
+        {/* Not found */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </>
   );
 }

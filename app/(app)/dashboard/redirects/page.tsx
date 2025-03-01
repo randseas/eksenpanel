@@ -1,7 +1,5 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
 import {
   Calendar,
   CheckCircle,
@@ -13,14 +11,15 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
-import { timeAgo } from "@/lib/date";
-import instance from "@/app/instance";
+import { timeAgo } from "../../../../lib/date";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { AppContext } from "../../context";
-import { Redirect } from "@/types";
+import { Redirect } from "../../../../types";
+import { useNavigate } from "react-router";
 
-export default function Links() {
-  const router = useRouter();
+export default function Redirects() {
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -30,6 +29,7 @@ export default function Links() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
+
   function deleteRedirect(redirectId: string) {
     const isConfirmed = window.confirm(
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
@@ -59,7 +59,7 @@ export default function Links() {
           Yönlendirmeler
         </h1>
         <h2
-          onClick={() => router.push("/dashboard/newRedirect")}
+          onClick={() => navigate("/dashboard/newRedirect")}
           className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
         >
           Yeni Ekle {"->"}
@@ -216,9 +216,7 @@ export default function Links() {
                   </a>
                   <a
                     onClick={() =>
-                      router.push(
-                        `/dashboard/editRedirect/${redirect.redirectId}`
-                      )
+                      navigate(`/dashboard/editRedirect/${redirect.redirectId}`)
                     }
                     className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
                   >

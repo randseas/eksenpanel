@@ -1,18 +1,14 @@
-"use client";
 import React, { useContext, useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import { AppContext } from "@/app/(app)/context";
-import instance from "@/app/instance";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { AppContext } from "../../../(app)/context";
+import instance from "../../../instance";
 import toast from "react-hot-toast";
-import { Permission, SubscriptionInterface } from "@/types";
+import { Permission, SubscriptionInterface } from "../../../../types";
+import { useNavigate, useParams } from "react-router";
 
-export default function EditSubscription({
-  params,
-}: {
-  params: { subscriptionIds: Array<string> };
-}) {
-  const router = useRouter();
+export default function EditSubscription() {
+  const { subscriptionId } = useParams();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [defaultPerms, setDefaultPerms] = useState<Permission[]>([
     {
@@ -42,12 +38,13 @@ export default function EditSubscription({
     price: "",
     permissions: [],
   });
+
   useEffect(() => {
     const loadingtoast = toast.loading("Abonelik aranıyor");
     const findedSubscription = state.subscriptions.find(
       (sub: SubscriptionInterface) =>
         sub.subscriptionId?.toString().toLowerCase().trim() ===
-        params?.subscriptionIds[0]?.toString().toLowerCase().trim()
+        JSON.stringify(subscriptionId).toString().toLowerCase().trim()
     );
     if (findedSubscription) {
       toast.dismiss(loadingtoast);
@@ -55,9 +52,10 @@ export default function EditSubscription({
     } else {
       toast.dismiss(loadingtoast);
       toast.error("Abonelik bulunamadı");
-      router.push("/admin/subscriptions");
+      navigate("/admin/subscriptions");
     }
-  }, [params.subscriptionIds]);
+  }, [subscriptionId]);
+
   function handleEditSubscription() {
     if (subscription.permissions?.length === 0) {
       toast.error("En az bir yetki eklenmelidir");
@@ -78,7 +76,7 @@ export default function EditSubscription({
         console.log("result", res.data);
         if (res.data.status === "ok") {
           toast.success("Abonelik düzenlendi");
-          router.push("/admin/subscriptions");
+          navigate("/admin/subscriptions");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
         } else if (res.data.message === "user_not_found") {

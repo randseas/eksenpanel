@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
   CheckCircle,
@@ -14,11 +13,12 @@ import {
 } from "lucide-react";
 import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
-import { Activity } from "@/types";
-import { timeAgo } from "@/lib/date";
+import { Activity } from "../../../types";
+import { timeAgo } from "../../../lib/date";
+import { useNavigate } from "react-router";
 
-export default function AdminPanel() {
-  const router = useRouter();
+export default function AdminHome() {
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
   return (
@@ -120,7 +120,7 @@ export default function AdminPanel() {
             Aktivite Logları
           </h1>
           <h2
-            onClick={() => router.push("/admin/activities")}
+            onClick={() => navigate("/admin/activities")}
             className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
           >
             Tümünü gör {"->"}

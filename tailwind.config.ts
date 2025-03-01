@@ -3,10 +3,9 @@ import type { Config } from "tailwindcss";
 const config = {
   darkMode: "media",
   content: [
-    "./app/**/*.{ts,tsx,js,jsx}",
-    "./app/layout.tsx",
-    "./components/**/*.{ts,tsx,js,jsx}",
-    "./node_modules/react-tailwind-tooltip/**/*.{ts,tsx,js,jsx}",
+    "./index.html",
+    "./app/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -61,7 +60,7 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/forms")],
+  plugins: [],
 } satisfies Config;
 
-export default config;
+export default config

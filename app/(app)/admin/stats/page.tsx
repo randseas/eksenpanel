@@ -1,17 +1,14 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import { AppContext } from "@/app/(app)/context";
-import dynamic from "next/dynamic";
-const ReactApexChart = dynamic(() => import("react-apexcharts"), {
-  ssr: false,
-});
-import instance from "@/app/instance";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { AppContext } from "../../../(app)/context";
+import ReactApexChart from "react-apexcharts";
+import instance from "../../../instance";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function AdminStats() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [mount, setMount] = useState<boolean>(false);
   const [stats, setStats] = useState({

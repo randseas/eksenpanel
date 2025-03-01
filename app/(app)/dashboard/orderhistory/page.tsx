@@ -1,19 +1,15 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
-  CheckCircle,
   CircleCheck,
-  Clock,
   DollarSign,
   DotSquare,
-  Globe,
   Hash,
   SquareArrowOutUpRight,
 } from "lucide-react";
-import { timeAgo } from "@/lib/date";
-import instance from "@/app/instance";
+import { timeAgo } from "../../../../lib/date";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { AppContext } from "../../context";
 import {
@@ -23,10 +19,11 @@ import {
   OrderedPackage,
   OrderedSubscription,
   SubscriptionInterface,
-} from "@/types";
+} from "../../../../types";
+import { useNavigate } from "react-router";
 
 export default function OrderHistory() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   useEffect(() => {
@@ -98,7 +95,7 @@ export default function OrderHistory() {
           Siparişlerim
         </h1>
         <h2
-          onClick={() => router.push("/dashboard#packages")}
+          onClick={() => navigate("/dashboard#packages")}
           className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
         >
           Satın al {"->"}

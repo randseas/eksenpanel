@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
   DollarSign,
@@ -10,19 +9,16 @@ import {
   Trash2,
   User,
 } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import {
-  OrderedSubscription,
-  SubscriptionInterface,
-  UserSubscriptionInterface,
-} from "@/types";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { OrderedSubscription, SubscriptionInterface } from "../../../../types";
 import toast from "react-hot-toast";
-import instance from "@/app/instance";
+import instance from "../../../../app/instance";
+import { useNavigate } from "react-router";
 
 export default function SubscriptionOrders() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {

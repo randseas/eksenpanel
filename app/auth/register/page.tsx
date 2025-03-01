@@ -1,14 +1,13 @@
 "use client";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import dotenv from "dotenv";
 import toast from "react-hot-toast";
-import instance from "@/app/instance";
+import instance from "../../../app/instance";
 import { CircularProgress } from "@mui/material";
-import config from "@/config";
+import config from "../../../config";
+import { useNavigate } from "react-router";
 
 export default function Register() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -17,8 +16,7 @@ export default function Register() {
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
       if (token) {
-        router.prefetch("/dashboard");
-        setTimeout(() => router.push("/dashboard"), 1);
+        setTimeout(() => navigate("/dashboard"), 1);
       }
     }
   }, []);
@@ -37,8 +35,7 @@ export default function Register() {
           if (typeof window.localStorage !== "undefined") {
             setLoading(false);
             localStorage.setItem("user-token", res.data.token);
-            router.prefetch("/dashboard");
-            setTimeout(() => router.push("/dashboard"), 750);
+            setTimeout(() => navigate("/dashboard"), 750);
           } else {
             setLoading(false);
             toast.error("Hatalı şifre");
@@ -118,7 +115,7 @@ export default function Register() {
             )}
           </button>
         </form>
-        <button className="mini-back-btn" onClick={() => router.push("/auth")}>
+        <button className="mini-back-btn" onClick={() => navigate("/auth")}>
           Geri Dön
         </button>
       </div>

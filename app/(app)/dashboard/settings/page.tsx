@@ -1,25 +1,18 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
 import { Check } from "lucide-react";
-import { SubscriptionInterface, TelegramBotDetails } from "@/types";
-import instance from "@/app/instance";
+import { SubscriptionInterface, TelegramBotDetails } from "../../../../types";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
-import { timeAgo, timeRemaining } from "@/lib/date";
+import { timeRemaining } from "../../../../lib/date";
+import { useNavigate } from "react-router";
 
 export default function Settings() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [currentTime, setCurrentTime] = useState(new Date());
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
   const [email, setEmail] = useState<string>(state.userData.email);
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
@@ -27,6 +20,14 @@ export default function Settings() {
     key: state.userData.telegramBot?.key || "",
     groupId: state.userData.telegramBot?.groupId || "",
   });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   function handleChangeSettings() {
     const toastloading = toast.loading("Ayarlar güncelleniyor...");
     const payload: any = { token: state.userData.token };

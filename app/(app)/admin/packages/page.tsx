@@ -1,11 +1,9 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
   DollarSign,
   DotSquare,
-  Globe,
   Hash,
   Package as PkgIcon,
   PackageOpen,
@@ -15,15 +13,16 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import { Package } from "@/types";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import instance from "@/app/instance";
+import { Package } from "../../../../types";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function Packages() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
   function deletePackage(packageId: string) {
@@ -192,7 +191,7 @@ export default function Packages() {
                 <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                   <a
                     onClick={() =>
-                      router.push(`/admin/editPackage/${pkg.packageId}`)
+                      navigate(`/admin/editPackage/${pkg.packageId}`)
                     }
                     className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
                   >

@@ -1,10 +1,9 @@
-"use client";
 import React, { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
-import instance from "@/app/instance";
+import instance from "../../../instance";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 interface Package {
   packageId: string;
@@ -18,7 +17,7 @@ interface Package {
 }
 
 export default function NewPackage() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [pkg, setPackage] = useState<Partial<Package>>({
     title: "",
@@ -38,7 +37,7 @@ export default function NewPackage() {
       .then((res) => {
         if (res.data.status === "ok") {
           toast.success("Paket oluşturuldu");
-          router.push("/admin/packages");
+          navigate("/admin/packages");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
         } else if (res.data.message === "package_already_exists") {

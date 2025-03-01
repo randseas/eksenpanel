@@ -1,14 +1,14 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
 import { Calendar, DotSquare, Globe, PackageIcon, User } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import { Package, PurchasedPackage } from "@/types";
-import { deformatUserInfo } from "@/helpers/userHelper";
+import { Package, PurchasedPackage } from "../../../../types";
+import { deformatUserInfo } from "../../../../helpers/userHelper";
+import { useNavigate } from "react-router";
 
 export default function Packages() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
   function downloadAccounts(packageId: string) {
@@ -34,7 +34,7 @@ export default function Packages() {
           Paketlerim
         </h1>
         <h2
-          onClick={() => router.push("/dashboard#packages")}
+          onClick={() => navigate("/dashboard#packages")}
           className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
         >
           Satın al {"->"}

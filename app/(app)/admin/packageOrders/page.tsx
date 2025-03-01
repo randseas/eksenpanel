@@ -1,20 +1,20 @@
-"use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { Calendar, DollarSign, DotSquare, Hash, User } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import { OrderedPackage, Package } from "@/types";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { OrderedPackage, Package } from "../../../../types";
 import toast from "react-hot-toast";
-import instance from "@/app/instance";
+import instance from "../../../instance";
+import { useNavigate } from "react-router";
 
 export default function PackageOrders() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [orderedPackages, setOrderedPackages] = useState<
     Array<OrderedPackage & { userId: string }>
   >([]);
+
   useEffect(() => {
     setOrderedPackages(
       state.users
@@ -34,6 +34,7 @@ export default function PackageOrders() {
         )
     );
   }, [state.users]);
+
   function handleUpdatePackage(
     packageId: string,
     orderId: string,

@@ -1,14 +1,13 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
-import Switch from "@/components/common/switch";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
-import instance from "@/app/instance";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { AppContext } from "../../context";
+import { useNavigate } from "react-router";
 
-export default function NewLink() {
-  const router = useRouter();
+export default function NewRedirect() {
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [mainUrl, setMainURL] = useState<string>("");
@@ -16,6 +15,7 @@ export default function NewLink() {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [redirectCode, setRedirectCode] = useState<string>("");
+  
   function handleNewRedirect() {
     if (!loading) {
       const normalUrlRegex =
@@ -54,7 +54,7 @@ export default function NewLink() {
             setMainURL("");
             setDestinationURL("");
             setRedirectCode("");
-            router.push("/dashboard/redirects");
+            navigate("/dashboard/redirects");
           } else if (res.data.message === "missing_fields") {
             toast.error("Lütfen tüm alanları doldurun");
           } else if (res.data.message === "main_url_invalid") {

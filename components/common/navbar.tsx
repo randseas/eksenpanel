@@ -1,4 +1,4 @@
-"use client";
+import React, { useState, useEffect, useContext } from "react";
 import {
   LogOut,
   Plus,
@@ -9,26 +9,22 @@ import {
   History,
   PackagePlus,
   Users,
-  UserCheck,
   TicketPlus,
   Ticket,
   ChartArea,
   ExternalLinkIcon,
-  TicketSlash,
   PackageCheck,
   TicketCheck,
   HistoryIcon,
 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { usePathname } from "next/navigation";
-import React, { useState, useEffect, useContext } from "react";
-import { cn } from "@/lib/utils";
-import { AppContext } from "@/app/(app)/context";
+import { cn } from "../../lib/utils";
+import { AppContext } from "../../app/(app)/context";
+import { useLocation, useNavigate } from "react-router";
 
 export default function Navbar() {
   const { state } = useContext(AppContext);
-  const router = useRouter();
-  const pathname = usePathname();
+  const navigate = useNavigate();
+  const location = useLocation().toString();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean | undefined>(() => {
     return typeof window !== "undefined"
       ? localStorage.getItem("sidebarCollapse") == "true"
@@ -51,7 +47,7 @@ export default function Navbar() {
     icon: React.ExoticComponent | any;
     path: string;
   }> =
-    pathname.split("/")[1] === "admin"
+    location.split("/")[1] === "admin"
       ? state.userData.permission === "admin"
         ? [
             { label: "Ana sayfa", icon: LayoutDashboard, path: "/admin" },
@@ -147,13 +143,13 @@ export default function Navbar() {
         <div
           key={path}
           onClick={() => {
-            router.push(path);
+            navigate(path);
             device === "mobile" && setIsDrawerOpen(false);
           }}
           className={cn(
             device === "mobile" ? "mt-5" : "mt-0",
             "flex flex-row items-center justify-start px-3.5 py-[12px] space-x-2.5 w-full rounded-full text-base transition-all duration-100 hover:cursor-pointer",
-            pathname.split("/")[2] ===
+            location.split("/")[2] ===
               (path.split("/")[2] === "dashboard" ? "" : path.split("/")[2])
               ? `relative text-white font-medium
               before:content-[''] before:absolute before:top-0 before:left-0 before:w-full before:h-full 
@@ -204,21 +200,21 @@ export default function Navbar() {
             </svg>
           </div>
           <span
-            onClick={() => router.push("/dashboard")}
+            onClick={() => navigate("/dashboard")}
             className="text-[17px] hover:cursor-pointer dark:text-zinc-50 text-zinc-800 font-medium"
           >
             Tumblr Yönlendirme
           </span>
-          {pathname.split("/")[1] === "dashboard" ? (
+          {location.split("/")[1] === "dashboard" ? (
             <div
-              onClick={() => router.push("/admin")}
+              onClick={() => navigate("/admin")}
               className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
             >
               Admin
             </div>
           ) : (
             <div
-              onClick={() => router.push("/dashboard")}
+              onClick={() => navigate("/dashboard")}
               className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
             >
               Dashboard
@@ -240,7 +236,7 @@ export default function Navbar() {
         >
           <div className="flex flex-row items-center justify-between pl-[22px] pr-[12px]">
             <div
-              onClick={() => router.push("/dashboard")}
+              onClick={() => navigate("/dashboard")}
               className="sticky top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <span className="text-[17px] tracking-[-0.005em] font-medium">
@@ -271,9 +267,9 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col items-start justify-between max-w-[86%] w-full h-full mx-4">
             {renderMenu("mobile")}
-            {pathname.split("/")[1] === "dashboard" && (
+            {location.split("/")[1] === "dashboard" && (
               <div
-                onClick={() => router.push("/auth/logout")}
+                onClick={() => navigate("/auth/logout")}
                 className="border left-3 right-3 sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
               >
                 <LogOut width={20} height={20} stroke="currentColor" />
@@ -295,7 +291,7 @@ export default function Navbar() {
         <div className="flex relative flex-row items-center justify-between w-full">
           {!isDrawerOpen && (
             <div
-              onClick={() => router.push("/dashboard")}
+              onClick={() => navigate("/dashboard")}
               className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <img
@@ -332,9 +328,9 @@ export default function Navbar() {
         </div>
 
         {renderMenu()}
-        {pathname.split("/")[1] === "dashboard" && (
+        {location.split("/")[1] === "dashboard" && (
           <div
-            onClick={() => router.push("/auth/logout")}
+            onClick={() => navigate("/auth/logout")}
             className="border sticky bottom-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 dark:hover:bg-zinc-900/50 hover:bg-zinc-200/50 border-light-border/80 dark:border-dark-border/80 hover:border-light-border/95 dark:hover:border-dark-border/95 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start px-3.5 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full py-[11px] text-base"
           >
             <LogOut

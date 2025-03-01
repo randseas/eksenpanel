@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
   CheckCircle,
@@ -16,16 +15,17 @@ import {
   Trash2,
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { cn } from "@/lib/utils";
+import { cn } from "../../../lib/utils";
 import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
-import { Redirect, SubscriptionInterface } from "@/types";
-import { timeAgo } from "@/lib/date";
-import instance from "@/app/instance";
-import config from "@/config";
+import { Redirect, SubscriptionInterface } from "../../../types";
+import { timeAgo } from "../../../lib/date";
+import instance from "../../../app/instance";
+import config from "../../../config";
+import { useNavigate } from "react-router";
 
-export default function Dashboard() {
-  const router = useRouter();
+export default function DashboardHome() {
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [subscriptionPlan, setSubscriptionPlan] = useState<string>("monthly");
   const [currentTime, setCurrentTime] = useState(new Date());
@@ -35,7 +35,7 @@ export default function Dashboard() {
       state.userData.permission !== "admin"
     ) {
       toast.error("Bir şeyler ters gitti");
-      router.push("/");
+      navigate("/");
     }
     const interval = setInterval(() => {
       setCurrentTime(new Date());
@@ -285,7 +285,7 @@ export default function Dashboard() {
                           ? state.userData.purchasedPackages.length
                           : itemTitle === "hesaplarım"
                           ? state.userData.purchasedPackages.reduce(
-                              (sum, pkg) => sum + pkg.accounts.length,
+                              (sum: any, pkg: any) => sum + pkg.accounts.length,
                               0
                             )
                           : "--"
@@ -306,7 +306,7 @@ export default function Dashboard() {
                   Yönlendirmeler
                 </h1>
                 <h2
-                  onClick={() => router.push("/dashboard/redirects")}
+                  onClick={() => navigate("/dashboard/redirects")}
                   className="text-md text-blue-500 hover:underline hover:cursor-pointer font-[450]"
                 >
                   Tümünü gör {"->"}
@@ -456,7 +456,7 @@ export default function Dashboard() {
                           <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                             <a
                               onClick={() =>
-                                router.push(
+                                navigate(
                                   `/dashboard/editRedirect/${redirect.redirectId}`
                                 )
                               }
@@ -505,11 +505,8 @@ export default function Dashboard() {
                   )}
                   style={
                     {
-                      //@ts-expect-error
                       "--from-color": pkg.color?.from,
-                      //@ts-expect-error
                       "--via-color": pkg.color?.via,
-                      //@ts-expect-error
                       "--to-color": pkg.color?.to,
                     } as React.CSSProperties
                   }

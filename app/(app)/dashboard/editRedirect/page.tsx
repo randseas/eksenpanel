@@ -1,27 +1,24 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
-import Switch from "@/components/common/switch";
-import DashboardHeader from "../../../../../components/common/dashboardHeader";
-import instance from "@/app/instance";
+import Switch from "../../../../components/common/switch";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
-import { AppContext } from "../../../context";
-import { Redirect } from "@/types";
-import CodeBlock from "@/components/common/codeBlock";
+import { AppContext } from "../../context";
+import { Redirect } from "../../../../types";
+import CodeBlock from "../../../../components/common/codeBlock";
+import { useNavigate, useParams } from "react-router";
 
-export default function EditLink({
-  params,
-}: {
-  params: { redirectId: Array<string> };
-}) {
-  const router = useRouter();
+export default function EditRedirect() {
+  const navigate = useNavigate();
+  const { redirectId } = useParams();
   const { state } = useContext(AppContext);
   const [loading, setLoading] = useState<boolean>(false);
   const [existingRedirect, setExistingRedirect] = useState<
     Redirect | undefined
   >(
     state.userRedirects.find(
-      (redirect: Redirect) => redirect.redirectId === params.redirectId[0]
+      (redirect: Redirect) => redirect.redirectId === JSON.stringify(redirectId)
     )
   );
   const [isRedirectActive, setIsRedirectActive] = useState<
@@ -58,9 +55,8 @@ export default function EditLink({
           if (res.data.status === "ok") {
             toast.success("Yönlendirme düzenleme başarılı");
             setDestinationURL("");
-
             setRedirectCode("");
-            router.push("/dashboard/redirects");
+            navigate("/dashboard/redirects");
           } else if (res.data.message === "missing_fields") {
             toast.error("Lütfen tüm alanları doldurun");
           } else if (res.data.message === "redirect_not_exists") {

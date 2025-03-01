@@ -1,20 +1,18 @@
 "use client";
 import React, { useContext, useState } from "react";
-import { useRouter } from "next/navigation";
-import Navbar from "../../../../components/common/navbar";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
 import { Check } from "lucide-react";
-import { TelegramBotDetails } from "@/types";
-import instance from "@/app/instance";
+import { TelegramBotDetails } from "../../../../types";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export default function PanelSettings() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
   const [email, setEmail] = useState<string>(state.userData.email);
-
   const [currentPassword, setCurrentPassword] = useState<string>("");
   const [newPassword, setNewPassword] = useState<string>("");
   const [telegramBot, setTelegramBot] = useState<TelegramBotDetails>({

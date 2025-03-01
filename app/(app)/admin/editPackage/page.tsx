@@ -1,11 +1,10 @@
-"use client";
 import React, { useContext, useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import { AppContext } from "@/app/(app)/context";
-import instance from "@/app/instance";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { AppContext } from "../../../../app/(app)/context";
+import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
-import { deformatUserInfo } from "@/helpers/userHelper";
+import { deformatUserInfo } from "../../../../helpers/userHelper";
+import { useNavigate, useParams } from "react-router";
 
 interface Package {
   packageId: string;
@@ -18,21 +17,24 @@ interface Package {
   creationDate: string;
 }
 
-export default function EditPackage({
-  params,
-}: {
-  params: { packageId: Array<string> };
-}) {
-  const router = useRouter();
+export default function EditPackage() {
+  const { packageId } = useParams();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [existingPackage, setExistingPackage] = useState<Package | any>(
-    state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
+    state.packages.find(
+      (pkg: any) => pkg.packageId === JSON.stringify(packageId)
+    )
   );
+
   useEffect(() => {
     setExistingPackage(
-      state.packages.find((pkg: any) => pkg.packageId === params.packageId[0])
+      state.packages.find(
+        (pkg: any) => pkg.packageId === JSON.stringify(packageId)
+      )
     );
-  }, [state.packages, params.packageId]);
+  }, [state.packages, packageId]);
+
   const [pkg, setPackage] = useState<Partial<Package>>({
     title: existingPackage?.title || "",
     name: existingPackage?.name || "",
@@ -41,6 +43,7 @@ export default function EditPackage({
     accounts: deformatUserInfo(existingPackage?.accounts) || "",
     accAmount: existingPackage?.accAmount || "",
   });
+
   function handleEditPackage() {
     const loadingtoast = toast.loading("Paket düzenleniyor");
     instance
@@ -57,7 +60,7 @@ export default function EditPackage({
       .then((res) => {
         if (res.data.status === "ok") {
           toast.success("Paket düzenleme başarılı");
-          router.push("/admin/packages");
+          navigate("/admin/packages");
         } else if (res.data.message === "missing_fields") {
           toast.error("Lütfen tüm alanları doldurun");
         } else if (res.data.message === "package_already_exists") {

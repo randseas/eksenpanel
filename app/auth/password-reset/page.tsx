@@ -1,19 +1,18 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import instance from "@/app/instance";
+import instance from "../../../app/instance";
 import toast from "react-hot-toast";
-import config from "@/config";
+import config from "../../../config";
+import { useNavigate } from "react-router";
 
 export default function PasswordReset() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [email, setEmail] = useState<string>("");
   useEffect(() => {
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
       if (token) {
-        router.prefetch("/dashboard");
-        setTimeout(() => router.push("/dashboard"), 1);
+        setTimeout(() => navigate("/dashboard"), 1);
       }
     }
   }, []);
@@ -27,7 +26,7 @@ export default function PasswordReset() {
         console.log(res.data);
         if (res.data.status === "ok") {
           toast.success("Şifre sıfırlama linki e-posta adresinize gönderildi.");
-          router.push("/auth/login");
+          navigate("/auth/login");
         } else if (res.data.message === "user_not_found") {
           toast.error("Hesap bulunamadı");
         } else {
@@ -65,7 +64,7 @@ export default function PasswordReset() {
           <button
             type="button"
             className="mini-back-btn"
-            onClick={() => router.push("/auth/login")}
+            onClick={() => navigate("/auth/login")}
           >
             Geri
           </button>

@@ -1,31 +1,16 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
-import {
-  Calendar,
-  Globe,
-  Hash,
-  CheckCircle,
-  User as UserSvg,
-  Mail,
-  Wrench,
-  DotSquare,
-  Ticket,
-} from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { Calendar, Hash, Mail, Wrench, DotSquare, Ticket } from "lucide-react";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import {
-  Redirect,
-  SubscriptionInterface,
-  User,
-  UserSubscriptionInterface,
-} from "@/types";
-import DashboardHeader from "@/components/common/dashboardHeader";
+import { SubscriptionInterface, User } from "../../../../types";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
 import toast from "react-hot-toast";
-import instance from "@/app/instance";
+import instance from "../../../instance";
+import { useNavigate } from "react-router";
 
 export default function Users() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
   function updatePermission(userId: string) {

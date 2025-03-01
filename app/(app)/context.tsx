@@ -1,6 +1,6 @@
 "use client";
 import React, { createContext, Component } from "react";
-import getLocalKey from "@/helpers/localStorage";
+import getLocalKey from "../../helpers/localStorage";
 import {
   Activity,
   NotificationInterface,
@@ -8,12 +8,9 @@ import {
   Redirect,
   SubscriptionInterface,
   User,
-} from "@/types";
+} from "../../types";
 import { io } from "socket.io-client";
 import toast from "react-hot-toast";
-import dotenv from "dotenv";
-import nProgress from "nprogress";
-dotenv.config();
 
 export interface State {
   userData: User;
@@ -76,7 +73,6 @@ export default class ProvideContext extends Component<
     );
   }
   componentDidMount() {
-    nProgress.start();
     const userToken = getLocalKey("user-token");
     this.socket.emit("chat message", `live_user::${userToken}`);
     this.socket.on("live_data", this.handleLiveData);
@@ -86,7 +82,6 @@ export default class ProvideContext extends Component<
     this.socket.connect();
   }
   componentWillUnmount() {
-    nProgress.done();
     this.socket.off("live_data", this.handleLiveData);
     this.socket.off("notification", this.handleNotification);
     this.socket.off("disconnect", this.handleDisconnect);
@@ -121,8 +116,6 @@ export default class ProvideContext extends Component<
       } else {
         this.setState((prev) => ({ ...prev, ...data, loading: false }));
       }
-      console.log("Live data received", data);
-      nProgress.done();
     } catch (err) {
       toast.error("Data processing failed");
       console.error(err);

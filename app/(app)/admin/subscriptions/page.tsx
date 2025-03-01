@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
 import {
   Calendar,
   DollarSign,
@@ -10,15 +9,16 @@ import {
   SquarePen,
   Trash2,
 } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import DashboardHeader from "@/components/common/dashboardHeader";
-import instance from "@/app/instance";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import instance from "../../../instance";
 import toast from "react-hot-toast";
-import { SubscriptionInterface } from "@/types";
+import { SubscriptionInterface } from "../../../../types";
+import { useNavigate } from "react-router";
 
 export default function Subscriptions() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   function handleDeleteSubscription(subscriptionId: string) {
     const isConfirmed = window.confirm(
@@ -154,7 +154,7 @@ export default function Subscriptions() {
                   <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
                     <a
                       onClick={() =>
-                        router.push(
+                        navigate(
                           `/admin/editSubscription/${sub.subscriptionId}`
                         )
                       }

@@ -15,6 +15,9 @@ body {
   text-rendering: geometricPrecision;
   outline: 0px solid transparent !important;
   outline-offset: 0px !important;
+  font-family: "Inter", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }
 body.dark {
   background-color: #181818;
@@ -51,7 +54,12 @@ html {
 #nprogress .bar {
   background: linear-gradient(90deg, #8a2be2, #ff1493, #1e90ff) !important;
   height: 2.25px;
-  z-index: 99999;
+  z-index: 999999;
+  bottom: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 #nprogress .peg {
   box-shadow: 0 0 10px rgba(138, 43, 226, 0.8), 0 0 5px rgba(255, 20, 147, 0.8),

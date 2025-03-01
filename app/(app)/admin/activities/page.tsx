@@ -1,14 +1,13 @@
-"use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
 import { Calendar, Globe, Hash, CheckCircle, User } from "lucide-react";
-import { timeAgo } from "@/lib/date";
+import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
-import { Activity, Redirect } from "@/types";
-import DashboardHeader from "@/components/common/dashboardHeader";
+import { Activity, Redirect } from "../../../../types";
+import DashboardHeader from "../../../../components/common/dashboardHeader";
+import { useNavigate } from "react-router";
 
 export default function Activities() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { state } = useContext(AppContext);
   return (
     <div className="flex space-y-4 flex-col min-h-[90vh] md:min-h-[100vh] items-start px-5 py-[18px] justify-start w-full h-full">

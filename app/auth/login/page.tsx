@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { CircularProgress } from "@mui/material";
-import instance from "@/app/instance";
+import instance from "../../../app/instance";
 import toast from "react-hot-toast";
-import config from "@/config";
+import config from "../../../config";
+import { useNavigate } from "react-router";
 
 export default function Login() {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -15,8 +15,7 @@ export default function Login() {
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
       if (token) {
-        router.prefetch("/dashboard");
-        setTimeout(() => router.push("/dashboard"), 1);
+        setTimeout(() => navigate("/dashboard"), 1);
       }
     }
   }, []);
@@ -34,8 +33,7 @@ export default function Login() {
           if (typeof window.localStorage !== "undefined") {
             setLoading(false);
             localStorage.setItem("user-token", res.data.token);
-            router.prefetch("/dashboard");
-            setTimeout(() => router.push("/dashboard"), 750);
+            setTimeout(() => navigate("/dashboard"), 750);
           } else {
             setLoading(false);
             toast.error("Hatalı şifre");
@@ -79,7 +77,7 @@ export default function Login() {
             <div className="flex flex-row items-center w-full justify-between">
               <label htmlFor="password">Şifre</label>
               <span
-                onClick={() => router.push("/auth/password-reset")}
+                onClick={() => navigate("/auth/passwordReset")}
                 className="hover:underline hover:cursor-pointer text-[14.5px] font-[450] mb-1 text-zinc-100 hover:text-white transition-all ease-linear duration-100"
               >
                 Şifremi Unuttum
@@ -115,7 +113,7 @@ export default function Login() {
           <button
             type="button"
             className="mini-back-btn"
-            onClick={() => router.push("/auth")}
+            onClick={() => navigate("/auth")}
           >
             Geri
           </button>
