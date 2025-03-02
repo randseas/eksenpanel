@@ -12,20 +12,20 @@ export default function EditSubscription() {
   const { state } = useContext(AppContext);
   const [defaultPerms, setDefaultPerms] = useState<Permission[]>([
     {
-      permission: "Yönlendirme sayısı",
-      title: "redirects",
+      title: "Yönlendirme sayısı",
+      permission: "redirects",
       type: "number",
       value: "",
     },
     {
-      permission: "Yönlendirmeye başlık ve açıklama ekleme",
-      title: "redirectHeadAndDesc",
+      title: "Yönlendirmeye başlık ve açıklama ekleme",
+      permission: "redirectHeadAndDesc",
       type: "boolean",
       value: false,
     },
     {
-      permission: "Her şeye sınırsız erişim",
-      title: "unlimited",
+      title: "Her şeye sınırsız erişim",
+      permission: "unlimited",
       type: "boolean",
       value: false,
     },
@@ -44,7 +44,7 @@ export default function EditSubscription() {
     const findedSubscription = state.subscriptions.find(
       (sub: SubscriptionInterface) =>
         sub.subscriptionId?.toString().toLowerCase().trim() ===
-        JSON.stringify(subscriptionId).toString().toLowerCase().trim()
+        subscriptionId?.toString().toLowerCase().trim()
     );
     if (findedSubscription) {
       toast.dismiss(loadingtoast);
@@ -98,7 +98,7 @@ export default function EditSubscription() {
   function handlePermissionChange(index: number, field: string, newVal: any) {
     const updatedPermissions = [...(subscription.permissions || [])];
     const permissionType = defaultPerms.find(
-      (p) => p.title === updatedPermissions[index].permission
+      (p) => p.permission === updatedPermissions[index].permission
     )?.type;
 
     if (permissionType === "boolean") {
@@ -121,7 +121,7 @@ export default function EditSubscription() {
     const availablePermissions = defaultPerms.filter(
       (perm) =>
         !subscription.permissions?.some(
-          (subPerm) => subPerm.permission === perm.title
+          (subPerm) => subPerm.permission === perm.permission
         )
     );
     if (availablePermissions.length > 0) {
@@ -131,8 +131,8 @@ export default function EditSubscription() {
         permissions: [
           ...(prev.permissions || []),
           {
-            permission: newPerm.title || "",
-            title: newPerm.permission || "",
+            permission: newPerm.permission || "",
+            title: newPerm.title || "",
             type: newPerm.type,
             value: newPerm.type === "boolean" ? false : "",
           },
@@ -239,7 +239,7 @@ export default function EditSubscription() {
             </label>
             {subscription.permissions?.map((perm, index) => {
               const isBoolean =
-                defaultPerms.find((p) => p.title === perm.permission)?.type ===
+                defaultPerms.find((p) => p.permission === perm.permission)?.type ===
                 "boolean";
               return (
                 <div
@@ -249,6 +249,7 @@ export default function EditSubscription() {
                   <select
                     value={perm.permission}
                     onChange={(e) =>
+                      //@ts-expect-error
                       setSubscription((prev) => ({
                         ...prev,
                         permissions: prev.permissions?.map((p, i) =>
@@ -261,10 +262,10 @@ export default function EditSubscription() {
                     {defaultPerms.map((permx, id) => (
                       <option
                         key={id}
-                        value={permx.title}
+                        value={permx.permission}
                         className="bg-white dark:bg-zinc-700 text-black dark:text-white"
                       >
-                        {permx.permission}
+                        {permx.title}
                       </option>
                     ))}
                   </select>
