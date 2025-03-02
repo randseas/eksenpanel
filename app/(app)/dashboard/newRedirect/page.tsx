@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
@@ -10,12 +10,33 @@ export default function NewRedirect() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [headDescPerm, setHeadDescPerm] = useState<boolean>(false);
+
   const [mainUrl, setMainURL] = useState<string>("");
   const [destinationUrl, setDestinationURL] = useState<string>("");
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [redirectCode, setRedirectCode] = useState<string>("");
-  
+
+  useEffect(() => {
+    const userSubscription = state.subscriptions.find(
+      (sub) =>
+        sub.subscriptionId === state.userData.activeSubscription?.subscriptionId
+    );
+    const userTitlePerm = userSubscription?.permissions.find(
+      (perm) => perm.permission === "redirectHeadAndDesc"
+    );
+    if (
+      !userTitlePerm ||
+      userTitlePerm.type !== "boolean" ||
+      userTitlePerm.value !== true
+    ) {
+      setHeadDescPerm(false);
+    } else {
+      setHeadDescPerm(true);
+    }
+  }, [state.userData]);
   function handleNewRedirect() {
     if (!loading) {
       const normalUrlRegex =
@@ -57,6 +78,10 @@ export default function NewRedirect() {
             navigate("/dashboard/redirects");
           } else if (res.data.message === "missing_fields") {
             toast.error("Lütfen tüm alanları doldurun");
+          } else if (res.data.message === "quota_exceededed") {
+            toast.error("Kota doldu");
+          } else if (res.data.message === "forbidden") {
+            toast.error("Bu işlemi yapabilmek için yeterli yetkiniz yok");
           } else if (res.data.message === "main_url_invalid") {
             toast.error("Ana URL bir tumblr alt adı olmalıdır");
           } else if (res.data.message === "destination_url_invalid") {
@@ -118,38 +143,40 @@ export default function NewRedirect() {
               />
             </div>
           </div>
-          <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
-            <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
-              <label
-                htmlFor="title"
-                className="text-md font-[450] dark:text-zinc-200"
-              >
-                Başlık
-              </label>
-              <input
-                id="title"
-                value={title}
-                onChange={(e: any) => setTitle(e.target.value)}
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-                placeholder="Örnek başlık"
-              />
+          {headDescPerm && (
+            <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
+              <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
+                <label
+                  htmlFor="title"
+                  className="text-md font-[450] dark:text-zinc-200"
+                >
+                  Başlık
+                </label>
+                <input
+                  id="title"
+                  value={title}
+                  onChange={(e: any) => setTitle(e.target.value)}
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
+                  placeholder="Örnek başlık"
+                />
+              </div>
+              <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
+                <label
+                  htmlFor="description"
+                  className="text-md font-[450] dark:text-zinc-200"
+                >
+                  Açıklama
+                </label>
+                <input
+                  id="description"
+                  value={description}
+                  onChange={(e: any) => setDescription(e.target.value)}
+                  className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
+                  placeholder="Örnek site açıklaması"
+                />
+              </div>
             </div>
-            <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
-              <label
-                htmlFor="description"
-                className="text-md font-[450] dark:text-zinc-200"
-              >
-                Açıklama
-              </label>
-              <input
-                id="description"
-                value={description}
-                onChange={(e: any) => setDescription(e.target.value)}
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-                placeholder="Örnek site açıklaması"
-              />
-            </div>
-          </div>
+          )}
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
               htmlFor="link"

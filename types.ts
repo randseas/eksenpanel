@@ -1,5 +1,5 @@
 export interface Permission {
-  permission: string;
+  permission: "redirects" | "redirectHeadAndDesc" | "unlimited";
   title: string;
   type: "string" | "boolean" | "number";
   value: string | boolean | number;
