@@ -11,20 +11,20 @@ export default function NewSubscription() {
   const { state } = useContext(AppContext);
   const [defaultPerms, setDefaultPerms] = useState<Permission[]>([
     {
-      permission: "Yönlendirme sayısı",
-      title: "redirects",
+      title: "Yönlendirme sayısı",
+      permission: "redirects",
       type: "number",
       value: "",
     },
     {
-      permission: "Yönlendirmeye başlık ve açıklama ekleme",
-      title: "redirectHeadAndDesc",
+      title: "Yönlendirmeye başlık ve açıklama ekleme",
+      permission: "redirectHeadAndDesc",
       type: "boolean",
       value: false,
     },
     {
-      permission: "Her şeye sınırsız erişim",
-      title: "unlimited",
+      title: "Her şeye sınırsız erişim",
+      permission: "unlimited",
       type: "boolean",
       value: false,
     },
@@ -37,8 +37,8 @@ export default function NewSubscription() {
     price: "",
     permissions: [
       {
-        permission: "Yönlendirme sayısı",
-        title: "redirects",
+        title: "Yönlendirme sayısı",
+        permission: "redirects",
         type: "number",
         value: "",
       },
@@ -85,7 +85,7 @@ export default function NewSubscription() {
   function handlePermissionChange(index: number, field: string, newVal: any) {
     const updatedPermissions = [...(subscription.permissions || [])];
     const permissionType = defaultPerms.find(
-      (p) => p.title === updatedPermissions[index].permission
+      (p) => p.permission === updatedPermissions[index].permission
     )?.type;
 
     if (permissionType === "boolean") {
@@ -108,7 +108,7 @@ export default function NewSubscription() {
     const availablePermissions = defaultPerms.filter(
       (perm) =>
         !subscription.permissions?.some(
-          (subPerm) => subPerm.permission === perm.title
+          (subPerm) => subPerm.permission === perm.permission
         )
     );
     if (availablePermissions.length > 0) {
@@ -118,8 +118,8 @@ export default function NewSubscription() {
         permissions: [
           ...(prev.permissions || []),
           {
-            permission: newPerm.title || "",
-            title: newPerm.permission || "",
+            permission: newPerm.permission || "",
+            title: newPerm.title || "",
             type: newPerm.type,
             value: newPerm.type === "boolean" ? false : "",
           },
@@ -235,10 +235,10 @@ export default function NewSubscription() {
                   key={index}
                   className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full"
                 >
-                  {/* İzin Seçimi */}
                   <select
                     value={perm.permission}
                     onChange={(e) =>
+                      //@ts-expect-error
                       setSubscription((prev) => ({
                         ...prev,
                         permissions: prev.permissions?.map((p, i) =>
