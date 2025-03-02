@@ -35,6 +35,7 @@ export default function Redirects() {
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
     );
     if (!isConfirmed) return;
+    const toastloading = toast.loading("Yönlendirme siliniyor...");
     instance
       .post("deleteRedirect", {
         token: state.userData.token,
@@ -50,6 +51,9 @@ export default function Redirects() {
       .catch((err: any) => {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
+      })
+      .finally(() => {
+        toast.dismiss(toastloading);
       });
   }
   return (
