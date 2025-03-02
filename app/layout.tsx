@@ -10,15 +10,15 @@ import AppLayout from "./(app)/layout.tsx";
 import AuthHome from "./auth/page.tsx";
 import Login from "./auth/login/page.tsx";
 import Register from "./auth/register/page.tsx";
-import PasswordReset from "./auth/password-reset/page.tsx";
+import PasswordReset from "./auth/passwordReset/page.tsx";
 import LogOut from "./auth/logout/page.tsx";
 /* Dashboard: User Layout */
 import DashboardHome from "./(app)/dashboard/page.tsx";
 import DashboardLayout from "./(app)/dashboard/layout.tsx";
 import EditRedirect from "./(app)/dashboard/editRedirect/page.tsx";
+import AdminEditRedirect from "./(app)/admin/editRedirect/page";
 import NewRedirect from "./(app)/dashboard/newRedirect/page.tsx";
 import OrderHistory from "./(app)/dashboard/orderhistory/page.tsx";
-import Packages from "./(app)/admin/packages/page.tsx";
 /* Dashboard: Admin Layout */
 import AdminHome from "./(app)/admin/page.tsx";
 import Activities from "./(app)/admin/activities/page.tsx";
@@ -37,6 +37,8 @@ import Users from "./(app)/admin/users/page.tsx";
 import UserPackages from "./(app)/dashboard/packages/page.tsx";
 import AdminPackages from "./(app)/admin/packages/page.tsx";
 import AdminRedirects from "./(app)/admin/redirects/page.tsx";
+import PasswordResetCallback from "./auth/passwordReset/callback/page.tsx";
+import AdminEditUser from "./(app)/admin/editUser/page.tsx";
 
 NProgress.configure({
   showSpinner: false,
@@ -102,6 +104,10 @@ export default function Layout() {
           <Route path="login" element={<Login />} />
           <Route path="register" element={<Register />} />
           <Route path="passwordReset" element={<PasswordReset />} />
+          <Route
+            path="passwordReset/callback/:resetCode"
+            element={<PasswordResetCallback />}
+          />
           <Route path="logout" element={<LogOut />} />
         </Route>
         {/* App: Main Layout */}
@@ -131,6 +137,11 @@ export default function Layout() {
             <Route path="packageOrders" element={<PackageOrders />} />
             <Route path="packages" element={<AdminPackages />} />
             <Route path="redirects" element={<AdminRedirects />} />
+            <Route
+              path="editRedirect/:redirectId"
+              element={<AdminEditRedirect />}
+            />
+            <Route path="editUser/:userId" element={<AdminEditUser />} />
             <Route path="settings" element={<Settings />} />
             <Route path="stats" element={<AdminStats />} />
             <Route path="subscriptionOrders" element={<SubscriptionOrders />} />

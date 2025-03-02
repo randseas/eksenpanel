@@ -166,7 +166,10 @@ export default function Users() {
                     {userActiveSubscription?.title || "-"}
                   </td>
                   <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
-                    <a className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer">
+                    <a
+                      onClick={() => navigate(`/admin/editUser/${user.userId}`)}
+                      className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                    >
                       Kullanıcıyı Düzenle
                     </a>
                     <a

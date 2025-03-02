@@ -1,14 +1,21 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import instance from "../../../app/instance";
+import instance from "../../../instance";
 import toast from "react-hot-toast";
-import config from "../../../config";
-import { useNavigate } from "react-router";
+import config from "../../../../config";
+import { useNavigate, useParams } from "react-router";
 
-export default function PasswordReset() {
+export default function PasswordResetCallback() {
+  const { resetCode } = useParams();
   const navigate = useNavigate();
-  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
+
   useEffect(() => {
+    if (!resetCode) {
+      toast.error("Geçersiz parametreler");
+      navigate("/auth/passwordReset");
+    }
     if (typeof window.localStorage !== "undefined") {
       const token = window.localStorage.getItem("user-token");
       if (token) {
@@ -16,17 +23,25 @@ export default function PasswordReset() {
       }
     }
   }, []);
+
   function handlePasswordReset(e: any) {
     e.preventDefault();
+    const toastloading = toast.loading("Şifre sıfırlanıyor");
     instance
-      .post("password-reset", {
-        email: email,
+      .post("resetpassword", {
+        resetCode,
+        password,
+        passwordConfirm,
       })
       .then((res: any) => {
-        console.log(res.data);
         if (res.data.status === "ok") {
-          toast.success("Şifre sıfırlama linki e-posta adresinize gönderildi.");
+          toast.success("Şifreniz başarıyla sıfırlandı, giriş yapabilirsiniz.");
           navigate("/auth/login");
+        } else if (res.data.message === "code_invalid") {
+          toast.error("Geçersiz parametreler");
+          navigate("/auth/passwordReset");
+        } else if (res.data.message === "passwords_do_not_match") {
+          toast.error("Şifreler uyuşmuyor");
         } else if (res.data.message === "user_not_found") {
           toast.error("Hesap bulunamadı");
         } else {
@@ -36,6 +51,9 @@ export default function PasswordReset() {
       .catch((err: any) => {
         console.log(err);
         toast.error("Sunucu hatası");
+      })
+      .finally(() => {
+        toast.dismiss(toastloading);
       });
   }
   return (
@@ -45,14 +63,26 @@ export default function PasswordReset() {
         <h2>Şifrenizi Sıfırlayın</h2>
         <form onSubmit={handlePasswordReset}>
           <div className="input-group">
-            <label htmlFor="resetEmail">E-posta</label>
+            <label htmlFor="resetEmail">Yeni Şifre</label>
             <input
-              type="email"
-              id="resetEmail"
-              name="resetEmail"
-              value={email}
-              onChange={(e: any) => setEmail(e.target.value)}
-              placeholder="E-posta adresinizi girin"
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(e: any) => setPassword(e.target.value)}
+              placeholder="Yeni şifre girin"
+              required
+            />
+          </div>
+          <div className="input-group">
+            <label htmlFor="resetEmail">Yeni Şifre Tekrar</label>
+            <input
+              type="password"
+              id="passwordConfirm"
+              name="passwordConfirm"
+              value={passwordConfirm}
+              onChange={(e: any) => setPasswordConfirm(e.target.value)}
+              placeholder="Şifreyi tekrar girin"
               required
             />
           </div>
@@ -61,13 +91,6 @@ export default function PasswordReset() {
               Şifreyi Sıfırla
             </button>
           </div>
-          <button
-            type="button"
-            className="mini-back-btn"
-            onClick={() => navigate("/auth/login")}
-          >
-            Geri
-          </button>
         </form>
       </div>
       <a

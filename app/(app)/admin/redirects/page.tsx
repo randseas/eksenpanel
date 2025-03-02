@@ -36,8 +36,9 @@ export default function AdminRedirects() {
       "Yönlendirmeyi silmek istediğinize emin misiniz?"
     );
     if (!isConfirmed) return;
+    const toastloading = toast.loading("Yönlendirme siliniyor...");
     instance
-      .post("deleteRedirect", {
+      .post("adminDeleteRedirect", {
         token: state.userData.token,
         redirectId,
       })
@@ -51,6 +52,9 @@ export default function AdminRedirects() {
       .catch((err: any) => {
         console.error(err);
         toast.error(err.message || "Bir hata oluştu!");
+      })
+      .finally(() => {
+        toast.dismiss(toastloading);
       });
   }
   return (
@@ -231,7 +235,7 @@ export default function AdminRedirects() {
                   </a>
                   <a
                     onClick={() =>
-                      navigate(`/dashboard/editRedirect/${redirect.redirectId}`)
+                      navigate(`/admin/editRedirect/${redirect.redirectId}`)
                     }
                     className="transition-all ease-linear duration-100 rounded-xl pr-1.5 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
                   >

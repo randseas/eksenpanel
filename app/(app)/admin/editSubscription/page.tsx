@@ -72,8 +72,6 @@ export default function EditSubscription() {
         permissions: subscription.permissions,
       })
       .then((res) => {
-        console.log("sended", subscription);
-        console.log("result", res.data);
         if (res.data.status === "ok") {
           toast.success("Abonelik düzenlendi");
           navigate("/admin/subscriptions");
@@ -211,7 +209,6 @@ export default function EditSubscription() {
               />
             </div>
           </div>
-          {/* Açıklama */}
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
               htmlFor="subDescription"
@@ -233,7 +230,6 @@ export default function EditSubscription() {
               placeholder="Örn. Premium abonelik, tüm özelliklere erişim sağlar."
             />
           </div>
-          {/* Yetkiler */}
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
               htmlFor="subPermissions"
@@ -250,7 +246,6 @@ export default function EditSubscription() {
                   key={index}
                   className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full"
                 >
-                  {/* İzin Seçimi */}
                   <select
                     value={perm.permission}
                     onChange={(e) =>
@@ -263,9 +258,9 @@ export default function EditSubscription() {
                     }
                     className="w-full md:w-1/2 px-3 py-2.5 rounded-[11px] border dark:border-zinc-600 bg-white dark:bg-dark/10 text-black dark:text-white focus:ring-[1px] focus:ring-blue-500/90 focus:border-blue-500 transition-all"
                   >
-                    {defaultPerms.map((permx, idx) => (
+                    {defaultPerms.map((permx, id) => (
                       <option
-                        key={idx}
+                        key={id}
                         value={permx.title}
                         className="bg-white dark:bg-zinc-700 text-black dark:text-white"
                       >
@@ -273,7 +268,6 @@ export default function EditSubscription() {
                       </option>
                     ))}
                   </select>
-                  {/* Boolean ise select, değilse string input */}
                   {isBoolean ? (
                     <select
                       value={perm.value ? "active" : "passive"}
@@ -308,7 +302,6 @@ export default function EditSubscription() {
                       className="w-full md:w-1/2 px-3.5 py-2.5 rounded-[11px] border dark:border-zinc-600 dark:bg-dark/10 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 transition-all"
                     />
                   )}
-                  {/* Kaldır Butonu */}
                   <button
                     type="button"
                     onClick={() => removePermission(index)}
@@ -319,7 +312,6 @@ export default function EditSubscription() {
                 </div>
               );
             })}
-            {/* Yetki Ekle Butonu */}
             <button
               type="button"
               onClick={addPermission}
@@ -328,7 +320,6 @@ export default function EditSubscription() {
               Yetki Ekle
             </button>
           </div>
-          {/* Aboneliği Ekle Butonu */}
           <button
             onClick={handleEditSubscription}
             className="w-full text-white dark:text-white shadow-inner shadow-blue-400 mt-4 rounded-xl py-2.5 px-3 bg-blue-500 hover:bg-blue-600/95 active:bg-blue-600 transition-all ease-linear duration-100 hover:cursor-pointer"

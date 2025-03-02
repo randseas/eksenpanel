@@ -9,7 +9,7 @@ import { Redirect } from "../../../../types";
 import CodeBlock from "../../../../components/common/codeBlock";
 import { useNavigate, useParams } from "react-router";
 
-export default function EditRedirect() {
+export default function AdminEditRedirect() {
   const navigate = useNavigate();
   const { redirectId } = useParams();
   const { state } = useContext(AppContext);
@@ -18,15 +18,11 @@ export default function EditRedirect() {
     Redirect | undefined
   >(undefined);
   useEffect(() => {
-    const findedRedirect = state.userRedirects.find(
+    const findedRedirect = state.redirects.find(
       (redirect: Redirect) => redirect.redirectId === redirectId
     );
     if (!findedRedirect) {
       toast.error("Yönlendirme bulunamadı");
-      navigate("/dashboard/redirects");
-    }
-    if (findedRedirect?.userId !== state.userData.userId) {
-      toast.error("Yönlendirme size ait değil!");
       navigate("/dashboard/redirects");
     }
     setExistingRedirect(findedRedirect);
@@ -58,7 +54,7 @@ export default function EditRedirect() {
       setLoading(true);
       const loadingtoast = toast.loading("Yönlendirme düzenleniyor...");
       instance
-        .post("editRedirect", {
+        .post("adminEditRedirect", {
           token: state.userData.token,
           redirectId: existingRedirect?.redirectId,
           destinationUrl: destinationUrl,
@@ -71,7 +67,7 @@ export default function EditRedirect() {
             toast.success("Yönlendirme düzenleme başarılı");
             setDestinationURL("");
             setRedirectCode("");
-            navigate("/dashboard/redirects");
+            navigate("/admin/redirects");
           } else if (res.data.message === "missing_fields") {
             toast.error("Lütfen tüm alanları doldurun");
           } else if (res.data.message === "redirect_not_exists") {
@@ -112,7 +108,7 @@ export default function EditRedirect() {
                 value={existingRedirect?.redirectId}
                 readOnly
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-                placeholder="https://example.com"
+                placeholder="******"
               />
             </div>
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
