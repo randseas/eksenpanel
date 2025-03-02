@@ -33,6 +33,11 @@ export default function AdminEditUser() {
     setUserEmail(findedUser?.email || "");
     setUserPermission(findedUser?.permission || "");
     setUserSubscriptionId(findedUser?.activeSubscription?.subscriptionId || "");
+    setUserSubscriptionEndDate(
+      findedUser?.activeSubscription?.endDate
+        ? findedUser?.activeSubscription?.endDate.split("T")[0]
+        : ""
+    );
     setUserTgBotKey(findedUser?.telegramBot?.key || "");
     setUserTgGroupId(findedUser?.telegramBot?.groupId || "");
   }, [userId]);
@@ -43,6 +48,12 @@ export default function AdminEditUser() {
   const [userSubscriptionId, setUserSubscriptionId] = useState<string>(
     existingUser?.activeSubscription?.subscriptionId || ""
   );
+  const [userSubscriptionEndDate, setUserSubscriptionEndDate] =
+    useState<string>(
+      existingUser?.activeSubscription?.endDate
+        ? existingUser?.activeSubscription?.endDate.split("T")[0]
+        : ""
+    );
   const [userTgBotKey, setUserTgBotKey] = useState<string>(
     existingUser?.telegramBot?.key || ""
   );
@@ -68,6 +79,10 @@ export default function AdminEditUser() {
           userEmail,
           userPermission,
           userSubscriptionId,
+          userSubscriptionEndDate:
+            userSubscriptionId === ""
+              ? null
+              : new Date(userSubscriptionEndDate).toISOString(),
           userTgBotKey,
           userTgGroupId,
         })
@@ -96,7 +111,7 @@ export default function AdminEditUser() {
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Kullanıcı Düzenleme" />
-      <div className="border mx-auto neon-box mt-2 md:mt-5 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
+      <div className="border mx-auto neon-box mt-2 md:mt-20 md:max-w-screen-md shadow-lg shadow-zinc-900/10 w-full flex flex-col items-start justify-between border-light-border dark:border-zinc-700 bg-light/20 dark:bg-[#333333] rounded-2xl p-5">
         <h1 className="text-lg font-medium">Kullanıcı Düzenleme</h1>
         <span className="dark:text-zinc-200 text-base font-[450]">
           Kullanıcıyı düzenleme.
@@ -135,8 +150,6 @@ export default function AdminEditUser() {
                 spellCheck={false}
               />
             </div>
-          </div>
-          <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
                 htmlFor="userPermission"
@@ -153,6 +166,8 @@ export default function AdminEditUser() {
                 spellCheck={false}
               />
             </div>
+          </div>
+          <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
               <label
                 htmlFor="userSubscription"
@@ -166,6 +181,12 @@ export default function AdminEditUser() {
                 onChange={(e) => setUserSubscriptionId(e.target.value)}
                 className="w-full px-2.5 py-3 rounded-[11px] border dark:border-zinc-500 bg-white dark:bg-dark/10 text-black dark:text-white focus:ring-[1px] focus:ring-blue-500/90 focus:border-blue-500 transition-all"
               >
+                <option
+                  value={""}
+                  className="bg-white dark:bg-zinc-700 text-black dark:text-white"
+                >
+                  {"Abonelik Yok"}
+                </option>
                 {subscriptions.map(
                   (sub: Partial<SubscriptionInterface>, index: number) => (
                     <option
@@ -178,6 +199,21 @@ export default function AdminEditUser() {
                   )
                 )}
               </select>
+            </div>
+            <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
+              <label
+                htmlFor="userSubscriptionEndDate"
+                className="text-md font-[450] dark:text-zinc-200"
+              >
+                Abonelik Bitiş Tarihi
+              </label>
+              <input
+                id="userSubscriptionEndDate"
+                type="date"
+                value={userSubscriptionEndDate}
+                onChange={(e) => setUserSubscriptionEndDate(e.target.value)}
+                className="w-full px-2.5 py-3 rounded-[11px] border dark:border-zinc-500 bg-white dark:bg-dark/10 text-black dark:text-white focus:ring-[1px] focus:ring-blue-500/90 focus:border-blue-500 transition-all"
+              />
             </div>
           </div>
           <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
