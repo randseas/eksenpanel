@@ -251,10 +251,10 @@ export default function NewSubscription() {
                     {defaultPerms.map((permx, idx) => (
                       <option
                         key={idx}
-                        value={permx.title}
+                        value={permx.permission}
                         className="bg-white dark:bg-zinc-700 text-black dark:text-white"
                       >
-                        {permx.permission}
+                        {permx.title}
                       </option>
                     ))}
                   </select>
