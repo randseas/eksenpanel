@@ -67,7 +67,7 @@ export default class ProvideContext extends Component<
     this.state = initialState;
     this.socket = io(
       process.env.NODE_ENV === "production"
-        ? "https://bionlukbackend.onrender.com"
+        ? "http://45.95.18.16:3000"
         : "http://localhost:3000",
       { autoConnect: false }
     );
