@@ -21,29 +21,33 @@ export default function EditPackage() {
   const { packageId } = useParams();
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
-  const [existingPackage, setExistingPackage] = useState<Package | any>(
-    state.packages.find(
-      (pkg: any) => pkg.packageId === JSON.stringify(packageId)
-    )
-  );
-
-  useEffect(() => {
-    setExistingPackage(
-      state.packages.find(
-        (pkg: any) => pkg.packageId === JSON.stringify(packageId)
-      )
-    );
-  }, [state.packages, packageId]);
-
+  const [existingPackage, setExistingPackage] = useState<Package | any>(null);
   const [pkg, setPackage] = useState<Partial<Package>>({
-    title: existingPackage?.title || "",
-    name: existingPackage?.name || "",
-    description: existingPackage?.description || "",
-    price: existingPackage?.price || "",
-    accounts: deformatUserInfo(existingPackage?.accounts) || "",
-    accAmount: existingPackage?.accAmount || "",
+    title: "",
+    name: "",
+    description: "",
+    price: "",
+    accounts: "",
+    accAmount: "",
   });
-
+  useEffect(() => {
+    const foundPackage = state.packages.find(
+      (pkg: any) => pkg.packageId === packageId?.toString()
+    );
+    setExistingPackage(foundPackage || null);
+  }, [state.packages, packageId]);
+  useEffect(() => {
+    if (existingPackage) {
+      setPackage({
+        title: existingPackage.title || "",
+        name: existingPackage.name || "",
+        description: existingPackage.description || "",
+        price: existingPackage.price || "",
+        accounts: deformatUserInfo(existingPackage.accounts || []) || "",
+        accAmount: existingPackage.accAmount || "",
+      });
+    }
+  }, [existingPackage]);
   function handleEditPackage() {
     const loadingtoast = toast.loading("Paket düzenleniyor");
     instance

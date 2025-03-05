@@ -26,7 +26,7 @@ export default function Header() {
                   : "dark:text-zinc-300/95 hover:bg-zinc-300/30 dark:hover:bg-zinc-800/70 text-zinc-800/95"
               } text-zinc-800 border dark:border-zinc-800 border-zinc-200 cursor-pointer font-[450] transition-all ease-linear duration-150 dark:text-zinc-50 rounded-xl flex items-center justify-center px-3 py-2 text-[16px] tracking-[-0.012em]`}
             >
-              Dashboard
+              Panele Git
             </a>
           ) : (
             <a

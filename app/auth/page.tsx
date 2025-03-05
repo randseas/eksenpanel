@@ -7,7 +7,7 @@ export default function AuthHome() {
   const navigate = useNavigate();
   return (
     <main className="relative flex flex-col items-center justify-center w-full h-full min-h-[99vh]">
-      <div className="logo text-base">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
+      <div className="logo text-base">EKSEN MEDYA TUMBLR PANELİ v1.2</div>
       <div className="loginForm flex flex-col items-center justify-center">
         <div
           onClick={() => navigate("/")}

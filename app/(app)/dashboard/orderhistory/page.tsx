@@ -53,7 +53,11 @@ export default function OrderHistory() {
         status: sub.status as "pending" | "success" | "rejected",
         orderDate: sub.orderDate,
       }));
-    setUserOrders([...packageOrders, ...(subscriptionOrders || [])]);
+    setUserOrders(
+      [...packageOrders, ...(subscriptionOrders || [])].filter(
+        (order: UserOrder) => ["pending", "success"].includes(order.status)
+      )
+    );
   }, [state.userData]);
 
   function deleteOrder(

@@ -554,3 +554,26 @@ html {
   top: 20px;
   opacity: 1;
 }
+@keyframes blueGreenCyan {
+  0% { color: rgb(0, 122, 255); text-shadow: 0px 0px 12px rgba(0, 122, 255, 0.8); }
+  50% { color: rgb(0, 210, 150); text-shadow: 0px 0px 12px rgba(0, 210, 150, 0.8); }
+  100% { color: rgb(0, 255, 255); text-shadow: 0px 0px 12px rgba(0, 255, 255, 0.8); }
+}
+
+@keyframes magentaOrangePink {
+  0% { color: rgb(255, 0, 128); text-shadow: 0px 0px 12px rgba(255, 0, 128, 0.8); }
+  50% { color: rgb(255, 128, 0); text-shadow: 0px 0px 12px rgba(255, 128, 0, 0.8); }
+  100% { color: rgb(255, 50, 200); text-shadow: 0px 0px 12px rgba(255, 50, 200, 0.8); }
+}
+
+.blue-green-cyan {
+  font-size: 38px;
+  font-weight: bold;
+  animation: blueGreenCyan 3s infinite alternate;
+}
+
+.magenta-orange-pink {
+  font-size: 38px;
+  font-weight: bold;
+  animation: magentaOrangePink 3s infinite alternate;
+}

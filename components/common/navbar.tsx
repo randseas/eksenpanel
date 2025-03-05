@@ -16,10 +16,17 @@ import {
   PackageCheck,
   TicketCheck,
   HistoryIcon,
+  Bell,
+  DatabaseZap,
+  HomeIcon,
 } from "lucide-react";
+import { Popover, Transition } from "@headlessui/react";
 import { cn } from "../../lib/utils";
 import { AppContext } from "../../app/(app)/context";
 import { useLocation, useNavigate } from "react-router";
+import { NotificationInterface } from "types";
+import { timeAgo } from "../../lib/date";
+import { formatContent } from "./dashboardHeader";
 
 export default function Navbar() {
   const { state } = useContext(AppContext);
@@ -202,25 +209,49 @@ export default function Navbar() {
           </div>
           <span
             onClick={() => navigate("/dashboard")}
-            className="text-[17px] hover:cursor-pointer dark:text-zinc-50 text-zinc-800 font-medium"
+            className="text-[16px] hover:cursor-pointer dark:text-zinc-50 text-zinc-800 font-medium"
           >
-            Tumblr Yönlendirme
+            Eksen Panel
           </span>
-          {pathname.split("/")[1] === "dashboard" ? (
+          <div className="flex flex-row items-center justify-center space-x-1">
             <div
-              onClick={() => navigate("/admin")}
-              className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+              onClick={() => navigate("/admin/sitesettings")}
+              className={`${
+                pathname.split("/")[2] === "sitesettings"
+                  ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                  : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+              } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
             >
-              Admin
+              <Settings stroke="currentColor" width={22} height={22} />
             </div>
-          ) : (
-            <div
-              onClick={() => navigate("/dashboard")}
-              className="dark:text-zinc-100 dark:hover:text-white text-zinc-700 hover:text-zinc-800 px-2.5 py-2 hover:bg-zinc-200/50 dark:hover:bg-zinc-800/80 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
-            >
-              Dashboard
+            {state.userData.permission === "admin" &&
+              (pathname.split("/")[1] === "admin" ? (
+                <div
+                  onClick={() => navigate("/dashboard")}
+                  className={`${
+                    pathname.split("/")[1] === "dashboard"
+                      ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                      : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+                  } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
+                >
+                  <HomeIcon stroke="currentColor" width={22} height={22} />
+                </div>
+              ) : (
+                <div
+                  onClick={() => navigate("/admin")}
+                  className={`${
+                    pathname.split("/")[1] === "admin"
+                      ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                      : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+                  } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
+                >
+                  <DatabaseZap stroke="currentColor" width={22} height={22} />
+                </div>
+              ))}
+            <div onClick={() => navigate("/dashboard/notifications")} className="hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50 dark:text-zinc-100 text-zinc-800 px-3 py-2  rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100">
+              <Bell stroke="currentColor" width={22} height={22} />
             </div>
-          )}
+          </div>
         </div>
         <div
           className={cn(
@@ -241,7 +272,7 @@ export default function Navbar() {
               className="sticky top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex flex-row items-center justify-start space-x-2.5 text-start transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <span className="text-[17px] tracking-[-0.005em] font-medium">
-                Tumblr Yönlendirme
+                Eksen Panel
               </span>
             </div>
             <div
@@ -292,15 +323,15 @@ export default function Navbar() {
         <div className="flex relative flex-row items-center justify-between w-full">
           {!isDrawerOpen && (
             <div
-              onClick={() => navigate("/dashboard")}
-              className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center px-3 transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
+              onClick={() => navigate("/")}
+              className="sticky flex top-3 dark:text-zinc-200 dark:hover:text-zinc-50 text-zinc-800 hover:text-zinc-950 font-[450] flex-row items-center justify-center space-x-2.5 text-center transition-all ease-linear duration-100 hover:cursor-pointer w-full rounded-full text-base"
             >
               <img
                 draggable="false"
-                className="ml-[-12px] h-[95px] z-[77777]"
+                className="top-0 mt-[-45px] ml-[-45px] absolute h-[130px] z-[77777]"
                 src="/logo.png"
               />
-              <div className="rgb left-[22%] top-[11%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
+              <div className="rgb left-[32px] top-[-22px] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
                 &nbsp;
               </div>
             </div>
@@ -327,7 +358,6 @@ export default function Navbar() {
             </svg>
           </div>
         </div>
-
         {renderMenu()}
         {pathname.split("/")[1] === "dashboard" && (
           <div

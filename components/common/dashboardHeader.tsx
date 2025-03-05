@@ -1,12 +1,12 @@
-import React, { Fragment, useContext } from "react";
-import { Bell, DatabaseZap } from "lucide-react";
+import React, { Fragment, useContext, useEffect } from "react";
+import { Bell, DatabaseZap, Home, Settings } from "lucide-react";
 import { AppContext } from "../../app/(app)/context";
 import { NotificationInterface } from "../../types.ts";
 import { timeAgo } from "../../lib/date";
 import { useLocation, useNavigate } from "react-router";
 import { Popover, Transition } from "@headlessui/react";
 
-const formatContent = (content: string) => {
+export const formatContent = (content: string) => {
   return content.split(/(\*[^*]+\*)/g).map((part, index) => {
     if (part.startsWith("*") && part.endsWith("*")) {
       return (
@@ -22,7 +22,7 @@ const formatContent = (content: string) => {
 export default function DashboardHeader({ page }: { page: string }) {
   const { state } = useContext(AppContext);
   const navigate = useNavigate();
-  const location = useLocation().toString();
+  const { pathname } = useLocation();
   return (
     <div className="hidden z-[99999] md:flex top-0 left-0 pb-0.5 right-0 bg-transparent dark:bg-transparent flex-row items-center w-full justify-between">
       <h1 className="text-lg font-[450] pb-1 text-zinc-900 dark:text-zinc-200">
@@ -30,16 +30,41 @@ export default function DashboardHeader({ page }: { page: string }) {
       </h1>
       <div className="flex flex-row items-center justify-center space-x-1">
         {state.userData.permission === "admin" && (
-          <div
-            onClick={() => navigate("/admin")}
-            className={`${
-              location.split("/")[1] === "admin"
-                ? "bg-zinc-200/60 dark:bg-zinc-800/60"
-                : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
-            } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
-          >
-            <DatabaseZap stroke="currentColor" width={22} height={22} />
-          </div>
+          <>
+            <div
+              onClick={() => navigate("/admin/sitesettings")}
+              className={`${
+                pathname.split("/")[2] === "sitesettings"
+                  ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                  : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+              } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
+            >
+              <Settings stroke="currentColor" width={22} height={22} />
+            </div>
+            {pathname.split("/")[1] === "admin" ? (
+              <div
+                onClick={() => navigate("/dashboard")}
+                className={`${
+                  pathname.split("/")[1] === "dashboard"
+                    ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                    : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+                } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
+              >
+                <Home stroke="currentColor" width={22} height={22} />
+              </div>
+            ) : (
+              <div
+                onClick={() => navigate("/admin")}
+                className={`${
+                  pathname.split("/")[1] === "admin"
+                    ? "bg-zinc-200/60 dark:bg-zinc-800/60"
+                    : "hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50"
+                } dark:text-zinc-100 text-zinc-800 px-3 py-2 rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100`}
+              >
+                <DatabaseZap stroke="currentColor" width={22} height={22} />
+              </div>
+            )}
+          </>
         )}
         <Popover className="relative">
           {({ open }) => (

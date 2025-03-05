@@ -27,7 +27,7 @@ import { useNavigate } from "react-router";
 export default function DashboardHome() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
-  const [subscriptionPlan, setSubscriptionPlan] = useState<string>("monthly");
+  const [subscriptionPlan, setSubscriptionPlan] = useState<string>("yearly");
   const [currentTime, setCurrentTime] = useState(new Date());
   useEffect(() => {
     if (
@@ -106,10 +106,10 @@ export default function DashboardHome() {
           <h2 className="text-[27px] font-medium">Tumblr'da tam güce ulaş!</h2>
           <p className="mb-3 mt-1.5 text-[15.5px] text-center max-w-[480px]">
             Bu paketler, Tumblr'da görünürlüğünüzü artırmak için sınırsız
-            yönlendirme ve başlık/açıklama ekleme imkanı sunarak, aylık ve
-            yıllık seçeneklerle kesintisiz kullanım sağlar.
+            yönlendirme ve başlık/açıklama ekleme imkanı sunarak, yıllık
+            seçenekle kesintisiz kullanım sağlar.
           </p>
-          <div className="flex flex-row neon-box-2 bg-[#242424] px-3 pt-1.5 rounded-t-2xl rounded-b-xl items-center justify-start space-x-4">
+          {/*<div className="flex flex-row neon-box-2 bg-[#242424] px-3 pt-1.5 rounded-t-2xl rounded-b-xl items-center justify-start space-x-4">
             <span
               onClick={() => setSubscriptionPlan("monthly")}
               className={`pt-1 transition-all h-[40px] ease-linear duration-100 hover:cursor-pointer px-2.5 ${
@@ -130,20 +130,20 @@ export default function DashboardHome() {
             >
               Yıllık
             </span>
-          </div>
+          </div>*/}
           <div className="flex flex-col md:flex-row mt-4 mx-auto items-center justify-center gap-2.5 w-full">
             {state.subscriptions.map(
               (subscription: SubscriptionInterface, index: number) => (
                 <div
                   key={index}
-                  className="bg-[#282828] w-full md:max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
+                  className="bg-zinc-100 dark:bg-[#282828] w-full md:max-w-[24.35%] neon-box relative rounded-2xl space-y-1 hover:scale-[1.01] transition-all ease-linear duration-100 hover:cursor-pointer p-4"
                 >
-                  <h3 className="text-[18px] font-medium">
+                  <h3 className="text-[19px] tracking-[-0.010em] underline-offset-2 font-[550]">
                     {subscription.title}
                   </h3>
                   <p className="text-2xl font-medium pt-2.5">
                     $
-                    {subscriptionPlan === "monthly"
+                    {subscriptionPlan === "yearly"
                       ? subscription.price
                       : (parseFloat(subscription.price) * 12).toString()}
                     <span className="opacity-95 text-lg">

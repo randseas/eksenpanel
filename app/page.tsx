@@ -9,55 +9,263 @@ export default function Home() {
   return (
     <div>
       <Header />
-      <div className="flex home mt-[60px] py-5 px-3 flex-col items-center justify-center text-center">
-        <div className="logo2 text-base">EKSEN MEDYA TUMBLR PANELİ v1.1</div>
-        <h1>Tumblr Yönlendirme Paneli</h1>
-        <div className="intro-box flex flex-col space-y-1">
-          <h2>EKSEN MEDYA</h2>
-          <h3 className="text-lg font-medium">
-            Tumblr İçerik Yönetimini Kolaylaştırın!
-          </h3>
-          <p>
-            EKSEN MEDYA Tumblr Paneli, içeriklerinizi kolayca yönetmenizi
-            sağlayan güçlü araçlar sunar. İçeriklerinizi <strong>Başlık</strong>
-            ,&nbsp;<strong>Açıklama</strong> ve <strong>Yönlendirme</strong>{" "}
-            özellikleri ile daha etkili hale getirin.
-          </p>
-          <h3 className="text-lg font-medium">
-            Başlık ve Açıklama ile Dikkat Çekin
-          </h3>
-          <p>
-            İçeriklerinize özel <strong>Başlık</strong> ve{" "}
-            <strong>Açıklama</strong> ekleyerek daha fazla etkileşim alın.
-            <br />
-            <strong>Başlık</strong> dikkat çeker, <strong>Açıklama</strong> ise
-            içeriğinizi açıklar.
-          </p>
-          <h3 className="text-lg font-medium">
-            Yönlendirme ile Doğru Kitleye Ulaşın
-          </h3>
-          <p>
-            <strong>Yönlendirme</strong> özelliği sayesinde içeriklerinizi kendi
-            sitenize yönlendirin, hedef kitlenize
-            <br /> ulaştırın ve etkileşiminizi artırın.
-          </p>
-          <h3 className="text-lg font-medium">Hızlı ve Kolay Kullanım</h3>
-          <p>
-            Kullanıcı dostu arayüzü sayesinde işlemlerinizi hızlıca tamamlayın.
-          </p>
-          <h3 className="text-lg font-medium">Hemen Başlayın</h3>
-          <p>Kaydolun ve içeriklerinizi daha verimli yönetin!</p>
-        </div>
-        {isLogin ? (
-          <button onClick={() => navigate("/dashboard")} className="cta-button">
-            Panele Git
-          </button>
-        ) : (
-          <button onClick={() => navigate("/auth")} className="cta-button">
-            Oturum aç
-          </button>
-        )}
+      <div className="flex overflow-x-hidden mt-[60px] h-full flex-col items-start justify-start text-start">
+        <section
+          id="main"
+          className="flex px-3.5 lg:px-[60px] xl:px-[120px] h-full mb-24 xl:my-3 xl:min-h-[88vh] flex-col-reverse lg:flex-row items-center justify-center text-center xl:text-start xl:justify-between w-full"
+        >
+          <div className="mt-[-50px]">
+            <h1 className="font-[550] dark:text-white text-black text-[38px] leading-[48px]">
+              <span className="blue-green-cyan">Eksen Panel</span>
+              <br />
+              <span className="magenta-orange-pink">Tumblr Hizmetleri</span>
+            </h1>
+            <p className="max-w-[500px] font-[450] text-lg mt-1.5 text-zinc-800 dark:text-zinc-100 w-full break-words">
+              Eksen Panel'in Tumblr hizmetleri ile blogunuzu kendi sitenize
+              yönlendirin. Daha fazla ziyaretçi çekin, markanızı güçlendirin ve
+              SEO'da öne çıkın!
+            </p>
+            <div className="relative mt-4 inline-flex items-center justify-center gap-4 group">
+              <div className="absolute inset-0 duration-1000 opacity-60 transitiona-all bg-gradient-to-r from-indigo-500 via-pink-500 to-yellow-400 rounded-xl blur-lg filter group-hover:opacity-100 group-hover:duration-200"></div>
+              {isLogin ? (
+                <a
+                  role="button"
+                  className="group relative inline-flex items-center justify-center text-base rounded-xl bg-blue-500 px-5 py-3 font-medium text-white transition-all duration-200 hover:bg-blue-600 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+                  onClick={() => navigate("/dashboard")}
+                >
+                  Panele Git
+                  <svg
+                    viewBox="0 0 10 10"
+                    height="10"
+                    width="13"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+                  >
+                    <path
+                      d="M0 5h9"
+                      className="transition opacity-0 group-hover:opacity-100"
+                    ></path>
+                    <path
+                      d="M1 1l4 4-4 4"
+                      className="transition group-hover:translate-x-[4px]"
+                    ></path>
+                  </svg>
+                </a>
+              ) : (
+                <a
+                  role="button"
+                  className="group relative inline-flex items-center justify-center text-base rounded-xl bg-blue-500 px-5 py-3 font-medium text-white transition-all duration-200 hover:bg-blue-600 hover:shadow-lg hover:-translate-y-0.5 hover:shadow-gray-600/30"
+                  onClick={() => navigate("/auth/register")}
+                >
+                  Hemen başla!
+                  <svg
+                    viewBox="0 0 10 10"
+                    height="10"
+                    width="13"
+                    fill="none"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mt-0.5 ml-2 -mr-1 stroke-white stroke-2"
+                  >
+                    <path
+                      d="M0 5h9"
+                      className="transition opacity-0 group-hover:opacity-100"
+                    ></path>
+                    <path
+                      d="M1 1l4 4-4 4"
+                      className="transition group-hover:translate-x-[4px]"
+                    ></path>
+                  </svg>
+                </a>
+              )}
+            </div>
+          </div>
+          <div className="relative">
+            <img
+              draggable="false"
+              className="mb-5 w-[280px] h-[280px] lg:w-[350px] lg:h-[350px] xl:w-[450px] xl:h-[450px] z-[77777]"
+              src="/logo.png"
+            />
+            <div
+              draggable="false"
+              className="rgb left-[14%] top-[14%] h-[200px] w-[200px] lg:h-[300px] opacity-30 rounded-full lg:w-[300px] z-[-1] absolute blur-3xl"
+            ></div>
+          </div>
+        </section>
+        <section
+          id="specifications"
+          className="flex px-3.5 lg:px-[60px] xl:px-[120px] h-full min-h-[59vh] border-t border-zinc-200 dark:border-zinc-800 flex-col items-center justify-center w-full"
+        >
+          <h1 className="font-[550] mt-6 dark:text-white text-zinc-950 text-3xl">
+            Özellikler
+          </h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 max-w-[1040px] gap-2 mt-6 grid-rows-1">
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex flex-col items-start justify-start rounded-2xl p-5">
+              <div className="bg-zinc-200/50 dark:bg-zinc-700 flex items-center justify-center rounded-xl w-14 h-14">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.85"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-zinc-700 dark:text-zinc-50"
+                >
+                  <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+                  <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+                </svg>
+              </div>
+              <a className="tracking-[-0.010em] text-[18px] font-medium mt-3">
+                Blog Yönlendirme
+              </a>
+              <p className="mt-1.5 text-zinc-800/90 dark:text-zinc-50">
+                Tumblr blogunuzu özel alan adınıza yönlendirerek markanızı
+                güçlendirin. SEO uyumlu başlık ve açıklamalar ile arama
+                motorlarında daha görünür olun.
+              </p>
+            </div>
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex flex-col items-start justify-start rounded-2xl p-5">
+              <div className="bg-zinc-200/50 dark:bg-zinc-700 flex items-center justify-center rounded-xl w-14 h-14">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.85"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-zinc-700 dark:text-zinc-50"
+                >
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </svg>
+              </div>
+              <a className="tracking-[-0.010em] text-[18px] font-medium mt-3">
+                Takipçili Tumblr Hesapları
+              </a>
+              <p className="mt-1.5 text-zinc-800/90 dark:text-zinc-50">
+                Yüksek takipçili Tumblr hesapları ile erişiminizi genişletin,
+                markanızı daha fazla kişiye ulaştırarak etkili bir dijital
+                varlık oluşturun.
+              </p>
+            </div>
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex flex-col items-start justify-start rounded-2xl p-5">
+              <div className="bg-zinc-200/50 dark:bg-zinc-700 flex items-center justify-center rounded-xl w-14 h-14">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.85"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-zinc-700 dark:text-zinc-50"
+                >
+                  <path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z" />
+                </svg>
+              </div>
+              <a className="tracking-[-0.010em] text-[18px] font-medium mt-3">
+                Anında Kurulum
+              </a>
+              <p className="mt-1.5 text-zinc-800/90 dark:text-zinc-50">
+                Tumblr yönlendirme ve hesap hizmetlerimiz hızlı ve sorunsuz bir
+                şekilde gerçekleştirilir. Beklemeye gerek kalmadan anında
+                kullanıma hazır olun.
+              </p>
+            </div>
+            <div className="bg-zinc-50 dark:bg-zinc-800/80 border border-zinc-200 dark:border-zinc-700 flex flex-col items-start justify-start rounded-2xl p-5">
+              <div className="bg-zinc-200/50 dark:bg-zinc-700 flex items-center justify-center rounded-xl w-14 h-14">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.85"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-zinc-700 dark:text-zinc-50"
+                >
+                  <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
+                  <path d="m9 12 2 2 4-4" />
+                </svg>
+              </div>
+              <a className="tracking-[-0.010em] text-[18px] font-medium mt-3">
+                Güvenli Hizmet
+              </a>
+              <p className="mt-1.5 text-zinc-800/90 dark:text-zinc-50">
+                Gelişmiş güvenlik önlemleri sayesinde hesaplarınız ve
+                yönlendirmeleriniz her zaman güvende. Güvenilir altyapımız ile
+                içiniz rahat olsun.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section
+          id="faq"
+          className="flex flex-col mt-6 lg:mt-4 items-center justify-center w-full px-3.5 lg:px-[60px] xl:px-[120px] mb-14"
+        >
+          <div className="max-w-[1040px] w-full">
+            <h2 className="text-3xl font-semibold dark:text-white text-black mb-6">
+              Sıkça Sorulan Sorular
+            </h2>
+            <div className="space-y-4">
+              <details className="bg-zinc-50 dark:bg-zinc-800/80 border dark:border-zinc-700 border-zinc-200 p-4 rounded-2xl">
+                <summary className="font-medium text-zinc-900 dark:text-white text-lg cursor-pointer">
+                  Tumblr blogumu nasıl yönlendirebilirim?
+                </summary>
+                <p className="mt-2 text-zinc-800 dark:text-zinc-300">
+                  Tumblr blogunuzu özel alan adınıza yönlendirmek için panelden
+                  üyelik satın alın ve yönlendirmeyi ekleyin. Kurulum süreci
+                  anında tamamlanır.
+                </p>
+              </details>
+              <details className="bg-zinc-50 dark:bg-zinc-800/80 border dark:border-zinc-700 border-zinc-200 p-4 rounded-2xl">
+                <summary className="font-medium text-zinc-900 dark:text-white text-lg cursor-pointer">
+                  Takipçili Tumblr hesapları nasıl çalışır?
+                </summary>
+                <p className="mt-2 text-zinc-800 dark:text-zinc-300">
+                  Yüksek takipçili Tumblr hesapları ile erişiminizi
+                  artırabilirsiniz. Satın aldığınız hesaplar size özel olarak
+                  teslim edilir.
+                </p>
+              </details>
+              <details className="bg-zinc-50 dark:bg-zinc-800/80 border dark:border-zinc-700 border-zinc-200 p-4 rounded-2xl">
+                <summary className="font-medium text-zinc-900 dark:text-white text-lg cursor-pointer">
+                  Hizmetleriniz güvenli mi?
+                </summary>
+                <p className="mt-2 text-zinc-800 dark:text-zinc-300">
+                  Evet, tüm yönlendirme ve hesap hizmetlerimiz güvenli sunucular
+                  üzerinden sağlanır ve müşteri gizliliğine önem verilir.
+                </p>
+              </details>
+              <details className="bg-zinc-50 dark:bg-zinc-800/80 border dark:border-zinc-700 border-zinc-200 p-4 rounded-2xl">
+                <summary className="font-medium text-zinc-900 dark:text-white text-lg cursor-pointer">
+                  Ödeme yöntemleri nelerdir?
+                </summary>
+                <p className="mt-2 text-zinc-800 dark:text-zinc-300">
+                  Kripto para ile ödeme seçeneğimiz mevcuttur.
+                </p>
+              </details>
+            </div>
+          </div>
+        </section>
       </div>
+      <footer className="w-full border-t border-zinc-200 dark:border-zinc-800 text-zinc-800 dark:text-gray-300 py-4 text-center text-sm">
+        <p>© {new Date().getFullYear()} Eksen Medya. Tüm hakları saklıdır.</p>
+      </footer>
       <a
         href={config.WHATSAPP_LINK}
         target="_blank"

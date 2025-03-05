@@ -15,8 +15,8 @@ import LogOut from "./auth/logout/page.tsx";
 /* Dashboard: User Layout */
 import DashboardHome from "./(app)/dashboard/page.tsx";
 import DashboardLayout from "./(app)/dashboard/layout.tsx";
+import Redirects from "./(app)/dashboard/redirects/page.tsx";
 import EditRedirect from "./(app)/dashboard/editRedirect/page.tsx";
-import AdminEditRedirect from "./(app)/admin/editRedirect/page";
 import NewRedirect from "./(app)/dashboard/newRedirect/page.tsx";
 import OrderHistory from "./(app)/dashboard/orderhistory/page.tsx";
 /* Dashboard: Admin Layout */
@@ -28,17 +28,19 @@ import EditPackage from "./(app)/admin/editPackage/page.tsx";
 import NewPackage from "./(app)/admin/newPackage/page.tsx";
 import NewSubscription from "./(app)/admin/newSubscription/page.tsx";
 import PackageOrders from "./(app)/admin/packageOrders/page.tsx";
-import Redirects from "./(app)/dashboard/redirects/page.tsx";
 import Settings from "./(app)/dashboard/settings/page.tsx";
+import SiteSettings from "./(app)/admin/sitesettings/page.tsx";
 import AdminStats from "./(app)/admin/stats/page.tsx";
 import SubscriptionOrders from "./(app)/admin/subscriptionOrders/page.tsx";
 import Subscriptions from "./(app)/admin/subscriptions/page.tsx";
 import Users from "./(app)/admin/users/page.tsx";
 import UserPackages from "./(app)/dashboard/packages/page.tsx";
 import AdminPackages from "./(app)/admin/packages/page.tsx";
+import AdminEditRedirect from "./(app)/admin/editRedirect/page";
 import AdminRedirects from "./(app)/admin/redirects/page.tsx";
 import PasswordResetCallback from "./auth/passwordReset/callback/page.tsx";
 import AdminEditUser from "./(app)/admin/editUser/page.tsx";
+import Notifications from "./(app)/dashboard/notifications/page.tsx";
 
 NProgress.configure({
   showSpinner: false,
@@ -121,7 +123,7 @@ export default function Layout() {
             <Route path="packages" element={<UserPackages />} />
             <Route path="redirects" element={<Redirects />} />
             <Route path="settings" element={<Settings />} />
-            <Route path="subscription" element={<LogOut />} />
+            <Route path="notifications" element={<Notifications />} />
           </Route>
           {/* App: Admin Layout */}
           <Route path="/admin" element={<AdminLayout />}>
@@ -142,7 +144,7 @@ export default function Layout() {
               element={<AdminEditRedirect />}
             />
             <Route path="editUser/:userId" element={<AdminEditUser />} />
-            <Route path="settings" element={<Settings />} />
+            <Route path="sitesettings" element={<SiteSettings />} />
             <Route path="stats" element={<AdminStats />} />
             <Route path="subscriptionOrders" element={<SubscriptionOrders />} />
             <Route path="subscriptions" element={<Subscriptions />} />
