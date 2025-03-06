@@ -23,6 +23,7 @@ import { timeAgo } from "../../../lib/date";
 import instance from "../../../app/instance";
 import config from "../../../config";
 import { useNavigate } from "react-router";
+import { setLocalKey } from "helpers/localStorage";
 
 export default function DashboardHome() {
   const navigate = useNavigate();
@@ -34,7 +35,8 @@ export default function DashboardHome() {
       state.userData.permission !== "user" &&
       state.userData.permission !== "admin"
     ) {
-      toast.error("Bir şeyler ters gitti");
+      toast.error("Hesabınız yönetici tarafından silinmiştir");
+      setLocalKey("user-token", "");
       navigate("/");
     }
     const interval = setInterval(() => {

@@ -53,6 +53,27 @@ export default function SubscriptionOrders() {
         )
     );
   }, [state.users]);
+  function handleDeleteSubscriptionOrder(orderId: string) {
+    const loadingtoast = toast.loading("Abonelik siparişi siliniyor...");
+    instance
+      .post("deleteSubscriptionOrder", {
+        token: state.userData.token,
+        orderId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Abonelik siparişi silindi");
+        } else {
+          console.log(res.data)
+          toast.error("Bir hata oluştu");
+        }
+      })
+      .catch((err: any) => {
+        toast.error(err.message);
+        console.log(err);
+      })
+      .finally(() => toast.dismiss(loadingtoast));
+  }
   function handleUpdateSubscription(
     subscriptionId: string,
     orderId: string,
@@ -226,21 +247,28 @@ export default function SubscriptionOrders() {
                                 "reject"
                               )
                             }
-                            className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
+                            className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-zinc-500/80 bg-zinc-500 hover:cursor-pointer"
                           >
                             Reddet
                           </button>
                         </>
+                      ) : sub.status === "success" ? (
+                        <span className="bg-green-500/15 text-[15px] text-green-100 rounded-full px-3 py-1.5">
+                          Onaylandı
+                        </span>
                       ) : (
-                        <>
-                          <button className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
-                            Düzenle
-                          </button>
-                          <button className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
-                            Geri al
-                          </button>
-                        </>
+                        <span className="bg-red-500/15 text-[15px] text-red-100 rounded-full px-3 py-1.5">
+                          Reddedildi
+                        </span>
                       )}
+                      <button
+                        onClick={() =>
+                          handleDeleteSubscriptionOrder(sub.orderId)
+                        }
+                        className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
+                      >
+                        Sil
+                      </button>
                     </td>
                   </tr>
                 );

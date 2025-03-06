@@ -182,7 +182,6 @@ export default function PackageOrders() {
                           handleUpdatePackage(
                             findedPackage?.packageId || "",
                             pkg.orderId,
-
                             "reject"
                           )
                         }
