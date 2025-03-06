@@ -21,7 +21,12 @@ export default function PackageOrders() {
         .flatMap((user) =>
           user.orderedPackages
             ? user.orderedPackages
-                .filter((pkg) => pkg.status === "pending" || pkg.status === "success" || pkg.status === "rejected")
+                .filter(
+                  (pkg) =>
+                    pkg.status === "pending" ||
+                    pkg.status === "success" ||
+                    pkg.status === "rejected"
+                )
                 .map((pkg) => ({
                   ...pkg,
                   userId: user.userId ?? "",
@@ -66,6 +71,27 @@ export default function PackageOrders() {
       })
       .catch((err) => {
         toast.error("Bir hata oluştu.");
+      })
+      .finally(() => toast.dismiss(loadingtoast));
+  }
+  function handleDeletePackageOrder(orderId: string) {
+    const loadingtoast = toast.loading("Paket siparişi siliniyor...");
+    instance
+      .post("deletePackageOrder", {
+        token: state.userData.token,
+        orderId,
+      })
+      .then((res) => {
+        if (res.data.status === "ok") {
+          toast.success("Paket siparişi silindi");
+        } else {
+          console.log(res.data);
+          toast.error("Bir hata oluştu");
+        }
+      })
+      .catch((err: any) => {
+        toast.error(err.message);
+        console.log(err);
       })
       .finally(() => toast.dismiss(loadingtoast));
   }
@@ -165,29 +191,47 @@ export default function PackageOrders() {
                       ${findedPackage?.price}
                     </td>
                     <td className="flex flex-row items-center justify-end space-x-2 px-3 py-2 h-full">
+                      {pkg.status === "pending" ? (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleUpdatePackage(
+                                findedPackage?.packageId || "",
+                                pkg.orderId,
+                                "approve"
+                              )
+                            }
+                            className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                          >
+                            Onayla
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleUpdatePackage(
+                                findedPackage?.packageId || "",
+                                pkg.orderId,
+                                "reject"
+                              )
+                            }
+                            className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
+                          >
+                            Reddet
+                          </button>
+                        </>
+                      ) : pkg.status === "success" ? (
+                        <span className="bg-green-500/15 text-[15px] text-green-100 rounded-full px-3 py-1.5">
+                          Onaylandı
+                        </span>
+                      ) : (
+                        <span className="bg-red-500/15 text-[15px] text-red-100 rounded-full px-3 py-1.5">
+                          Reddedildi
+                        </span>
+                      )}
                       <button
-                        onClick={() =>
-                          handleUpdatePackage(
-                            findedPackage?.packageId || "",
-                            pkg.orderId,
-                            "approve"
-                          )
-                        }
-                        className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                      >
-                        Onay
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleUpdatePackage(
-                            findedPackage?.packageId || "",
-                            pkg.orderId,
-                            "reject"
-                          )
-                        }
+                        onClick={() => handleDeletePackageOrder(pkg.orderId)}
                         className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
                       >
-                        Ret
+                        Sil
                       </button>
                     </td>
                   </tr>

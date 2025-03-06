@@ -13,7 +13,6 @@ import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { AppContext } from "../../context";
 import {
-  UserOrder,
   Package,
   PurchasedPackage,
   OrderedPackage,
@@ -32,30 +31,29 @@ export default function OrderHistory() {
     }, 1000);
     return () => clearInterval(interval);
   }, []);
-  const [userOrders, setUserOrders] = useState<Array<UserOrder>>([]);
+  const [userOrders, setUserOrders] = useState<Array<any>>([]);
   useEffect(() => {
     if (!state.userData) return;
     const { orderedPackages, orderedSubscriptions } = state.userData;
-    const packageOrders: UserOrder[] = orderedPackages.map(
-      (pkg: OrderedPackage) => ({
-        type: "package",
-        orderId: pkg.orderId,
-        productId: pkg.packageId,
-        status: pkg.status as "pending" | "success" | "rejected",
-        orderDate: pkg.orderDate,
-      })
-    );
-    const subscriptionOrders: UserOrder[] | undefined =
-      orderedSubscriptions?.map((sub: OrderedSubscription) => ({
+    const packageOrders: any[] = orderedPackages.map((pkg: OrderedPackage) => ({
+      type: "package",
+      orderId: pkg.orderId,
+      productId: pkg.packageId,
+      status: pkg.status as "pending" | "success" | "rejected",
+      orderDate: pkg.orderDate,
+    }));
+    const subscriptionOrders: any[] | undefined = orderedSubscriptions?.map(
+      (sub: OrderedSubscription) => ({
         type: "subscription",
         orderId: sub.orderId,
         productId: sub.subscriptionId,
         status: sub.status as "pending" | "success" | "rejected",
         orderDate: sub.orderDate,
-      }));
+      })
+    );
     setUserOrders(
-      [...packageOrders, ...(subscriptionOrders || [])].filter(
-        (order: UserOrder) => ["pending", "success"].includes(order.status)
+      [...packageOrders, ...(subscriptionOrders || [])].filter((order: any) =>
+        ["pending", "success"].includes(order.status)
       )
     );
   }, [state.userData]);
@@ -195,7 +193,7 @@ export default function OrderHistory() {
                   new Date(b.orderDate).getTime() -
                   new Date(a.orderDate).getTime()
               )
-              .map((order: UserOrder, index: number) => {
+              .map((order: any, index: number) => {
                 const dbProduct: Package | SubscriptionInterface | undefined =
                   order.type === "package"
                     ? state.packages.find(
