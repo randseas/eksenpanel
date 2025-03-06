@@ -36,7 +36,12 @@ export default function SubscriptionOrders() {
         .flatMap(
           (user) =>
             user.orderedSubscriptions
-              ?.filter((sub) => sub.status === "pending")
+              ?.filter(
+                (sub) =>
+                  sub.status === "pending" ||
+                  sub.status === "success" ||
+                  sub.status === "rejected"
+              )
               .map((sub) => ({
                 ...sub,
                 userId: user.userId ?? "",
@@ -199,30 +204,43 @@ export default function SubscriptionOrders() {
                       ${findedSubscription?.price}
                     </td>
                     <td className="flex flex-row items-center justify-end space-x-2 px-3 py-2 h-full">
-                      <button
-                        onClick={() =>
-                          handleUpdateSubscription(
-                            sub.subscriptionId,
-                            sub.orderId,
-                            "approve"
-                          )
-                        }
-                        className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
-                      >
-                        Onay
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleUpdateSubscription(
-                            sub.subscriptionId,
-                            sub.orderId,
-                            "reject"
-                          )
-                        }
-                        className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
-                      >
-                        Ret
-                      </button>
+                      {sub.status === "pending" ? (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleUpdateSubscription(
+                                sub.subscriptionId,
+                                sub.orderId,
+                                "approve"
+                              )
+                            }
+                            className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer"
+                          >
+                            Onayla
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleUpdateSubscription(
+                                sub.subscriptionId,
+                                sub.orderId,
+                                "reject"
+                              )
+                            }
+                            className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer"
+                          >
+                            Reddet
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button className="transition-all ease-linear duration-100 rounded-xl px-3 py-1.5 hover:bg-blue-600 bg-blue-500 hover:cursor-pointer">
+                            Düzenle
+                          </button>
+                          <button className="transition-all ease-linear duration-100 rounded-xl px-3.5 py-1.5 hover:bg-red-600 bg-red-500 hover:cursor-pointer">
+                            Geri al
+                          </button>
+                        </>
+                      )}
                     </td>
                   </tr>
                 );

@@ -5,6 +5,7 @@ import {
   CheckCircle,
   ExternalLink,
   Globe,
+  Hash,
   HashIcon,
   Package as PkgIcon,
   Ticket,
@@ -14,8 +15,8 @@ import {
 import DashboardHeader from "../../../components/common/dashboardHeader";
 import { AppContext } from "../context";
 import { Activity } from "../../../types";
-import { timeAgo } from "../../../lib/date";
 import { useNavigate } from "react-router";
+import { ActivityRow } from "./activities/page";
 
 export default function AdminHome() {
   const navigate = useNavigate();
@@ -130,15 +131,26 @@ export default function AdminHome() {
           <table className="min-w-full w-full">
             <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
               <tr>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] pl-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
-                    <HashIcon
+                    <Hash
                       className="text-blue-500"
                       height={17}
                       width={17}
                       stroke="currentColor"
                     />
                     <span className="mt-px">Aktivite ID</span>
+                  </div>
+                </th>
+                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] py-2">
+                  <div className="inline-flex items-center space-x-1.5">
+                    <User
+                      className="text-blue-500"
+                      height={17}
+                      width={17}
+                      stroke="currentColor"
+                    />
+                    <span className="mt-px">Kullanıcı ID</span>
                   </div>
                 </th>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
@@ -149,7 +161,7 @@ export default function AdminHome() {
                       width={17}
                       stroke="currentColor"
                     />
-                    <span className="mt-px">Aktivite Tipi</span>
+                    <span className="mt-px">Aktivite</span>
                   </div>
                 </th>
                 <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
@@ -160,21 +172,10 @@ export default function AdminHome() {
                       width={17}
                       stroke="currentColor"
                     />
-                    <span className="mt-px">Tarih</span>
+                    <span className="mt-px">Zaman</span>
                   </div>
                 </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
-                  <div className="inline-flex items-center space-x-1.5">
-                    <User
-                      className="text-blue-500"
-                      height={17}
-                      width={17}
-                      stroke="currentColor"
-                    />
-                    <span className="mt-px">Kullanıcı</span>
-                  </div>
-                </th>
-                <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
+                <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] pr-3 py-2">
                   <div className="inline-flex items-center space-x-1.5">
                     <CheckCircle
                       className="text-blue-500"
@@ -188,26 +189,11 @@ export default function AdminHome() {
               </tr>
             </thead>
             <tbody className="divide-y dark:divide-zinc-700 divide-light-border/80">
-              {state.activities.map((activity: Activity, index: number) => (
-                <tr
-                  key={index}
-                  className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
-                >
-                  <td className="text-[15px]  transition-all ease-linear duration-100 px-3 py-4">
-                    {activity.activityId}
-                  </td>
-                  <td className="text-[15px]  transition-all ease-linear duration-100 px-3 py-4">
-                    {activity.type}
-                  </td>
-                  <td className="text-[15px]  transition-all ease-linear duration-100 px-3 py-4">
-                    {timeAgo(activity.date)}
-                  </td>
-                  <td className="text-[15px] px-2 py-4">{activity.userId}</td>
-                  <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                    {activity.status}
-                  </td>
-                </tr>
-              ))}
+              {state.activities
+                .slice(0, 5)
+                .map((activity: Activity, index: number) => (
+                  <ActivityRow activity={activity} index={index} />
+                ))}
             </tbody>
           </table>
         </div>

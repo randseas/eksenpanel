@@ -6,7 +6,7 @@ import { Activity, Redirect } from "../../../../types";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { useNavigate } from "react-router";
 
-const ActivityRow = ({ activity, index }: any) => {
+export const ActivityRow = ({ activity, index }: any) => {
   const [expanded, setExpanded] = useState(false);
   const rowClass = expanded
     ? "bg-zinc-300/40 dark:bg-zinc-900/40"

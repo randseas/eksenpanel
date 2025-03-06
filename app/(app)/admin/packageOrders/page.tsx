@@ -21,7 +21,7 @@ export default function PackageOrders() {
         .flatMap((user) =>
           user.orderedPackages
             ? user.orderedPackages
-                .filter((pkg) => pkg.status === "pending")
+                .filter((pkg) => pkg.status === "pending" || pkg.status === "success" || pkg.status === "rejected")
                 .map((pkg) => ({
                   ...pkg,
                   userId: user.userId ?? "",
