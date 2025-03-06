@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Calendar, DotSquare, Globe, PackageIcon, User } from "lucide-react";
 import { timeAgo } from "../../../../lib/date";
 import { AppContext } from "../../context";
@@ -10,7 +10,13 @@ import { useNavigate } from "react-router";
 export default function UserPackages() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
-
+  const [currentTime, setCurrentTime] = useState(new Date());
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
   function downloadAccounts(packageId: string) {
     const pkg = state.userData.purchasedPackages?.find(
       (purchasedPkg: PurchasedPackage) => purchasedPkg.packageId === packageId

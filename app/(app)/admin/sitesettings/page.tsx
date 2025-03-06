@@ -1,29 +1,60 @@
 "use client";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
 import { Check } from "lucide-react";
 import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
+import { Settings } from "types";
 
 export default function PanelSettings() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
-  const [logo, setLogo] = useState<File | null>(null);
-  const [telegramUsername, setTelegramUsername] = useState<string>("");
-  const [whatsappNumber, setWhatsappNumber] = useState<string>("");
+  const [existingSettings, setExistingSettings] = useState<
+    Partial<Settings> | any
+  >();
 
+  const [logo, setLogo] = useState<File | null>(null);
+  const [telegramUsername, setTelegramUsername] = useState<string>(
+    existingSettings?.telegramUsername || ""
+  );
+  const [whatsappNumber, setWhatsappNumber] = useState<string>(
+    existingSettings?.whatsappNumber || ""
+  );
+  useEffect(() => {
+    instance
+      .post("settings")
+      .then((res) => {
+        setExistingSettings(res.data.settings);
+        setTelegramUsername(res.data.settings.telegramUsername);
+        setWhatsappNumber(res.data.settings.whatsappNumber);
+      })
+      .catch((err: any) => {
+        toast.error(err.message);
+        console.error(err);
+      });
+  }, []);
   const handleChangeSettings = () => {
     const payload = new FormData();
     payload.append("token", state.userData.token || "");
-    if (logo) payload.append("logo", logo);
+    if (logo) payload.append("file", logo);
     payload.append("telegramUsername", telegramUsername);
     payload.append("whatsappNumber", whatsappNumber);
-    if (Object.keys(payload).length > 1) {
+    if (
+      payload.has("token") ||
+      payload.has("file") ||
+      payload.has("telegramUsername") ||
+      payload.has("whatsappNumber")
+    ) {
+      const toastloading = toast.loading("Ayarlar güncelleniyor...");
       instance
-        .post("changeSiteSettings", payload)
+        .post("changeSiteSettings", payload, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res: any) => {
           if (res.data.message === "settings_updated") {
             toast.success("Ayarlar güncellendi");
@@ -32,12 +63,16 @@ export default function PanelSettings() {
           }
         })
         .catch((err: any) => {
-          toast.error(err.message);
+          toast.error(err.message || "Bir hata oluştu");
+        })
+        .finally(() => {
+          toast.dismiss(toastloading);
         });
     } else {
       toast.error("Değişiklik yapılmadı.");
     }
   };
+
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Site Ayarları" />

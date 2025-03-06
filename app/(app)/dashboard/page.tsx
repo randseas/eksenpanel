@@ -433,23 +433,29 @@ export default function DashboardHome() {
                                 Pasif
                               </a>
                             ) : (
-                              <a className="bg-zinc-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
-                                --
+                              <a className="bg-zinc-500/20 text-[14px] dark:text-zinc-200 text-zinc-800 rounded-full px-2.5 py-1.5">
+                                N/A
                               </a>
                             )}
                           </td>
                           <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
-                            {redirect.check === "success" ? (
-                              <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
-                                Çalışıyor
-                              </a>
-                            ) : redirect.check === "pending" ? (
-                              <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
-                                Test ediliyor
-                              </a>
+                            {redirect.status === "active" ? (
+                              redirect.check === "success" ? (
+                                <a className="bg-green-500/20 text-[14px] dark:text-green-200 text-green-800 rounded-full px-2.5 py-1.5">
+                                  Çalışıyor
+                                </a>
+                              ) : redirect.check === "pending" ? (
+                                <a className="bg-yellow-500/20 text-[14px] dark:text-yellow-200 text-yellow-800 rounded-full px-2.5 py-1.5">
+                                  Test ediliyor
+                                </a>
+                              ) : (
+                                <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
+                                  Çalışmıyor
+                                </a>
+                              )
                             ) : (
-                              <a className="bg-red-500/20 text-[14px] dark:text-red-200 text-red-800 rounded-full px-2.5 py-1.5">
-                                Çalışmıyor
+                              <a className="bg-zinc-500/20 text-[14px] dark:text-zinc-200 text-zinc-800 rounded-full px-2.5 py-1.5">
+                                N/A
                               </a>
                             )}
                           </td>

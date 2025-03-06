@@ -248,7 +248,10 @@ export default function Navbar() {
                   <DatabaseZap stroke="currentColor" width={22} height={22} />
                 </div>
               ))}
-            <div onClick={() => navigate("/dashboard/notifications")} className="hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50 dark:text-zinc-100 text-zinc-800 px-3 py-2  rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100">
+            <div
+              onClick={() => navigate("/dashboard/notifications")}
+              className="hover:bg-zinc-200/50 bg-zinc-200/10 dark:bg-zinc-800/10 dark:hover:bg-zinc-800/50 dark:text-zinc-100 text-zinc-800 px-3 py-2  rounded-2xl hover:cursor-pointer transition-all ease-linear duration-100"
+            >
               <Bell stroke="currentColor" width={22} height={22} />
             </div>
           </div>
@@ -329,7 +332,7 @@ export default function Navbar() {
               <img
                 draggable="false"
                 className="top-0 mt-[-45px] ml-[-45px] absolute h-[130px] z-[77777]"
-                src="/logo.png"
+                src="https://api.eksenpanel.com/uploads/logo.png"
               />
               <div className="rgb left-[32px] top-[-22px] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
                 &nbsp;
