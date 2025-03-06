@@ -13,30 +13,24 @@ export default function Users() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
-  function updatePermission(userId: string) {
-    const permInput = prompt(
-      "Kullanıcı yetkisini güncellemek için 'admin' veya 'user' yazınız."
+  function deleteUser(userId: string) {
+    const isConfirmed = window.confirm(
+      "Kullanıcıyı silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
     );
-    if (!permInput) return;
-    const permission = permInput.toLowerCase().trim();
-    if (permission !== "admin" && permission !== "user") {
-      toast.error("Geçersiz yetki türü girdiniz.");
-      return;
-    }
-    const loadingtoast = toast.loading("Kullanıcı yetkisi güncelleniyor...");
+    if (!isConfirmed) return;
+    const loadingtoast = toast.loading("Kullanıcı siliniyor...");
     instance
-      .post("updatePermission", {
+      .post("deleteUser", {
         token: state.userData.token,
         userId,
-        permission,
       })
       .then((res) => {
         if (res.data.status === "ok") {
-          toast.success("Kullanıcı yetkisi başarıyla güncellendi.");
+          toast.success("Kullanıcı başarıyla silindi.");
         }
       })
       .catch((err) => {
-        toast.error("Kullanıcı yetkisi güncellenirken bir hata oluştu.");
+        toast.error("Kullanıcı silinirken bir hata oluştu.");
       })
       .finally(() => {
         toast.dismiss(loadingtoast);
@@ -49,7 +43,7 @@ export default function Users() {
         <table className="min-w-full w-full">
           <thead className="border-b dark:border-zinc-700 border-light-border/80 rounded-t-2xl w-full">
             <tr>
-              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] pl-3 py-2">
                 <div className="inline-flex items-center space-x-1.5">
                   <Hash
                     className="text-blue-500"
@@ -60,7 +54,7 @@ export default function Users() {
                   <span className="mt-px">Kullanıcı ID</span>
                 </div>
               </th>
-              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+              <th className="text-left dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-2 py-2">
                 <div className="inline-flex items-center space-x-1.5">
                   <Mail
                     className="text-blue-500"
@@ -115,7 +109,7 @@ export default function Users() {
                   <span className="mt-px">Abonelik</span>
                 </div>
               </th>
-              <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] px-3 py-2">
+              <th className="text-end dark:text-zinc-200 text-zinc-800 text-[15.5px] font-[450] pr-3 py-2">
                 <div className="inline-flex items-center space-x-1.5">
                   <DotSquare
                     className="text-blue-500"
@@ -141,10 +135,10 @@ export default function Users() {
                   key={index}
                   className="transition-all hover:bg-zinc-300/20 dark:hover:bg-zinc-900/20 ease-linear duration-100"
                 >
-                  <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
+                  <td className="text-[15px] tracking-[-0.010em] transition-all ease-linear duration-100 pl-3 py-4">
                     {user.userId}
                   </td>
-                  <td className="text-[15px] transition-all ease-linear duration-100 px-3 py-4">
+                  <td className="text-[15px] tracking-[-0.010em] transition-all ease-linear duration-100 px-2 py-4">
                     {user.email}
                   </td>
                   <td
@@ -152,31 +146,31 @@ export default function Users() {
                       user.permission === "admin"
                         ? "text-red-500"
                         : "text-blue-500"
-                    } text-[15px] transition-all ease-linear duration-100 px-3 py-4`}
+                    } text-[15px] transition-all ease-linear duration-100 px-2 py-4`}
                   >
                     {user.permission === "admin" ? "Yönetici" : "Kullanıcı"}
                   </td>
                   <td className="text-[15px] px-2 py-4">
                     {timeAgo(parseInt(user.created || "0"))}
                   </td>
-                  <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                  <td className="flex-1 tracking-[-0.010em] flex-row items-center space-x-1 px-2 py-4">
                     {user.purchasedPackages?.length.toString()}
                   </td>
-                  <td className="flex-1 flex-row items-center space-x-1 px-2 py-4">
+                  <td className="flex-1 tracking-[-0.010em] text-start flex-row items-start justify-start space-x-1 px-2 py-4">
                     {userActiveSubscription?.title || "-"}
                   </td>
-                  <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end px-3 py-4">
+                  <td className="text-[15px] flex flex-row items-center justify-end space-x-1.5 text-end pr-3 py-4">
                     <a
                       onClick={() => navigate(`/admin/editUser/${user.userId}`)}
-                      className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
+                      className="transition-all tracking-[-0.010em] ease-linear hover:underline duration-100 rounded-xl pr-2 hover:text-blue-600 text-blue-500 hover:cursor-pointer"
                     >
                       Kullanıcıyı Düzenle
                     </a>
                     <a
-                      onClick={() => updatePermission(user.userId || "")}
-                      className="transition-all ease-linear hover:underline duration-100 rounded-xl pr-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
+                      onClick={() => deleteUser(user.userId || "")}
+                      className="transition-all tracking-[-0.010em] ease-linear hover:underline duration-100 rounded-xl pr-1.5 hover:text-red-600 text-red-500 hover:cursor-pointer"
                     >
-                      Yetki Düzenle
+                      Kullanıcıyı Sil
                     </a>
                   </td>
                 </tr>

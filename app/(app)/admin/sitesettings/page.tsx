@@ -3,7 +3,6 @@ import React, { useContext, useState } from "react";
 import DashboardHeader from "../../../../components/common/dashboardHeader";
 import { AppContext } from "../../context";
 import { Check } from "lucide-react";
-import { TelegramBotDetails } from "../../../../types";
 import instance from "../../../../app/instance";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
@@ -12,26 +11,19 @@ export default function PanelSettings() {
   const navigate = useNavigate();
   const { state } = useContext(AppContext);
 
-  const [email, setEmail] = useState<string>(state.userData.email);
-  const [currentPassword, setCurrentPassword] = useState<string>("");
-  const [newPassword, setNewPassword] = useState<string>("");
-  const [telegramBot, setTelegramBot] = useState<TelegramBotDetails>({
-    key: state.userData.telegramBot?.key || "",
-    groupId: state.userData.telegramBot?.groupId || "",
-  });
-  function handleChangeSettings() {
-    const payload: any = { token: state.userData.token };
-    if (currentPassword && newPassword) {
-      payload.currentPassword = currentPassword;
-      payload.newPassword = newPassword;
-    }
-    if (telegramBot.key || telegramBot.groupId) {
-      payload.telegramBot = telegramBot;
-    }
+  const [logo, setLogo] = useState<File | null>(null);
+  const [telegramUsername, setTelegramUsername] = useState<string>("");
+  const [whatsappNumber, setWhatsappNumber] = useState<string>("");
+
+  const handleChangeSettings = () => {
+    const payload = new FormData();
+    payload.append("token", state.userData.token || "");
+    if (logo) payload.append("logo", logo);
+    payload.append("telegramUsername", telegramUsername);
+    payload.append("whatsappNumber", whatsappNumber);
     if (Object.keys(payload).length > 1) {
-      console.log("payyload", payload);
       instance
-        .post("change-settings", payload)
+        .post("changeSiteSettings", payload)
         .then((res: any) => {
           if (res.data.message === "settings_updated") {
             toast.success("Ayarlar güncellendi");
@@ -43,9 +35,9 @@ export default function PanelSettings() {
           toast.error(err.message);
         });
     } else {
-      toast("Değişiklik yapılmadı.");
+      toast.error("Değişiklik yapılmadı.");
     }
-  }
+  };
   return (
     <div className="flex flex-col min-h-[100vh] items-start px-4 md:px-5 py-4 w-full h-full">
       <DashboardHeader page="Site Ayarları" />
@@ -55,60 +47,19 @@ export default function PanelSettings() {
           Site ayarlarını düzenleyin.
         </span>
         <div className="w-full flex flex-col mt-3.5 items-center justify-center">
-          <div className="flex mt-3.5 flex-col md:flex-row gap-3.5 items-center justify-between w-full">
-            <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
-              <label
-                htmlFor="siteTitle"
-                className="text-md font-[450] dark:text-zinc-200"
-              >
-                Başlık
-              </label>
-              <input
-                id="siteTitle"
-                value={telegramBot.key}
-                onChange={(e: any) =>
-                  setTelegramBot((prevTelegramBot) => ({
-                    ...prevTelegramBot,
-                    key: e.target.value,
-                  }))
-                }
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-                placeholder="Başlık girin"
-              />
-            </div>
-            <div className="flex flex-col w-full space-y-1 items-start justify-start text-start">
-              <label
-                htmlFor="siteDescription"
-                className="text-md font-[450] dark:text-zinc-200"
-              >
-                Açıklama
-              </label>
-              <input
-                id="siteDescription"
-                value={telegramBot.groupId}
-                onChange={(e: any) =>
-                  setTelegramBot((prevTelegramBot) => ({
-                    ...prevTelegramBot,
-                    groupId: e.target.value,
-                  }))
-                }
-                className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-                placeholder="Açıklama girin"
-              />
-            </div>
-          </div>
           <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
             <label
-              htmlFor="currentPassword"
+              htmlFor="logo"
               className="text-md font-[450] dark:text-zinc-200"
             >
               Logo
             </label>
             <input
-              id="currentPassword"
+              id="logo"
               type="file"
-              value={currentPassword}
-              onChange={(e: any) => setCurrentPassword(e.target.value)}
+              onChange={(e: any) =>
+                setLogo(e.target.files ? e.target.files[0] : null)
+              }
               className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
               placeholder="Logo yükle"
             />
@@ -116,30 +67,30 @@ export default function PanelSettings() {
           <div className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="newPassword"
+                htmlFor="telegramUsername"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Yönetici Telegram Kullanıcı Adı
               </label>
               <input
-                id="newPassword"
-                value={newPassword}
-                onChange={(e: any) => setNewPassword(e.target.value)}
+                id="telegramUsername"
+                value={telegramUsername}
+                onChange={(e: any) => setTelegramUsername(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Kullanıcı adı girin"
               />
             </div>
             <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
               <label
-                htmlFor="newPassword"
+                htmlFor="whatsappNumber"
                 className="text-md font-[450] dark:text-zinc-200"
               >
                 Yönetici WhatsApp Telefon Numarası
               </label>
               <input
-                id="newPassword"
-                value={newPassword}
-                onChange={(e: any) => setNewPassword(e.target.value)}
+                id="whatsappNumber"
+                value={whatsappNumber}
+                onChange={(e: any) => setWhatsappNumber(e.target.value)}
                 className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
                 placeholder="Telefon numarası girin"
               />

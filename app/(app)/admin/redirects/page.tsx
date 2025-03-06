@@ -33,7 +33,7 @@ export default function AdminRedirects() {
 
   function deleteRedirect(redirectId: string) {
     const isConfirmed = window.confirm(
-      "Yönlendirmeyi silmek istediğinize emin misiniz?"
+      "Yönlendirmeyi silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
     );
     if (!isConfirmed) return;
     const toastloading = toast.loading("Yönlendirme siliniyor...");
