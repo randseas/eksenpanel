@@ -9,7 +9,14 @@ export interface UserSubscriptionInterface {
   startDate: string;
   endDate?: string;
 }
+export interface Settings {
+  _id?: string;
+  logoUrl: string;
+  telegramUsername: string;
+  whatsappNumber: string;
+}
 export interface SubscriptionInterface {
+  _id?: string;
   subscriptionId: string;
   title: string;
   description: string;
@@ -18,6 +25,7 @@ export interface SubscriptionInterface {
   creationDate: string;
 }
 export interface User {
+  _id?: string;
   userId: string;
   email: string;
   token?: string;
@@ -33,6 +41,7 @@ export interface User {
   created: string;
 }
 export interface Redirect {
+  _id?: string;
   userId: string;
   redirectId: string;
   title: string;
@@ -63,14 +72,8 @@ export interface NotificationInterface {
   read: boolean;
   timestamp: string;
 }
-export interface UserOrder {
-  type: "package" | "subscription";
-  orderId: string;
-  productId: string;
-  status: "pending" | "success" | "rejected";
-  orderDate: string;
-}
 export interface Package {
+  _id?: string;
   packageId: string;
   title: string;
   name: string;
@@ -97,6 +100,7 @@ export interface TelegramBotDetails {
   groupId: string;
 }
 export interface Activity {
+  _id?: string;
   activityId: string;
   userId: string;
   type: string;
