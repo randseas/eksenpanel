@@ -23,7 +23,7 @@ import { timeAgo } from "../../../lib/date";
 import instance from "../../../app/instance";
 import config from "../../../config";
 import { useNavigate } from "react-router";
-import { setLocalKey } from "helpers/localStorage";
+import { setLocalKey } from "../../../helpers/localStorage";
 
 export default function DashboardHome() {
   const navigate = useNavigate();
