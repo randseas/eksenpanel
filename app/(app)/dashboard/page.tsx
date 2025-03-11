@@ -21,7 +21,6 @@ import { AppContext } from "../context";
 import { Redirect, SubscriptionInterface } from "../../../types";
 import { timeAgo } from "../../../lib/date";
 import instance from "../../../app/instance";
-import config from "../../../config";
 import { useNavigate } from "react-router";
 import { setLocalKey } from "../../../helpers/localStorage";
 
@@ -78,10 +77,10 @@ export default function DashboardHome() {
         packageId,
       })
       .then((res) => {
-        if (res.data.status === "ok" && config.TELEGRAM_LINK) {
+        if (res.data.status === "ok") {
           toast.success("Paket siparişi başarıyla oluşturuldu");
           toast.loading("Telegram'a yönlendiriliyorsunuz...");
-          document.location.href = config.TELEGRAM_LINK;
+          document.location.href = "https://api.eksenpanel.com/telegram";
         } else {
           toast.error("Paket siparişi oluşturulamadı, tekrar deneyin.");
         }
@@ -174,7 +173,8 @@ export default function DashboardHome() {
                           if (res.data.status === "ok") {
                             toast.success("Sipariş başarıyla oluşturuldu");
                             toast.loading("Telegram'a yönlendiriliyorsunuz");
-                            document.location.href = config.TELEGRAM_LINK;
+                            document.location.href =
+                              "https://api.eksenpanel.com/telegram";
                           } else {
                             console.log(res.data);
                             toast.error(

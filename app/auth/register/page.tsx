@@ -43,6 +43,9 @@ export default function Register() {
         } else if (res.data.message === "user_not_found") {
           setLoading(false);
           toast.error("Hesap bulunamadı");
+        } else if (res.data.message === "user_already_exists") {
+          toast.error("Bu e-posta adresi zaten kayıtlı");
+          setLoading(false);
         } else if (res.data.message === "password_err") {
           toast.error("Şifreler uyuşmuyor");
           setLoading(false);
@@ -120,7 +123,7 @@ export default function Register() {
         </button>
       </div>
       <a
-        href={config.WHATSAPP_LINK}
+        href={"https://api.eksenpanel.com/whatsapp"}
         target="_blank"
         className="anchor whatsapp-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >
@@ -135,7 +138,7 @@ export default function Register() {
         </svg>
       </a>
       <a
-        href={config.TELEGRAM_LINK}
+        href={"https://api.eksenpanel.com/telegram"}
         target="_blank"
         className="anchor telegram-btn hover:scale-[1.025] transition-all ease-linear duration-100 active:scale-[1.01]"
       >
