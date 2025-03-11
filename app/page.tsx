@@ -86,7 +86,7 @@ export default function Home() {
             <img
               draggable="false"
               className="mb-5 w-[280px] h-[280px] lg:w-[350px] lg:h-[350px] xl:w-[450px] xl:h-[450px] z-[77777]"
-              src="/logo.png"
+              src="https://eksenpanel.com/logo.png"
             />
             <div
               draggable="false"

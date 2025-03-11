@@ -16,7 +16,7 @@ export default function AuthHome() {
           <img
             draggable="false"
             className="h-[98px] z-[77777]"
-            src="/logo.png"
+            src="https://eksenpanel.com/logo.png"
           />
           <div className="rgb left-[41%] top-[15%] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
             &nbsp;
