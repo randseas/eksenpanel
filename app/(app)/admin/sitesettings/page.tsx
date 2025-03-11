@@ -16,7 +16,6 @@ export default function PanelSettings() {
     Partial<Settings> | any
   >();
 
-  const [logo, setLogo] = useState<File | null>(null);
   const [telegramUsername, setTelegramUsername] = useState<string>(
     existingSettings?.telegramUsername || ""
   );
@@ -39,12 +38,10 @@ export default function PanelSettings() {
   const handleChangeSettings = () => {
     const payload = new FormData();
     payload.append("token", state.userData.token || "");
-    if (logo) payload.append("file", logo);
     payload.append("telegramUsername", telegramUsername);
     payload.append("whatsappNumber", whatsappNumber);
     if (
       payload.has("token") ||
-      payload.has("file") ||
       payload.has("telegramUsername") ||
       payload.has("whatsappNumber")
     ) {
@@ -82,23 +79,6 @@ export default function PanelSettings() {
           Site ayarlarını düzenleyin.
         </span>
         <div className="w-full flex flex-col mt-3.5 items-center justify-center">
-          <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
-            <label
-              htmlFor="logo"
-              className="text-md font-[450] dark:text-zinc-200"
-            >
-              Logo
-            </label>
-            <input
-              id="logo"
-              type="file"
-              onChange={(e: any) =>
-                setLogo(e.target.files ? e.target.files[0] : null)
-              }
-              className="px-3.5 focus:ring-[0.95px] focus:ring-blue-500/90 focus:border-blue-500 focus:hover:border-blue-500 w-full transition-all ease-linear duration-100 rounded-[11px] py-2.5 dark:bg-dark/10 border dark:border-zinc-500"
-              placeholder="Logo yükle"
-            />
-          </div>
           <div className="flex flex-col md:flex-row gap-3.5 items-center justify-between w-full">
             <div className="flex mt-3.5 flex-col w-full space-y-1 items-start justify-start text-start">
               <label
