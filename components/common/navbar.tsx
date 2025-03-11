@@ -332,7 +332,7 @@ export default function Navbar() {
               <img
                 draggable="false"
                 className="top-0 mt-[-45px] ml-[-45px] absolute h-[130px] z-[77777]"
-                src="https://api.eksenpanel.com/uploads/logo.png"
+                src="/logo.png"
               />
               <div className="rgb left-[32px] top-[-22px] h-[64px] rounded-full w-[64px] z-[66666] absolute blur-xl">
                 &nbsp;
